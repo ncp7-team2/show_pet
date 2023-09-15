@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.show_pet.dao.UserDao">
+
+    <resultMap type="user" id="userMap">
+        <id     column="user_id"        property="id"/>
+        <result column="role"           property="role"/>
+        <result column="activation"     property="activation"/>
+        <result column="email"          property="email"/>
+        <result column="password"       property="password"/>
+        <result column="nickname"       property="nickname"/>
+        <result column="created_at"     property="createdAt"/>
+        <result column="updated_at"     property="updatedAt"/>
+    </resultMap>
+
+    <select id="findByEmailAndPassword" resultMap="userMap">
+        select
+        user_id,
+        role,
+        activation,
+        email,
+        password,
+        nickname,
+        created_at,
+        update_at
+        from
+        show_pet_user
+        where
+        email=#{email}
+        and password=sha1(#{password})
+    </select>
+
+</mapper>
