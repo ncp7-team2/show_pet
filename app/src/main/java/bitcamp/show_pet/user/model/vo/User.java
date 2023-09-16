@@ -1,15 +1,19 @@
 package bitcamp.show_pet.user.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
+
+    public static final long serialVersionUID=1L;
 
     private int id;
     private Role role;
     private char activation;
     private String email;
     private String password;
-    private String nickname;
+    private String nickName;
     private Date createdAt;
     private Date updatedAt;
 
@@ -21,10 +25,27 @@ public class User {
                 ", activation=" + activation +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        return id == other.id;
     }
 
     public int getId() {
@@ -67,12 +88,12 @@ public class User {
         this.password = password;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public Date getCreatedAt() {

@@ -24,7 +24,6 @@ public class UserController {
     @GetMapping("form")
     public void form(@CookieValue(required = false) String email, Model model) {
         model.addAttribute("email", email);
-        System.out.println(email);
     }
 
     @PostMapping("login")
@@ -40,7 +39,7 @@ public class UserController {
             Cookie cookie = new Cookie("email", email);
             response.addCookie(cookie);
         } else {
-            Cookie cookie = new Cookie("email", "no");
+            Cookie cookie = new Cookie("email", "id");
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
@@ -52,7 +51,7 @@ public class UserController {
         }
 
         session.setAttribute("loginUser", loginUser);
-        return "redirect:index";
+        return "redirect:/";
     }
 
     @GetMapping("/logout")

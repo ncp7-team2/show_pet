@@ -10,7 +10,7 @@
         <result column="activation"     property="activation"/>
         <result column="email"          property="email"/>
         <result column="password"       property="password"/>
-        <result column="nickname"       property="nickname"/>
+        <result column="nickname"       property="nickName"/>
         <result column="created_at"     property="createdAt"/>
         <result column="updated_at"     property="updatedAt"/>
     </resultMap>
@@ -22,7 +22,7 @@
             user
         where
             email=#{email}
-            and password={password}
+            and password=#{password}
     </select>
 
 </mapper>
