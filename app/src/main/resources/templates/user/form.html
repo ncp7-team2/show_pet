@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>ShowPet</title>
+</head>
+<body>
+<h1>ShowPet</h1>
+<form action='login' method='post'>
+    <table style='border: 1px;'>
+        <tr>
+            <th>이메일</th>
+            <td><input type='email' name='email' data-th-value='${email}'></td>
+        </tr>
+        <tr>
+            <th>암호</th>
+            <td><input type='password' name='password'></td>
+        </tr>
+    </table>
+    <button>로그인</button>
+    <input type='checkbox' name='saveEmail' data-th-checked="${email}"/> 이메일 저장
+</form>
+</body>
+</html>
+
+
+
+
+
+
+

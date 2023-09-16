@@ -1,5 +1,6 @@
 package bitcamp.show_pet;
 
+import bitcamp.show_pet.NcpConfig;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
