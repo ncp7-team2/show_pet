@@ -1,5 +1,6 @@
 package bitcamp.show_pet.user.controller;
 
+import bitcamp.show_pet.user.model.vo.Role;
 import bitcamp.show_pet.user.model.vo.User;
 import bitcamp.show_pet.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,13 @@ public class UserController {
         }
 
         session.setAttribute("loginUser", loginUser);
-        return "redirect:/";
+
+        if (loginUser.getRole() == Role.ADMIN) {
+            System.out.println(loginUser.getRole());
+            return "redirect:/admin/form";
+        } else {
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/logout")
