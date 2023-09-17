@@ -1,4 +1,4 @@
-package bitcamp.show_pet.user.controller;
+package bitcamp.show_pet.global.controller;
 
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;

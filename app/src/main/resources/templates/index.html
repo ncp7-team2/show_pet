@@ -7,5 +7,15 @@
 </head>
 <body>
   <h1>show_pet 실행되었어요!</h1>
+
+  <div>
+    <a href='/user/login'>회원</a>
+    <a href='/post/list'>게시글</a>
+    <a data-th-if="${session.loginUser == null}" href='/user/form'>로그인</a>
+    <div style="display:inline;" data-th-if="${session.loginUser != null}">
+      <span data-th-text="${session.loginUser.getNickName()}"></span>
+      <a href='/user/logout'>로그아웃</a>
+    </div>
+  </div>
 </body>
 </html>
