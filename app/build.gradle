@@ -38,6 +38,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
 
+    // gson 관련 라이브러리
+    implementation 'com.google.code.gson:gson:2.10.1'
+
     // Lombok 관련 라이브러리
 //    compileOnly 'org.projectlombok:lombok'
 //    annotationProcessor 'org.projectlombok:lombok'
