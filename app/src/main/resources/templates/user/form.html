@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset='UTF-8'>
-    <title>ShowPet</title>
+    <!-- 필요한 헤더 및 스크립트 태그 등을 추가하세요. -->
 </head>
 <body>
 <h1>ShowPet</h1>
@@ -20,12 +19,18 @@
     <button>로그인</button>
     <input type='checkbox' name='saveEmail' data-th-checked="${email}"/> 이메일 저장
 </form>
+<span th:if="${kakaoUser == null}">
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=602aae5ad3313ff74c5927f83ea74b29&redirect_uri=http://localhost/user/login&response_type=code">
+            <img src="/images/kakao_login_img.png">
+        </a>
+</span>
+<span th:if="${kakaoUser != null}">
+        <a href="https://kauth.kakao.com/oauth/logout?client_id=602aae5ad3313ff74c5927f83ea74b29&logout_redirect_uri=http://localhost/user/form">
+            <input type="submit" value="로그아웃">
+        </a>
+    </form>
+    <div th:if="${kakaoUser != null}">로그인 중: 이메일=<span th:text="${kakaoUser}"></span> 이름=<span
+        th:text="${userNickname}"></span></div>
+    </span>
 </body>
 </html>
-
-
-
-
-
-
-
