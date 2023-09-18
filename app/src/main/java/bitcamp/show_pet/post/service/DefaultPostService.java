@@ -35,5 +35,10 @@ public class DefaultPostService implements PostService {
         return postDao.findFileBy(fileId);
     }
 
+    @Override
+    public int increaseViewCount(int boardNo) throws Exception {
+        return postDao.updateCount(boardNo);
+    }
+
 
 }

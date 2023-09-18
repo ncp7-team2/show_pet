@@ -4,6 +4,7 @@ import bitcamp.show_pet.NcpObjectStorageService;
 import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
+import bitcamp.show_pet.user.model.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +31,11 @@ public class PostController {
     @PostMapping("add")
     public String add(Post post, MultipartFile[] files, HttpSession session) throws Exception {
 
-//        User loginUser = (User) session.getAttribute("loginUser");
-//        if (loginUser == null) {
-//            return "/user/form";
-//        }
-//        post.setNickName(loginUser);
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "/user/form";
+        }
+        post.setUser(loginUser);
 
         ArrayList<AttachedFile> attachedFiles = new ArrayList<>();
         for (MultipartFile part : files) {

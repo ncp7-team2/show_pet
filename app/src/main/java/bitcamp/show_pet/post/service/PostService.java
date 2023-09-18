@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PostService {
     int add(Post post) throws Exception;
+    int increaseViewCount(int postId) throws Exception;
     List<Post> list () throws Exception;
     AttachedFile getAttachedFile(int fileId) throws Exception;
 }
