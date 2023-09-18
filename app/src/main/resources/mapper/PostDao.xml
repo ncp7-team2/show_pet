@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.show_pet.post.model.dao.PostDao">
+
+    <resultMap type="post" id="postMap">
+        <id column="post_id"        property="id"/>
+        <result column="title"      property="title"/>
+        <result column="content"    property="content"/>
+        <result column="view_count" property="view_count"/>
+        <result column="hashTag"    property="hashTag"/>
+        <result column="category"   property="category"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+
+        <association property="user" javaType="user">
+            <id column="user_id"     property="id"/>
+            <result column="nickname" property="nickName"/>
+        </association>
+
+        <collection property="attachedFiles" ofType="attachedFile">
+            <id column="post_file_no" property="no"/>
+            <result column="filepath" property="filePath"/>
+        </collection>
+    </resultMap>
+
+    <resultMap type="attachedFile" id="attachedFileMap">
+        <id column="file_no"      property="id"/>
+        <result column="filepath" property="filePath"/>
+        <result column="post_id"  property="postId"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="post"
+            useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
+        insert into post(title,content,user_id,category)
+        values(#{title},#{content},#{user.id},#{category})
+    </insert>
+
+    <update id="updateCount" parameterType="int">
+        update post set
+        view_count=view_count + 1
+        where
+        post_id=#{id}
+    </update>
+
+    <insert id="insertFiles" parameterType="post">
+        insert into file(filepath, post_id)
+        values
+        <foreach collection="attachedFiles" item="file"
+                 separator=",">(#{file.filePath}, #{id})
+        </foreach>
+    </insert>
+
+    <select id="findAll" parameterType="int" resultMap="postMap">
+        SELECT
+        p.post_id AS id,
+        p.title,
+        p.content,
+        p.view_count,
+        p.hashTag,
+        p.category,
+        p.created_at AS createdAt,
+        p.updated_at AS updatedAt,
+        u.nickname AS user_id, - 닉네임 가져오기
+        FROM
+        post p
+        INNER JOIN user u ON p.user_id = u.user_id - 게시물과 사용자 조인
+        LEFT OUTER JOIN file f on p.post_id=f.post_id
+        ORDER BY
+        post_id DESC
+    </select>
+
+    <select id="findFileBy" parameterType="int" resultMap="attachedFileMap">
+        SELECT
+        file_id,
+        filepath,
+        post_id
+        FROM
+        file
+        WHERE
+        file_id = #{id}
+    </select>
+
+</mapper>

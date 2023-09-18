@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>ShowPet</title>
+</head>
+<body>
+
+<h1>게시글</h1>
+<form data-th-action="@{/post/add}" method='post' enctype='multipart/form-data'>
+    제목 <input type='text' name='title'><br>
+    내용 <textarea name='content'></textarea><br>
+    파일 <input type='file' name='files' multiple><br>
+    <button>등록</button>
+</form>
+
+</body>
+</html>
