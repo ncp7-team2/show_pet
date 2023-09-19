@@ -8,6 +8,11 @@ public class Member implements Serializable {
 
     public static final long serialVersionUID=1L;
 
+    public static final int 기타 = 1;
+    public static final int 강아지 = 2;
+    public static final int 고양이 = 3;
+    public static final int 새 = 4;
+
     private int id;
     private Role role;
     private char activation;
@@ -16,6 +21,7 @@ public class Member implements Serializable {
     private String nickName;
     private String photo;
     private String intro;
+    private int category;
 
     @Override
     public String toString() {
@@ -108,5 +114,13 @@ public class Member implements Serializable {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }

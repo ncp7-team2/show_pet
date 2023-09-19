@@ -50,7 +50,7 @@ public class PostController {
         post.setAttachedFiles(attachedFiles);
 
         postService.add(post);
-        return "redirect:/post/list";
+        return "redirect:../post/list";
     }
 
     @GetMapping("list")
