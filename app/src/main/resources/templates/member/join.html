@@ -1,37 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
-    <title>ShowPet</title>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <title>회원가입 영역</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+    <link rel="stylesheet" th:href="@{/css/join.css}"/>
 </head>
 <body>
+<div calss="main">
+    <form action="add" method="post" onsubmit="return validatePassword();">
+        <div class="item--이메일">
+            <p class="showpet-WBb">ShowPet</p>
+            <div class="item--DLu">
+                <label for="email" class="item--8im">이메일</label>
+                <div class="item--F2h">
+                    <input type="email" id="email" name='email' class="item--zFB" placeholder="이메일을 입력해주세요">
+                    <div class="item--GyP">
+                    </div>
+                </div>
+            </div>
+            <div class="item--비밀번호1">
+                <label for="password" class="item--uFf">비밀번호</label>
+                <div class="item--dSZ">
+                    <input type="password" id="password" name='password' class="item--AhP" placeholder="비밀번호를 입력해 주세요">
+                    <div class="item--f8M">
+                    </div>
+                </div>
+                <div class="item--비밀번호2">
+                    <input type="password" id="confirmPassword" class="item--VdB" placeholder="비밀번호를 한번더 입력해 주세요">
+                </div>
+            </div>
+            <div class="item--닉네임">
+                <label for="nickname" class="item--euP">닉네임</label>
+                <div class="item--AMw">
+                    <input type="text" id="nickname" name='nickName' placeholder="닉네임을 입력해 주세요">
+                </div>
+            </div>
+            <div class="pet--pet">
+                <label for="petName" class="pet--BH3">Pet</label>
+                <div class="pet--i25">
+                    <select id="petName" name='category'>
+                        <option value='2'>강아지</option>
+                        <option value='3'>고양이</option>
+                        <option value='4'>새</option>
+                        <option value='1'>기타</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="item--로그인하기">회원가입 하기</button>
+            <p class="item--Qp1">
+                <span class="item--Qp1-sub-0">이미 회원이신가요? </span>
+                <span class="item--Qp1-sub-1" id="goToLogin">로그인하기</span>
+            </p>
+        </div>
+    </form>
+</div>
+<script>
 
-<h1>회원</h1>
-<form action='add' method='post'>
-    <table border='1'>
-        <tr>
-            <th>이메일</th> <td style='width:200px;'><input type='email' name='email'></td>
-        </tr>
-        <tr>
-            <th>암호</th> <td><input type='password' name='password'></td>
-        </tr>
-        <tr>
-            <th>닉네임</th> <td><input type='nickname' name='nickName'></td>
-        </tr>
-        <tr>
-            <th>Pet</th>
-            <td>
-                <select name='category'>
-                    <option value='2'>강아지</option>
-                    <option value='3'>고양이</option>
-                    <option value='4'>새</option>
-                    <option value='1'>기타</option>
-                </select>
-            </td>
-        </tr>
-    </table>
-    <button>등록</button>
-</form>
+    // "로그인하기" 텍스트 클릭 시 login.html로 이동
+    document.getElementById("goToLogin").addEventListener("click", function () {
+        window.location.href = "login";
+    });
 
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            alert("비밀번호를 확인해 주세요.");
+            return false; // 회원가입 중단
+        }
+
+        return true; // 비밀번호가 일치하면 회원가입 진행
+    }
+</script>
 </body>
 </html>
