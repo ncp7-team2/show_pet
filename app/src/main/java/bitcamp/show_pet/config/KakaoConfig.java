@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties("kakao")
+@ConfigurationProperties("ncp")
 public class KakaoConfig {
 
     private String restApi;

@@ -11,15 +11,19 @@ public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final int 기타 = 1;
+    public static final int 강아지 = 2;
+    public static final int 고양이 = 3;
+    public static final int 새 = 4;
+
     private int id;
     private Member member;
     private String title;
     private String content;
     private int viewCount;
-    private String hashTag;
+    private String hashtag;
     private int category;
     private Timestamp createdAt;
-    private Timestamp updatedAt;
     private List<AttachedFile> attachedFiles;
 
 
@@ -80,11 +84,11 @@ public class Post implements Serializable {
     }
 
     public String getHashTag() {
-        return hashTag;
+        return hashtag;
     }
 
-    public void setHashTag(String hashTag) {
-        this.hashTag = hashTag;
+    public void setHashTag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
     public int getCategory() {
@@ -101,14 +105,6 @@ public class Post implements Serializable {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public List<AttachedFile> getAttachedFiles() {

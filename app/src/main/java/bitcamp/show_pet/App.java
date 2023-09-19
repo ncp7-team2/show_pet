@@ -21,7 +21,6 @@ public class App implements WebMvcConfigurer {
     }
 
     @GetMapping("/")
-//    @ResponseBody
     public String hello() {
         return "index";
     }
