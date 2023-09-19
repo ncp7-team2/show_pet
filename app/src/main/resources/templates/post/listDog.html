@@ -21,7 +21,7 @@
     </thead>
 
     <tbody>
-    <tr data-th-each="post : ${list}">
+    <tr data-th-each="post : ${listDog}">
         <td data-th-text="${post.id}">100</td>
         <td><a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
                data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>

@@ -10,7 +10,15 @@
 <form data-th-action="@{/post/add}" method='post' enctype='multipart/form-data'>
     제목 <input type='text' name='title'><br>
     내용 <textarea name='content'></textarea><br>
+    hashTag <input type='text' name='hashtag'><br>
     파일 <input type='file' name='files' multiple><br>
+
+    <select name='category'>
+        <option value='2'>강아지</option>
+        <option value='3'>고양이</option>
+        <option value='4'>새</option>
+        <option value='1'>기타</option>
+    </select>
     <button>등록</button>
 </form>
 

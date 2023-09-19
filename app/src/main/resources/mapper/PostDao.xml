@@ -5,17 +5,15 @@
 <mapper namespace="bitcamp.show_pet.post.model.dao.PostDao">
 
     <resultMap type="post" id="postMap">
-        <id column="post_id"        property="id"/>
-        <result column="title"      property="title"/>
-        <result column="content"    property="content"/>
-        <result column="view_count" property="view_count"/>
-        <result column="hashTag"    property="hashTag"/>
-        <result column="category"   property="category"/>
+        <id column="post_id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="hashtag" property="hashtag"/>
+        <result column="category" property="category"/>
         <result column="created_at" property="createdAt"/>
-        <result column="updated_at" property="updatedAt"/>
 
         <association property="member" javaType="member">
-            <id column="member_id"     property="id"/>
+            <id column="member_id" property="id"/>
             <result column="nickname" property="nickName"/>
         </association>
 
@@ -26,23 +24,16 @@
     </resultMap>
 
     <resultMap type="attachedFile" id="attachedFileMap">
-        <id column="file_no"      property="id"/>
+        <id column="file_no" property="id"/>
         <result column="filepath" property="filePath"/>
-        <result column="post_id"  property="postId"/>
+        <result column="post_id" property="postId"/>
     </resultMap>
 
     <insert id="insert" parameterType="post"
             useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
-        insert into post(title,content,member_id,category)
-        values(#{title},#{content},#{member.id},#{category})
+        insert into post(title,content,hashtag,category,member_id)
+        values(#{title},#{content},#{hashtag},#{category},#{member.id})
     </insert>
-
-    <update id="updateCount" parameterType="int">
-        update post set
-        view_count=view_count + 1
-        where
-        post_id=#{id}
-    </update>
 
     <insert id="insertFiles" parameterType="post">
         insert into file(filepath, post_id)
@@ -54,21 +45,47 @@
 
     <select id="findAll" parameterType="int" resultMap="postMap">
         SELECT
-        p.post_id AS id,
-        p.title,
-        p.content,
-        p.view_count,
-        p.hashTag,
-        p.category,
-        p.created_at AS createdAt,
-        p.updated_at AS updatedAt,
-        m.nickname AS member_id, - 닉네임 가져오기
+        post_id,
+        title,
+        content,
+        hashTag,
+        created_at
         FROM
-        post p
-        INNER JOIN member m ON p.member_id = m.member_id - 게시물과 사용자 조인
-        LEFT OUTER JOIN file f on p.post_id=f.post_id
+        post
         ORDER BY
         post_id DESC
+    </select>
+
+    <select id="findEtc" parameterType="int" resultMap="postMap">
+        SELECT
+        *
+        FROM post
+        WHERE
+        category = 1;
+    </select>
+
+    <select id="findDog" parameterType="int" resultMap="postMap">
+        SELECT
+        *
+        FROM post
+        WHERE
+        category = 2;
+    </select>
+
+    <select id="findCat" parameterType="int" resultMap="postMap">
+        SELECT
+        *
+        FROM post
+        WHERE
+        category = 3;
+    </select>
+
+    <select id="findBird" parameterType="int" resultMap="postMap">
+        SELECT
+        *
+        FROM post
+        WHERE
+        category = 4;
     </select>
 
     <select id="findFileBy" parameterType="int" resultMap="attachedFileMap">
@@ -81,5 +98,6 @@
         WHERE
         file_id = #{id}
     </select>
+
 
 </mapper>

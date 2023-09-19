@@ -31,6 +31,26 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
+    public List<Post> listEtc() throws Exception {
+        return postDao.findEtc();
+    }
+
+    @Override
+    public List<Post> listDog() throws Exception {
+        return postDao.findDog();
+    }
+
+    @Override
+    public List<Post> listCat() throws Exception {
+        return postDao.findCat();
+    }
+
+    @Override
+    public List<Post> listBird() throws Exception {
+        return postDao.findBird();
+    }
+
+    @Override
     public AttachedFile getAttachedFile(int fileId) throws Exception {
         return postDao.findFileBy(fileId);
     }
