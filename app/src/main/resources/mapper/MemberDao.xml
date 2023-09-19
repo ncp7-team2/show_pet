@@ -13,7 +13,13 @@
         <result column="nickname"       property="nickName"/>
         <result column="photo"          property="photo"/>
         <result column="intro"          property="intro"/>
+        <result column="category"       property="category"/>
     </resultMap>
+
+    <insert id="insert" parameterType="member">
+        insert into member (email, password, nickname, category)
+        values(#{email}, sha1(#{password}), #{nickName}, #{category})
+    </insert>
 
     <select id="findByEmailAndPassword" resultMap="memberMap">
         select
@@ -22,7 +28,7 @@
             member
         where
             email=#{email}
-            and password=#{password}
+            and password=sha1(#{password})
     </select>
 
 </mapper>

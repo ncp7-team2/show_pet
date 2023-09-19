@@ -1,5 +1,6 @@
 package bitcamp.show_pet.member.controller;
 
+import bitcamp.show_pet.NcpObjectStorageService;
 import bitcamp.show_pet.config.KakaoConfig;
 import bitcamp.show_pet.config.NcpConfig;
 import bitcamp.show_pet.member.model.vo.Member;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
@@ -30,6 +32,9 @@ public class MemberController {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    NcpObjectStorageService ncpObjectStorageService;
 
     @GetMapping("form")
     public void form(@CookieValue(required = false) String email, Model model) {
@@ -66,7 +71,6 @@ public class MemberController {
             System.out.println(loginUser.getRole());
             return "redirect:/admin/form";
         }
-        System.out.println("gd");
             return "redirect:/";
 
     }
@@ -113,17 +117,52 @@ public class MemberController {
         return mav;
     }
 
+    @GetMapping("join")
+    public void join() {
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String test() {
-        return kakaoConfig.getRestApi();
     }
 
-    @GetMapping("/ntest")
-    @ResponseBody
-    public String ntest() {
-        return ncpConfig.toString();
+    @PostMapping("add")
+    public String add(Member member) throws Exception {
+        memberService.add(member);
+        return "redirect:form";
+    }
+
+    @GetMapping("delete")
+    public String delete(int id, Model model) throws Exception {
+        if (memberService.delete(id) == 0) {
+            model.addAttribute("refresh", "2;url=../post/list");
+            throw new Exception("해당 회원이 없습니다.");
+        }
+        return "redirect:../post/list";
+    }
+
+    @GetMapping("detail")
+    public void detail(int id, Model model) throws Exception {
+        model.addAttribute("member", memberService.get(id));
+    }
+
+    @GetMapping("list")
+    public void list(Model model) throws Exception {
+
+        model.addAttribute("list", memberService.list());
+    }
+    @PostMapping("update")
+    public String update(
+            Member member,
+            MultipartFile photofile) throws Exception {
+
+        if (photofile.getSize() > 0) {
+            String uploadFileUrl = ncpObjectStorageService.uploadFile(
+                    "bitcamp-nc7-bucket-16", "member/", photofile);
+            member.setPhoto(uploadFileUrl);
+        }
+
+        if (memberService.update(member) == 0) {
+            throw new Exception("회원이 없습니다.");
+        } else {
+            return "redirect:../post/list";
+        }
     }
 }
 
