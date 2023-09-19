@@ -1,13 +1,13 @@
-package bitcamp.show_pet.user.model.dao;
+package bitcamp.show_pet.member.model.dao;
 
-import bitcamp.show_pet.user.model.vo.User;
+import bitcamp.show_pet.member.model.vo.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface UserDao {
+public interface MemberDao {
 
-    User findByEmailAndPassword(
+    Member findByEmailAndPassword(
             @Param("email") String email,
             @Param("password") String password);
 }

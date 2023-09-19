@@ -12,4 +12,7 @@ public interface PostDao {
     int insertFiles(Post post);
     AttachedFile findFileBy(int id);
     List<Post> findAll();
+    int delete(int id);
+    int deleteFile(int fileId);
+    int deleteFiles(int postId);
 }

@@ -1,11 +1,9 @@
-package bitcamp.show_pet;
+package bitcamp.show_pet.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("ncp.properties")
 @ConfigurationProperties("ncp")
 public class NcpConfig {
     private String endPoint;
@@ -15,6 +13,16 @@ public class NcpConfig {
 
     public NcpConfig() {
         System.out.println("✅NcpConfig() executed");
+    }
+
+    @Override
+    public String toString() {
+        return "NcpConfig{" +
+                "endPoint='" + endPoint + '\'' +
+                ", regionName='" + regionName + '\'' +
+                ", accessKey='" + accessKey + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                '}';
     }
 
     public String getEndPoint() {
@@ -41,6 +49,5 @@ public class NcpConfig {
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
-
 
 }

@@ -1,4 +1,4 @@
-package bitcamp.show_pet.user.controller;
+package bitcamp.show_pet.member.controller;
 
 
 import org.springframework.stereotype.Controller;

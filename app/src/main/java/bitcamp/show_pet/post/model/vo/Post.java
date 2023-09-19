@@ -1,6 +1,6 @@
 package bitcamp.show_pet.post.model.vo;
 
-import bitcamp.show_pet.user.model.vo.User;
+import bitcamp.show_pet.member.model.vo.Member;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,7 +12,7 @@ public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private User user;
+    private Member member;
     private String title;
     private String content;
     private int viewCount;
@@ -49,10 +49,10 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public User getUser() { return user; }
+    public Member getMember() { return member; }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public String getTitle() {
