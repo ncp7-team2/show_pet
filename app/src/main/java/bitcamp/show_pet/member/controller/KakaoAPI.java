@@ -1,4 +1,8 @@
-package bitcamp.show_pet.user.controller;
+package bitcamp.show_pet.member.controller;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,10 +11,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class KakaoAPI {
 
@@ -28,8 +28,8 @@ public class KakaoAPI {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=602aae5ad3313ff74c5927f83ea74b29");
-			sb.append("&redirect_uri=http://localhost/user/login");
+			sb.append("&client_id=b1808e3b651cc0812538d91552f1f593");
+			sb.append("&redirect_uri=http://localhost/member/login");
 			sb.append("&code="+code);
 
 			bw.write(sb.toString());

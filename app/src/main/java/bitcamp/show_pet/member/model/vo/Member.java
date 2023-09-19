@@ -1,10 +1,10 @@
-package bitcamp.show_pet.user.model.vo;
+package bitcamp.show_pet.member.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class Member implements Serializable {
 
     public static final long serialVersionUID=1L;
 
@@ -14,21 +14,18 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String nickName;
-//    private String photo;
-    private Date createdAt;
-    private Date updatedAt;
+    private String photo;
+    private String intro;
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Member{" +
                 "id=" + id +
                 ", role=" + role +
                 ", activation=" + activation +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", nickName='" + nickName + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 
@@ -45,7 +42,7 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Member other = (Member) obj;
         return id == other.id;
     }
 
@@ -97,19 +94,19 @@ public class User implements Serializable {
         this.nickName = nickName;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 }

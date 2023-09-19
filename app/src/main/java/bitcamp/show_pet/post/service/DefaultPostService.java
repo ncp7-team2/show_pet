@@ -40,5 +40,15 @@ public class DefaultPostService implements PostService {
         return postDao.updateCount(boardNo);
     }
 
+    @Transactional
+    @Override
+    public int delete(int postId) throws Exception {
+        postDao.deleteFiles(postId);
+        return postDao.delete(postId);
+    }
 
+    @Override
+    public int deleteAttachedFile(int fileId) throws Exception {
+        return postDao.deleteFile(fileId);
+    }
 }

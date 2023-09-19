@@ -289,3 +289,4 @@ build
 # Ignore Connection Information
 app/src/main/resources/application-ncp.properties
 app/src/main/resources/ncp.properties
+app/src/main/resources/kakao.properties
