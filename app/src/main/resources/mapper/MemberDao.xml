@@ -37,6 +37,22 @@
             role asc
     </select>
 
+    <select id="findBy" parameterType="int" resultMap="memberMap">
+        select
+        member_id,
+        role,
+        activation,
+        email,
+        nickname,
+        photo,
+        intro,
+        category
+        from
+        member
+        where
+        member_id=#{id}
+    </select>
+
     <select id="findByEmailAndPassword" resultMap="memberMap">
         select
             *
@@ -46,6 +62,19 @@
             email=#{email}
             and password=sha1(#{password})
     </select>
+
+    <update id="update" parameterType="member">
+        update member set
+        nickname=#{nickName}
+        ,password=sha1(#{password})
+        ,intro=#{intro}
+        <if test="photo != null">
+            ,photo=#{photo}
+        </if>
+        where
+        member_id=#{id}
+    </update>
+
 
     <delete id="delete" parameterType="int">
         delete from member

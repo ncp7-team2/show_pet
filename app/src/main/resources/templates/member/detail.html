@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>회원</title>
+</head>
+<body>
+
+<h1>프로필 수정</h1>
+<p data-th-unless="${member}">해당 번호의 회원이 없습니다!</p>
+<form data-th-if="${member}" action='update' method='post' enctype='multipart/form-data'>
+    <table border='1'>
+        <input type='hidden' name='id' data-th-value="${member.id}">
+        <tr>
+            <th style='width:120px;'>사진</th>
+            <td style='width:300px;'>
+                <img data-th-unless="${member.photo}" style='height:80px' src='/images/avatar.jpeg'>
+                <a data-th-if="${member.photo}"
+                   data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|">
+                    <img data-th-src="|http://guosqxeocfoi19010728.cdn.ntruss.com/member/${member.photo}?type=f&w=50&h=50&align=4&faceopt=true&quality=90&autorotate=true&anilimit=100&ttype=png|">
+                </a>
+                <input type='file' name='photofile'></td>
+        </tr>
+        <tr>
+            <th>닉네임</th>
+            <td><input type='text' name='nickName' data-th-value="${member.nickName}"></td>
+        </tr>
+        <tr>
+            <th>소개글</th>
+            <td><input type='intro' name='intro' data-th-value="${member.intro}"></td>
+        </tr>
+        <tr>
+            <th>암호</th>
+            <td><input type='password' name='password'></td>
+        </tr>
+    </table>
+
+    <div>
+        <button>변경</button>
+        <button type='reset'>초기화</button>
+        <a data-th-href="@{/member/delete(no=${member.no})}">탈퇴</a>
+        <a href='../post/list'>뒤로가기</a>
+    </div>
+</form>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
