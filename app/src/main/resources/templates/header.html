@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>비트캠프</title>
+</head>
+<body>
+<a data-th-href='@{/}'>메인</a>
+<div data-th-fragment="header" style='height:50px;background-color:white;'>
+    <img src='/images/로고.png' style='height:40px'>
+    <a data-th-href='@{/}'>메인</a>
+    <a data-th-if="${session.loginUser == null}" href='/member/form'>로그인</a>
+    <a href='/member/join'>회원가입</a>
+    <div style="display:inline;" data-th-if="${session.loginUser != null}">
+        <span data-th-text="${session.loginUser.getNickName()}"></span>
+        <a href='/member/logout'>로그아웃</a>
+    </div>
+
+</div>
+</body>
+</html>
