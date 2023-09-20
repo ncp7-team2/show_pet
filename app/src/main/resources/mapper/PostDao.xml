@@ -18,13 +18,13 @@
         </association>
 
         <collection property="attachedFiles" ofType="attachedFile">
-            <id column="post_file_no" property="no"/>
+            <id column="file_id" property="id"/>
             <result column="filepath" property="filePath"/>
         </collection>
     </resultMap>
 
     <resultMap type="attachedFile" id="attachedFileMap">
-        <id column="file_no" property="id"/>
+        <id column="file_id" property="id"/>
         <result column="filepath" property="filePath"/>
         <result column="post_id" property="postId"/>
     </resultMap>
@@ -38,8 +38,8 @@
     <insert id="insertFiles" parameterType="post">
         insert into file(filepath, post_id)
         values
-        <foreach collection="attachedFiles" item="file"
-                 separator=",">(#{file.filePath}, #{id})
+        <foreach collection="attachedFiles" item="file" separator=",">
+            (#{file.filePath}, #{id})
         </foreach>
     </insert>
 
@@ -47,20 +47,25 @@
         select
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
-        p.created_at
+        p.created_at,
+        f.file_id,
+        f.filepath
         from
         post p inner join member m on p.member_id=m.member_id
+        left outer join file f on p.post_id=f.post_id
         where
-        p.post_id=#{id}
+        p.post_id=#{postId}
     </select>
 
     <select id="findAll" parameterType="int" resultMap="postMap">
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
@@ -75,6 +80,7 @@
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
@@ -91,6 +97,7 @@
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
@@ -107,6 +114,7 @@
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
@@ -123,6 +131,7 @@
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
@@ -143,8 +152,39 @@
         FROM
         file
         WHERE
-        file_id = #{id}
+        file_id=#{id}
     </select>
 
+    <delete id="deleteFile" parameterType="int">
+        delete from file
+        where
+        file_id=#{id}
+    </delete>
+
+    <delete id="deleteFiles" parameterType="int">
+        delete from file
+        where
+        post_id=#{postId}
+    </delete>
+
+    <update id="update" parameterType="post">
+        update post set
+        title=#{title},
+        content=#{content}
+        where
+        post_id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from post
+        where
+        post_id=#{id}
+    </delete>
+
+    <delete id="deleteLikes" parameterType="int">
+        delete from like_list
+        where
+        post_id=#{postId}
+    </delete>
 
 </mapper>

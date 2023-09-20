@@ -11,6 +11,7 @@ public interface PostDao {
     Post findBy(int id);
     int updateCount(int no);
     int insertFiles(Post post);
+    int update(Post post);
     AttachedFile findFileBy(int id);
     List<Post> findAll();
     List<Post> findEtc();
@@ -20,4 +21,5 @@ public interface PostDao {
     int delete(int id);
     int deleteFile(int fileId);
     int deleteFiles(int postId);
+    int deleteLikes(int postId);
 }
