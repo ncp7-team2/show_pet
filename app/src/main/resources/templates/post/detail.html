@@ -10,13 +10,13 @@
 
 <h1>상세보기</h1>
 
-    <p data-th-unless="${post}">해당 번호의 게시글이 없습니다!</p>
+    <p data-th-unless="${post}">해당 번호의 게시글이 없습니다</p>
 
     <form data-th-if="${post}" data-th-action="@{/post/update}" method='post' enctype='multipart/form-data'>
     <table border='1'>
     <tr><th style='width:120px;'>번호</th>
     <td style='width:300px;'><input type='text' name='no' value="100" data-th-value="${post.id}" readonly></td></tr>
-        <tr><th>작성자</th> <td data-th-text="${post.member.nickName}">홍길동</td></tr>
+        <tr><th>닉네임</th> <td data-th-text="${post.member.nickName}">홍길동</td></tr>
         <tr><th>제목</th>
         <td><input type='text' name='title' value="제목입니다." data-th-value="${post.title}"></td></tr>
         <tr><th>내용</th>
