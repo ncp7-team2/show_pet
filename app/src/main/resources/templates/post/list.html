@@ -1,34 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
-    <title>ShowPet 게시글</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>2. 메인페이지</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A100%2C400%2C500"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter%3A100%2C400%2C500"/>
+    <link rel="stylesheet" th:href="@{/css/list.css}"/>
 </head>
 <body>
-
-<div data-th-replace="header :: header"></div>
-<span>
-<h1>모아보기</h1>
-<a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a>
-</span>
-<div style='margin:5px;'>
-    <a href='/post/list'>전체보기</a>
-    <a href='/post/listDog'>강아지</a>
-    <a href='/post/listCat'>고양이</a>
-    <a href='/post/listBird'>새</a>
-    <a href='/post/listEtc'>기타</a>
-</div>
-
-<div data-th-each="post : ${list}">
-    <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
-        <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
-           data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-        <p data-th-text="${post.member.nickName}"></p>
-        <p data-th-text="${post.content}">테스트</p>
-        <p data-th-text="${post.hashTag}">테스트</p>
-        <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
+<div class="item-2--QK3">
+    <div class="categorybox-8PT">
+        <div class="categorybox-QEV">
+            <div class="auto-group-11n1-kJM">
+                <div class="category-Vmj">카테고리</div>
+                <div class="auto-group-1kdo-6mX">
+                    <div class="categoryallbox-Xrq">전체보기
+                        <a href='/post/list'>전체보기</a></div>
+                    <div class="dogbox-V4u">강아지
+                        <a href='/post/listDog'>강아지</a></div>
+                </div>
+            </div>
+            <div class="auto-group-sxds-Kpd">
+                <div class="catbox-r3s">고양이
+                    <a href='/post/listCat'>고양이</a></div>
+                <div class="birdbox-hKP">새 <a href='/post/listBird'>새</a></div>
+                <div class="hedgehogbox-Ayf">고슴도치</div>
+                <div class="auto-group-dd2h-etq">
+                    <div class="writebox-zho">글쓰기</div>
+                    <div class="etcbox-Fdj">기타 동물<a href='/post/listEtc'>기타</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="postbox1-3pV">
+        <div class="photolikebookmark-Lob">
+            <div class="photobox-tKK">
+            </div>
+            <div class="likebookmarkbox-Cqo">
+                <div class="likeinputbox-LSD">
+                </div>
+                <div class="bookmarkinputmark-fjP">
+                </div>
+            </div>
+        </div>
+        <div class="rigthside-box-cPj">
+            <div class="profilebox-xTb">
+                <div class="profileimg-VTX">
+                </div>
+                <div class="auto-group-esqp-S7s">
+                    <div class="nicknamebox-yNh">닉네임</div>
+                    <div class="datebox-eUq">2023.09.00</div>
+                </div>
+            </div>
+            <div class="postdetailtitlebox-897">
+                <img class="posttitlebox-UCy" src="./assets/posttitlebox-NCR.png"/>
+                <div class="postdetailbox-Cem">
+                </div>
+            </div>
+            <div class="auto-group-bpcd-94D">
+                <div class="choosecategorybox-tXb">강아지</div>
+                <img class="hashtagbox-9iR" src="./assets/hashtagbox-MJH.png"/>
+            </div>
+            <div class="viewcontentbox-Ukh">댓글보기</div>
+        </div>
+    </div>
+    <div class="postbox2-5Eh">
+        <div class="photolikebookmark-yL5">
+            <div class="photobox-ioT">
+            </div>
+            <div class="likebookmarkbox-SjT">
+                <div class="likeinputbox-nYR">
+                </div>
+                <div class="bookmarkinputmark-7ah">
+                </div>
+            </div>
+        </div>
+        <div class="rigthside-box-Sss">
+            <div class="profilebox-Po7">
+                <div class="profileimg-jMB">
+                </div>
+                <div class="auto-group-pefk-syB">
+                    <div class="nicknamebox-Dn9">닉네임</div>
+                    <div class="datebox-VzZ">2023.09.00</div>
+                </div>
+            </div>
+            <div class="postdetailtitlebox-BsP">
+                <img class="posttitlebox-vpy" src="./assets/posttitlebox.png"/>
+                <div class="postdetailbox-fXf">
+                </div>
+            </div>
+            <div class="auto-group-dniu-oNy">
+                <div class="choosecategorybox-wVB">강아지</div>
+                <img class="hashtagbox-Cvu" src="./assets/hashtagbox.png"/>
+            </div>
+            <div class="viewcontentbox-JDF">댓글보기</div>
+        </div>
+    </div>
+    <div class="postbox3-WKK">
+        <div class="photolikebookmark-2Hf">
+            <div class="photobox-xx1">
+            </div>
+            <div class="likebookmarkbox-HjP">
+                <div class="likeinputbox-2gy">
+                </div>
+                <div class="bookmarkinputmark-AoB">
+                </div>
+            </div>
+        </div>
+        <div class="rigthside-box-WMF">
+            <div class="profilebox-TXP">
+                <div class="profileimg-znD">
+                </div>
+                <div class="auto-group-vqqm-jjo">
+                    <div class="nicknamebox-HFX">닉네임</div>
+                    <div class="datebox-AaD">2023.09.00</div>
+                </div>
+            </div>
+            <div class="postdetailtitlebox-Epy">
+                <img class="posttitlebox-nbb" src="./assets/posttitlebox-UAd.png"/>
+                <div class="postdetailbox-vho">
+                </div>
+            </div>
+            <div class="auto-group-s3jp-TBw">
+                <div class="choosecategorybox-CfK">강아지</div>
+                <img class="hashtagbox-rUy" src="./assets/hashtagbox-6a5.png"/>
+            </div>
+            <div class="viewcontentbox-zLH">댓글보기</div>
+        </div>
     </div>
 </div>
-
 </body>
-</html>
