@@ -4,6 +4,7 @@ import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PostDao {
@@ -22,4 +23,9 @@ public interface PostDao {
     int deleteFile(int fileId);
     int deleteFiles(int postId);
     int deleteLikes(int postId);
+    int updateLikeCount(@Param("postId") int postId, @Param("amount") int amount);
+    int insertLike(@Param("postId") int postId, @Param("memberId") int memberId);
+    int deleteLike(@Param("postId") int postId, @Param("memberId") int memberId);
+    boolean isLiked(@Param("postId") int postId, @Param("memberId") int memberId);
+    int getLikeCount(int postId);
 }

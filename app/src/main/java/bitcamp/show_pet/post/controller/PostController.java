@@ -5,6 +5,8 @@ import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
 import bitcamp.show_pet.member.model.vo.Member;
+import java.util.HashMap;
+import java.util.Map;
 import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,7 @@ public class PostController {
         for (MultipartFile part : files) {
             if (part.getSize() > 0) {
                 String uploadFileUrl = ncpObjectStorageService.uploadFile(
-                        "bitcamp-nc7-bucket-16", "post/", part);
+                    "bitcamp-nc7-bucket-16", "post/", part);
                 AttachedFile attachedFile = new AttachedFile();
                 attachedFile.setFilePath(uploadFileUrl);
                 attachedFiles.add(attachedFile);
@@ -72,40 +74,41 @@ public class PostController {
     }
 
     @GetMapping("list")
-    public void list(
-            Model model) throws Exception {
-        model.addAttribute("list", postService.list());
+    public void list(Model model, HttpSession session) throws Exception {
+        model.addAttribute("list", postService.list(session));
     }
 
     @GetMapping("listEtc")
     public void listEtc(
-            Model model) throws Exception {
+        Model model) throws Exception {
         model.addAttribute("listEtc", postService.listEtc());
     }
 
     @GetMapping("listDog")
     public void listDog(
-            Model model) throws Exception {
+        Model model) throws Exception {
         model.addAttribute("listDog", postService.listDog());
     }
 
     @GetMapping("listCat")
     public void listCat(
-            Model model) throws Exception {
+        Model model) throws Exception {
         model.addAttribute("listCat", postService.listCat());
     }
 
     @GetMapping("listBird")
     public void listBird(
-            Model model) throws Exception {
+        Model model) throws Exception {
         model.addAttribute("listBird", postService.listBird());
     }
 
     @GetMapping("detail/{category}/{id}")
-    public String detail(
-            @PathVariable int id,
-            Model model) throws Exception {
-        Post post = postService.get(id);
+    public String detail(@PathVariable int id, Model model, HttpSession session) throws Exception {
+        System.out.println("detail 호출! PostController");
+        Post post = postService.likeSession(id, session);
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        boolean isLoggedIn = (loginUser != null);
+        model.addAttribute("isLoggedIn", isLoggedIn);
         if (post != null) {
             model.addAttribute("post", post);
         }
@@ -128,7 +131,7 @@ public class PostController {
         for (MultipartFile part : files) {
             if (part.getSize() > 0) {
                 String uploadFileUrl = ncpObjectStorageService.uploadFile(
-                        "bitcamp-nc7-bucket-16", "post/", part);
+                    "bitcamp-nc7-bucket-16", "post/", part);
                 AttachedFile attachedFile = new AttachedFile();
                 attachedFile.setFilePath(uploadFileUrl);
                 attachedFiles.add(attachedFile);
@@ -143,8 +146,8 @@ public class PostController {
 
     @GetMapping("fileDelete/{attachedFile}") // 예) .../fileDelete/attachedFile;no=30
     public String fileDelete(
-            @MatrixVariable("id") int id,
-            HttpSession session) throws Exception {
+        @MatrixVariable("id") int id,
+        HttpSession session) throws Exception {
 
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser == null) {
@@ -164,6 +167,24 @@ public class PostController {
         } else {
             return "redirect:/post/detail/" + post.getCategory() + "/" + post.getId();
         }
+    }
+
+    @PostMapping("/{postId}/like")
+    @ResponseBody
+    public Map<String, Object> postLike(@PathVariable int postId, HttpSession session)
+        throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            response.put("status", "notLoggedIn");
+            return response;
+        }
+        int memberId = loginUser.getId();
+        boolean isLiked = postService.postLike(postId, memberId);
+        int newLikeCount = postService.getLikeCount(postId);
+        response.put("newIsLiked", isLiked);
+        response.put("newLikeCount", newLikeCount);
+        return response;
     }
 
 }
