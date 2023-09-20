@@ -8,6 +8,7 @@ import java.util.List;
 public interface PostService {
     int add(Post post) throws Exception;
     int increaseViewCount(int postId) throws Exception;
+    Post get(int id) throws Exception;
     List<Post> list () throws Exception;
     List<Post> listEtc () throws Exception;
     List<Post> listDog () throws Exception;

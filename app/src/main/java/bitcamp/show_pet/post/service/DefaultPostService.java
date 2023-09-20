@@ -26,6 +26,11 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
+    public Post get(int id) throws Exception {
+        return postDao.findBy(id);
+    }
+
+    @Override
     public List<Post> list() throws Exception {
         return postDao.findAll();
     }
