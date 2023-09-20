@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<div data-th-replace="header :: header"></div>
 
 <h1>모아보기 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a></h1>
 <div style='margin:5px;'>
@@ -17,12 +18,13 @@
 </div>
 <table border='1'>
     <thead>
-    <tr><th>번호</th> <th>제목</th> <th>내용</th> <th>hashTag</th> <th>등록일</th></tr>
+    <tr><th>번호</th> <th>닉네임</th> <th>제목</th> <th>내용</th> <th>hashTag</th> <th>등록일</th></tr>
     </thead>
 
     <tbody>
     <tr data-th-each="post : ${listBird}">
         <td data-th-text="${post.id}">100</td>
+        <td data-th-text="${post.member.nickName}"></td>
         <td><a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
                data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
         </td>
@@ -33,7 +35,6 @@
 
     </tbody>
 </table>
-<a data-th-href='@{/}'>메인</a>
 
 </body>
 </html>

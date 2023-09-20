@@ -43,49 +43,96 @@
         </foreach>
     </insert>
 
+    <select id="findBy" resultMap="postMap" parameterType="int">
+        select
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        from
+        post p inner join member m on p.member_id=m.member_id
+        where
+        p.post_id=#{id}
+    </select>
+
     <select id="findAll" parameterType="int" resultMap="postMap">
         SELECT
-        post_id,
-        title,
-        content,
-        hashTag,
-        created_at
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
         FROM
-        post
+        post p inner join member m on p.member_id=m.member_id
         ORDER BY
-        post_id DESC
+        p.post_id DESC
     </select>
 
     <select id="findEtc" parameterType="int" resultMap="postMap">
         SELECT
-        *
-        FROM post
-        WHERE
-        category = 1;
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        FROM
+        post p inner join member m on p.member_id=m.member_id
+        where
+        p.category = 1
+        ORDER BY
+        p.post_id DESC;
     </select>
 
     <select id="findDog" parameterType="int" resultMap="postMap">
         SELECT
-        *
-        FROM post
-        WHERE
-        category = 2;
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        FROM
+        post p inner join member m on p.member_id=m.member_id
+        where
+        p.category = 2
+        ORDER BY
+        p.post_id DESC;
     </select>
 
     <select id="findCat" parameterType="int" resultMap="postMap">
         SELECT
-        *
-        FROM post
-        WHERE
-        category = 3;
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        FROM
+        post p inner join member m on p.member_id=m.member_id
+        where
+        p.category = 3
+        ORDER BY
+        p.post_id DESC;
     </select>
 
     <select id="findBird" parameterType="int" resultMap="postMap">
         SELECT
-        *
-        FROM post
-        WHERE
-        category = 4;
+        p.post_id,
+        m.nickname,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        FROM
+        post p inner join member m on p.member_id=m.member_id
+        where
+        p.category = 4
+        ORDER BY
+        p.post_id DESC;
     </select>
 
     <select id="findFileBy" parameterType="int" resultMap="attachedFileMap">

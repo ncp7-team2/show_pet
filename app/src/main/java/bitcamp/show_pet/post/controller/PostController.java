@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +29,8 @@ public class PostController {
     NcpObjectStorageService ncpObjectStorageService;
 
     @GetMapping("form")
-    public void form() { }
+    public void form() {
+    }
 
     @PostMapping("add")
     public String add(Post post, MultipartFile[] files, HttpSession session) throws Exception {
@@ -85,5 +87,15 @@ public class PostController {
         model.addAttribute("listBird", postService.listBird());
     }
 
+    @GetMapping("detail/{category}/{id}")
+    public String detail(
+            @PathVariable int id,
+            Model model) throws Exception {
+        Post post = postService.get(id);
+        if (post != null) {
+            model.addAttribute("post", post);
+        }
+        return "post/detail";
+    }
 
 }

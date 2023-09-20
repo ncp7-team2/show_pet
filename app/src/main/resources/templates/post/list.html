@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<div data-th-replace="header :: header"></div>
 
 <h1>모아보기 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a></h1>
 <div style='margin:5px;'>
@@ -15,25 +16,17 @@
     <a href='/post/listBird'>새</a>
     <a href='/post/listEtc'>기타</a>
 </div>
-<table border='1'>
-    <thead>
-    <tr><th>번호</th> <th>제목</th> <th>내용</th> <th>hashTag</th> <th>등록일</th></tr>
-    </thead>
 
-    <tbody>
-    <tr data-th-each="post : ${list}">
-        <td data-th-text="${post.id}">100</td>
-        <td><a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
-               data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-        </td>
-        <td data-th-text="${post.content}">테스트</td>
-        <td data-th-text="${post.hashTag}">테스트</td>
-        <td data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</td>
-    </tr>
-
-    </tbody>
-</table>
-<a data-th-href='@{/}'>메인</a>
+<div data-th-each="post : ${list}">
+    <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
+        <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
+           data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
+        <p data-th-text="${post.member.nickName}"></p>
+        <p data-th-text="${post.content}">테스트</p>
+        <p data-th-text="${post.hashTag}">테스트</p>
+        <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
+    </div>
+</div>
 
 </body>
 </html>
