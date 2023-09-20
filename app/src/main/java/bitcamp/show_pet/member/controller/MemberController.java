@@ -144,7 +144,6 @@ public class MemberController {
 
     @GetMapping("list")
     public void list(Model model) throws Exception {
-
         model.addAttribute("list", memberService.list());
     }
     @PostMapping("update")
