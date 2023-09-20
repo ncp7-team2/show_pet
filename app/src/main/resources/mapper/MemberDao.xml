@@ -21,6 +21,22 @@
         values(#{email}, sha1(#{password}), #{nickName}, #{category})
     </insert>
 
+    <select id="findAll" resultMap="memberMap">
+        select
+            member_id,
+            role,
+            activation,
+            email,
+            nickname,
+            photo,
+            intro,
+            category
+        from
+            member
+        order by
+            role asc
+    </select>
+
     <select id="findByEmailAndPassword" resultMap="memberMap">
         select
             *
@@ -30,5 +46,11 @@
             email=#{email}
             and password=sha1(#{password})
     </select>
+
+    <delete id="delete" parameterType="int">
+        delete from member
+        where
+        member_id=#{id}
+    </delete>
 
 </mapper>
