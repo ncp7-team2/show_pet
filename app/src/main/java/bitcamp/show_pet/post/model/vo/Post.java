@@ -26,7 +26,20 @@ public class Post implements Serializable {
     private Timestamp createdAt;
     private List<AttachedFile> attachedFiles;
 
-
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", member=" + member +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", viewCount=" + viewCount +
+                ", hashtag='" + hashtag + '\'' +
+                ", category=" + category +
+                ", createdAt=" + createdAt +
+                ", attachedFiles=" + attachedFiles +
+                '}';
+    }
 
     @Override
     public int hashCode() {

@@ -12,7 +12,7 @@ public class AttachedFile implements Serializable {
 
     @Override
     public String toString() {
-        return "AttachedFile{" +
+        return "AttachedFile {" +
                 "id=" + id +
                 ", originName='" + originName + '\'' +
                 ", filePath='" + filePath + '\'' +

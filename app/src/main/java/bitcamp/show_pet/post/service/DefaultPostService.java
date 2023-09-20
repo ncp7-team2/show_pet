@@ -26,8 +26,18 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public Post get(int id) throws Exception {
-        return postDao.findBy(id);
+    public Post get(int postId) throws Exception {
+        return postDao.findBy(postId);
+    }
+
+    @Transactional
+    @Override
+    public int update(Post post) throws Exception {
+        int count = postDao.update(post);
+        if (count > 0 && post.getAttachedFiles().size() > 0) {
+            postDao.insertFiles(post);
+        }
+        return count;
     }
 
     @Override
@@ -69,6 +79,7 @@ public class DefaultPostService implements PostService {
     @Override
     public int delete(int postId) throws Exception {
         postDao.deleteFiles(postId);
+        postDao.deleteLikes(postId);
         return postDao.delete(postId);
     }
 

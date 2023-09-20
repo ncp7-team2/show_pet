@@ -9,10 +9,7 @@ import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -57,6 +54,23 @@ public class PostController {
         return "redirect:/post/list?category=" + post.getCategory();
     }
 
+    @GetMapping("delete")
+    public String delete(int id, int category, HttpSession session) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/member/form";
+        }
+
+        Post p = postService.get(id);
+
+        if (p == null || p.getMember().getId() != loginUser.getId()) {
+            throw new Exception("해당 번호의 게시글이 없거나 삭제 권한이 없습니다.");
+        } else {
+            postService.delete(p.getId());
+            return "redirect:/post/list?category=" + category;
+        }
+    }
+
     @GetMapping("list")
     public void list(
             Model model) throws Exception {
@@ -96,6 +110,60 @@ public class PostController {
             model.addAttribute("post", post);
         }
         return "post/detail";
+    }
+
+    @PostMapping("update")
+    public String update(Post post, MultipartFile[] files, HttpSession session) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/auth/form";
+        }
+
+        Post p = postService.get(post.getId());
+        if (p == null || p.getMember().getId() != loginUser.getId()) {
+            throw new Exception("게시글이 존재하지 않거나 변경 권한이 없습니다.");
+        }
+
+        ArrayList<AttachedFile> attachedFiles = new ArrayList<>();
+        for (MultipartFile part : files) {
+            if (part.getSize() > 0) {
+                String uploadFileUrl = ncpObjectStorageService.uploadFile(
+                        "bitcamp-nc7-bucket-16", "post/", part);
+                AttachedFile attachedFile = new AttachedFile();
+                attachedFile.setFilePath(uploadFileUrl);
+                attachedFiles.add(attachedFile);
+            }
+        }
+        post.setAttachedFiles(attachedFiles);
+
+        postService.update(post);
+        return "redirect:/post/list?category=" + p.getCategory();
+
+    }
+
+    @GetMapping("fileDelete/{attachedFile}") // 예) .../fileDelete/attachedFile;no=30
+    public String fileDelete(
+            @MatrixVariable("id") int id,
+            HttpSession session) throws Exception {
+
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/auth/form";
+        }
+
+        Post post = null;
+
+        AttachedFile attachedFile = postService.getAttachedFile(id);
+        post = postService.get(attachedFile.getPostId());
+        if (post.getMember().getId() != loginUser.getId()) {
+            throw new Exception("게시글 변경 권한이 없습니다!");
+        }
+
+        if (postService.deleteAttachedFile(id) == 0) {
+            throw new Exception("해당 번호의 첨부파일이 없다.");
+        } else {
+            return "redirect:/post/detail/" + post.getCategory() + "/" + post.getId();
+        }
     }
 
 }
