@@ -3,6 +3,7 @@
 <head>
     <meta charset='UTF-8'>
     <title>ShowPet 상세보기</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -34,6 +35,7 @@
         <tr>
             <th>등록일</th>
             <td data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</td>
+
         </tr>
         <tr>
             <th>첨부파일</th>
@@ -46,6 +48,13 @@
                 </c:forEach>
                 <input type='file' name='files' multiple>
             </td>
+            <th>좋아요</th>
+            <td>
+                <button type="button" class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
+                    <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'" th:id="${'likeImage-' + post.id}">
+                </button>
+                <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
+            </td>
         </tr>
     </table>
 
@@ -56,7 +65,60 @@
 
     </div>
 </form>
+<script>
+    $(document).ready(function(){
+        // 페이지 로딩이 완료되면 실행됨
+        console.log("Document is ready!");
 
+        // 좋아요 버튼에 클릭 이벤트 핸들러를 설정합니다.
+        $(".likeButton").click(function(event){
+            // 기본 이벤트를 막습니다. (이 경우 폼 전송을 막습니다.)
+            event.preventDefault();
+
+            // 디버깅을 위해 콘솔에 메시지를 출력합니다.
+            console.log("Like button clicked!");
+
+            // 클릭한 좋아요 버튼의 post-id 데이터와 is-liked 데이터를 가져옵니다.
+            var postId = $(this).data("post-id");
+            var isLiked = $(this).data("is-liked");
+
+            // 디버깅을 위해 콘솔에 메시지를 출력합니다.
+            console.log("Post ID: " + postId);
+            console.log("Is Liked: " + isLiked);
+
+            // 서버에 좋아요 상태를 변경하는 AJAX 요청을 보냅니다.
+            $.ajax({
+                url: "/post/" + postId + "/like",
+                type: "POST",
+                success: function(response) {
+                    // 로그인이 안 되어 있는 경우
+                    if (response.status === "notLoggedIn") {
+                        window.location.href = "/member/form";
+                        return;
+                    }
+
+                    // 새로운 좋아요 카운트와 상태를 가져와서 화면에 업데이트합니다.
+                    var newCount = response.newLikeCount;
+                    var newIsLiked = response.newIsLiked;
+
+                    // 좋아요 카운트 업데이트
+                    $(".likeCount[data-post-id='" + postId + "']").text(newCount);
+
+                    // 좋아요 버튼의 데이터 속성 업데이트
+                    $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
+
+                    // 이미지 src 변경
+                    var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
+                    $("#likeImage-" + postId).attr("src", newImageSrc);
+                },
+                error: function(error) {
+                    // 오류 처리
+                    console.error("An error occurred: ", error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
 

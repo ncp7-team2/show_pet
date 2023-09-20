@@ -1,8 +1,10 @@
 package bitcamp.show_pet.post.service;
 
+import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.post.model.dao.PostDao;
 import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +43,17 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<Post> list() throws Exception {
-        return postDao.findAll();
+    public List<Post> list(HttpSession session) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        List<Post> posts = postDao.findAll();
+        if (loginUser != null) {
+            int loggedInUserId = loginUser.getId();
+            for (Post post : posts) {
+                boolean isLiked = postDao.isLiked(post.getId(), loggedInUserId);
+                post.setLiked(isLiked);
+            }
+        }
+        return posts;
     }
 
     @Override
@@ -86,5 +97,37 @@ public class DefaultPostService implements PostService {
     @Override
     public int deleteAttachedFile(int fileId) throws Exception {
         return postDao.deleteFile(fileId);
+    }
+
+    @Override
+    public boolean postLike(int postId, int memberId) {
+        boolean liked = postDao.isLiked(postId, memberId);
+        if (liked) {
+            System.out.println("postLike -1 호출!");
+            postDao.deleteLike(postId, memberId);
+            postDao.updateLikeCount(postId, -1);
+        } else {
+            postDao.insertLike(postId, memberId);
+            postDao.updateLikeCount(postId, 1);
+            System.out.println("postLike 1 호출!");
+        }
+        return !liked;
+    }
+
+    @Override
+    public int getLikeCount(int postId) {
+        return postDao.getLikeCount(postId);
+    }
+
+    @Override
+    public Post likeSession(int id, HttpSession session) throws Exception {
+        Post post = postDao.findBy(id);
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser != null) {
+            int loggedInUserId = loginUser.getId();
+            boolean isLiked = postDao.isLiked(id, loggedInUserId);
+            post.setLiked(isLiked);
+        }
+        return post;
     }
 }
