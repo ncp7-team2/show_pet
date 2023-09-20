@@ -169,6 +169,7 @@ public class PostController {
         }
     }
 
+    // 좋아요 기능
     @PostMapping("/{postId}/like")
     @ResponseBody
     public Map<String, Object> postLike(@PathVariable int postId, HttpSession session)
