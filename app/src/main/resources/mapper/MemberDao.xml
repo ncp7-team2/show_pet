@@ -39,19 +39,20 @@
 
     <select id="findBy" parameterType="int" resultMap="memberMap">
         select
-        member_id,
-        role,
-        activation,
-        email,
-        nickname,
-        photo,
-        intro,
-        category
+            member_id,
+            role,
+            activation,
+            email,
+            nickname,
+            photo,
+            intro,
+            category
         from
-        member
+            member
         where
-        member_id=#{id}
+            member_id=#{id}
     </select>
+
 
     <select id="findByEmailAndPassword" resultMap="memberMap">
         select
@@ -65,14 +66,14 @@
 
     <update id="update" parameterType="member">
         update member set
-        nickname=#{nickName}
-        ,password=sha1(#{password})
-        ,intro=#{intro}
-        <if test="photo != null">
-            ,photo=#{photo}
-        </if>
+            nickname=#{nickName}
+            ,password=sha1(#{password})
+            ,intro=#{intro}
+            <if test="photo != null">
+                ,photo=#{photo}
+            </if>
         where
-        member_id=#{id}
+            member_id=#{id}
     </update>
 
 

@@ -23,7 +23,8 @@
     <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
         <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
            data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-        <p data-th-text="${post.member.nickName}"></p>
+        <p data-th-text="${post.member.nickName}">닉네임</p>
+        <a data-th-href="@{'/member/detail/' + ${post.member.id}}">마이페이지</a>
         <p data-th-text="${post.content}">테스트</p>
         <p data-th-text="${post.hashTag}">테스트</p>
         <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>

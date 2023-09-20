@@ -6,11 +6,13 @@
 </head>
 <body>
 
+<div data-th-replace="header :: header"></div>
+
 <h1>프로필 수정</h1>
 <p data-th-unless="${member}">해당 번호의 회원이 없습니다!</p>
-<form data-th-if="${member}" action='update' method='post' enctype='multipart/form-data'>
+<form data-th-if="${member}" data-th-action="@{/member/update}" method='post' enctype='multipart/form-data'>
+    <input type="hidden" name="id" data-th-value="${member.id}">
     <table border='1'>
-        <input type='hidden' name='id' data-th-value="${member.id}">
         <tr>
             <th style='width:120px;'>사진</th>
             <td style='width:300px;'>
@@ -38,18 +40,9 @@
     <div>
         <button>변경</button>
         <button type='reset'>초기화</button>
-        <a data-th-href="@{/member/delete(no=${member.no})}">탈퇴</a>
         <a href='../post/list'>뒤로가기</a>
     </div>
 </form>
 
-
 </body>
 </html>
-
-
-
-
-
-
-

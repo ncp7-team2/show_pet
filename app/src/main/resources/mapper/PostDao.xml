@@ -61,6 +61,7 @@
         SELECT
         p.post_id,
         m.nickname,
+        m.member_id,
         p.title,
         p.content,
         p.hashTag,
