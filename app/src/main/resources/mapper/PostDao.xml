@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitcamp.show_pet.post.model.dao.PostDao">
 
     <resultMap type="post" id="postMap">
@@ -11,6 +11,7 @@
         <result column="hashtag" property="hashtag"/>
         <result column="category" property="category"/>
         <result column="created_at" property="createdAt"/>
+        <result column="like_count" property="likeCount"/>
 
         <association property="member" javaType="member">
             <id column="member_id" property="id"/>
@@ -30,7 +31,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="post"
-            useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
+      useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
         insert into post(title,content,hashtag,category,member_id)
         values(#{title},#{content},#{hashtag},#{category},#{member.id})
     </insert>
@@ -53,7 +54,8 @@
         p.hashTag,
         p.created_at,
         f.file_id,
-        f.filepath
+        f.filepath,
+        like_count
         from
         post p inner join member m on p.member_id=m.member_id
         left outer join file f on p.post_id=f.post_id
@@ -69,7 +71,8 @@
         p.title,
         p.content,
         p.hashTag,
-        p.created_at
+        p.created_at,
+        like_count
         FROM
         post p inner join member m on p.member_id=m.member_id
         ORDER BY
@@ -186,5 +189,44 @@
         where
         post_id=#{postId}
     </delete>
+
+    <update id="updateLikeCount">
+        UPDATE
+        post
+        SET
+        like_count = like_count + #{amount}
+        WHERE
+        post_id = #{postId}
+    </update>
+
+    <insert id="insertLike">
+        INSERT INTO
+        like_list (post_id, member_id)
+        VALUES (#{postId}, #{memberId})
+    </insert>
+
+    <delete id="deleteLike">
+        DELETE FROM
+        like_list
+        WHERE
+        post_id = #{postId} AND member_id = #{memberId}
+    </delete>
+
+    <select id="isLiked" resultType="boolean">
+        SELECT
+        COUNT(*)
+        FROM like_list
+        WHERE
+        post_id = #{postId} AND member_id = #{memberId}
+    </select>
+
+    <select id="getLikeCount" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        like_list
+        WHERE
+        post_id = #{postId}
+    </select>
 
 </mapper>

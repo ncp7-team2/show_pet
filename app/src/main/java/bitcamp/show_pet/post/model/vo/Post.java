@@ -25,20 +25,23 @@ public class Post implements Serializable {
     private int category;
     private Timestamp createdAt;
     private List<AttachedFile> attachedFiles;
+    private int likeCount;
+    private boolean liked;
+
 
     @Override
     public String toString() {
         return "Post{" +
-                "id=" + id +
-                ", member=" + member +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", viewCount=" + viewCount +
-                ", hashtag='" + hashtag + '\'' +
-                ", category=" + category +
-                ", createdAt=" + createdAt +
-                ", attachedFiles=" + attachedFiles +
-                '}';
+            "id=" + id +
+            ", member=" + member +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", viewCount=" + viewCount +
+            ", hashtag='" + hashtag + '\'' +
+            ", category=" + category +
+            ", createdAt=" + createdAt +
+            ", attachedFiles=" + attachedFiles +
+            '}';
     }
 
     @Override
@@ -126,5 +129,21 @@ public class Post implements Serializable {
 
     public void setAttachedFiles(List<AttachedFile> attachedFiles) {
         this.attachedFiles = attachedFiles;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

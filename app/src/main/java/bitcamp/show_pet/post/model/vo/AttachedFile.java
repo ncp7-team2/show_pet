@@ -13,11 +13,11 @@ public class AttachedFile implements Serializable {
     @Override
     public String toString() {
         return "AttachedFile {" +
-                "id=" + id +
-                ", originName='" + originName + '\'' +
-                ", filePath='" + filePath + '\'' +
-                ", postId=" + postId +
-                '}';
+            "id=" + id +
+            ", originName='" + originName + '\'' +
+            ", filePath='" + filePath + '\'' +
+            ", postId=" + postId +
+            '}';
     }
 
     public int getId() {
