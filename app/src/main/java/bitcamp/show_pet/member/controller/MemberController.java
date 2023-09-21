@@ -71,7 +71,7 @@ public class MemberController {
             System.out.println(loginUser.getRole());
             return "redirect:/admin/form";
         }
-            return "redirect:/";
+        return "redirect:/";
 
     }
 
@@ -137,19 +137,40 @@ public class MemberController {
         return "redirect:../post/list";
     }
 
-    @GetMapping("detail")
-    public void detail(int id, Model model) throws Exception {
-        model.addAttribute("member", memberService.get(id));
-    }
 
     @GetMapping("list")
     public void list(Model model) throws Exception {
         model.addAttribute("list", memberService.list());
     }
+
+//    @GetMapping("{id}")
+//    public String myPage(@PathVariable int id, Model model) throws Exception {
+//        model.addAttribute("member", memberService.get(id));
+//        return "member/myPage";
+//    }
+
+    @GetMapping("detail/{id}")
+    public String detail(@PathVariable int id, Model model) throws Exception {
+        model.addAttribute("member", memberService.get(id));
+        return "member/detail";
+    }
+
+//    @GetMapping("profile/{id}")
+//    public void profile(@PathVariable int id, Model model) throws Exception {
+//        Member member = memberService.get(id);
+//        if (member != null) {
+//            model.addAttribute("member", member);
+//        } else {
+//            throw new Exception("회원이 없습니다.");
+//        }
+//    }
+
     @PostMapping("update")
     public String update(
             Member member,
-            MultipartFile photofile) throws Exception {
+            MultipartFile photofile,
+            Model model) throws Exception {
+
 
         if (photofile.getSize() > 0) {
             String uploadFileUrl = ncpObjectStorageService.uploadFile(
@@ -162,6 +183,7 @@ public class MemberController {
         } else {
             return "redirect:../post/list";
         }
-    }
+
+        }
 }
 
