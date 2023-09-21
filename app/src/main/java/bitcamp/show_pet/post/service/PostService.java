@@ -19,7 +19,14 @@ public interface PostService {
     AttachedFile getAttachedFile(int fileId) throws Exception;
     int delete(int postId) throws Exception;
     int deleteAttachedFile(int fileId) throws Exception;
+
     boolean postLike(int postId, int memberId) throws Exception;
-    int getLikeCount(int postId);
-    Post likeSession(int id, HttpSession session) throws Exception;
+    List<Post> getLikedPosts(int memberId, HttpSession session) throws Exception;
+    int getLikeCount(int postId) throws Exception;
+    boolean isLiked(int postId, int memberId);
+
+    List<Post> getBookmarkedPosts(int memberId, HttpSession session);
+    boolean postBookmark(int postId, int memberId) throws Exception;
+    Post setSessionStatus(int id, HttpSession session) throws Exception;
+    boolean isBookmarked(int postId, int memberId);
 }
