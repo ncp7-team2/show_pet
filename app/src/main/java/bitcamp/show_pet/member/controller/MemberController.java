@@ -3,10 +3,10 @@ package bitcamp.show_pet.member.controller;
 import bitcamp.show_pet.NcpObjectStorageService;
 import bitcamp.show_pet.config.KakaoConfig;
 import bitcamp.show_pet.config.NcpConfig;
+import bitcamp.show_pet.mail.EmailService;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.member.model.vo.Role;
 import bitcamp.show_pet.member.service.MemberService;
-import bitcamp.show_pet.member.controller.KakaoAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +23,13 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+
+    private final EmailService emailService;
+
+    public MemberController(MemberService memberService, EmailService emailService) {
+        this.memberService = memberService;
+        this.emailService = emailService;
+    }
 
     @Autowired
     KakaoConfig kakaoConfig;
@@ -41,6 +48,7 @@ public class MemberController {
         model.addAttribute("email", email);
     }
 
+    // 로그인
     @PostMapping("login")
     public String login(
             String email,
@@ -72,9 +80,9 @@ public class MemberController {
             return "redirect:/admin/form";
         }
         return "redirect:/";
-
     }
 
+    // 로그아웃
     @GetMapping("/logout")
     public String logout(HttpSession session) throws Exception {
 
@@ -82,6 +90,7 @@ public class MemberController {
         return "redirect:/";
     }
 
+    // 카카오 로그인
     KakaoAPI kakaoApi = new KakaoAPI();
 
     @RequestMapping(value = "kakaologin")
@@ -104,6 +113,7 @@ public class MemberController {
         return mav;
     }
 
+    // 카카오 로그아웃
     @RequestMapping(value = "kakaologout")
     public ModelAndView logout(HttpSession session, HttpServletResponse response, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
@@ -122,9 +132,15 @@ public class MemberController {
 
     }
 
+
+    // 회원가입
     @PostMapping("add")
     public String add(Member member) throws Exception {
         memberService.add(member);
+
+        // 회원가입 이메일 전송
+        emailService.sendWelcomeEmail(member);
+
         return "redirect:form";
     }
 
