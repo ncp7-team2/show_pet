@@ -6,6 +6,7 @@ import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
 import bitcamp.show_pet.member.model.vo.Member;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +106,7 @@ public class PostController {
     @GetMapping("detail/{category}/{id}")
     public String detail(@PathVariable int id, Model model, HttpSession session) throws Exception {
         System.out.println("detail 호출! PostController");
-        Post post = postService.likeSession(id, session);
+        Post post = postService.setSessionStatus(id, session);
         Member loginUser = (Member) session.getAttribute("loginUser");
         boolean isLoggedIn = (loginUser != null);
         model.addAttribute("isLoggedIn", isLoggedIn);
@@ -184,6 +185,88 @@ public class PostController {
         int newLikeCount = postService.getLikeCount(postId);
         response.put("newIsLiked", isLiked);
         response.put("newLikeCount", newLikeCount);
+        return response;
+    }
+
+    @GetMapping("/liked")
+    public String getLikedPosts(Model model, HttpSession session) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/member/form";
+        }
+        int memberId = loginUser.getId();
+        List<Post> posts = postService.getLikedPosts(memberId, session);
+        model.addAttribute("likedPosts", posts);
+        return "/post/likeList";
+    }
+
+    @PostMapping("/getLikeStatus")
+    @ResponseBody
+    public Map<Integer, Map<String, Object>> getLikeStatus(@RequestBody List<Integer> postIds, HttpSession session)
+        throws Exception {
+        System.out.println("좋아요 상태 정보 업데이트!");
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        Map<Integer, Map<String, Object>> response = new HashMap<>();
+
+        if (loginUser != null) {
+            int memberId = loginUser.getId();
+
+            for (int postId : postIds) {
+                boolean isLiked = postService.isLiked(postId, memberId);
+                int likeCount = postService.getLikeCount(postId);
+
+                Map<String, Object> postStatus = new HashMap<>();
+                postStatus.put("isLiked", isLiked);
+                postStatus.put("likeCount", likeCount);
+
+                response.put(postId, postStatus);
+            }
+        }
+        return response;
+    }
+
+    @PostMapping("/{postId}/bookmark")
+    @ResponseBody
+    public Map<String, Object> postBookmark(@PathVariable int postId, HttpSession session)
+        throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            response.put("status", "notLoggedIn");
+            return response;
+        }
+
+        int memberId = loginUser.getId();
+        boolean newIsBookmarked = postService.postBookmark(postId, memberId);
+        response.put("newIsBookmarked", newIsBookmarked);
+        return response;
+    }
+
+    @GetMapping("/bookmarked")
+    public String getBookmarkedPosts(Model model, HttpSession session) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/member/form";
+        }
+        int memberId = loginUser.getId();
+        List<Post> posts = postService.getBookmarkedPosts(memberId, session);
+        model.addAttribute("bookmarkedPosts", posts);
+        return "/post/bookmarkList";
+    }
+
+    @PostMapping("/getBookmarkStatus")
+    @ResponseBody
+    public Map<Integer, Boolean> getBookmarkStatus(@RequestBody List<Integer> postIds, HttpSession session) {
+        System.out.println("북마크 상태 정보 업데이트!");
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        Map<Integer, Boolean> response = new HashMap<>();
+        if (loginUser != null) {
+            int memberId = loginUser.getId();
+            for (int postId : postIds) {
+                boolean isBookmarked = postService.isBookmarked(postId, memberId);
+                response.put(postId, isBookmarked);
+            }
+        }
         return response;
     }
 

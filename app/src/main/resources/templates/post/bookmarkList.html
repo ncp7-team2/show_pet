@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>내 북마크</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h1>내 북마크 목록</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>작성자</th>
+    <th>제목</th>
+    <th>내용</th>
+    <th>작성일</th>
+    <th>상세보기</th>
+    <th>상태</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="post : ${bookmarkedPosts}">
+    <td data-th-text="${post.member.nickName}">홍길동</td>
+    <td th:text="${post.title}"></td>
+    <td th:text="${post.content}"></td>
+    <td th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}"></td>
+    <td>
+      <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">보기</a>
+    </td>
+    <td>
+      <button type="button" class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
+              th:data-post-id="${post.id}">
+        <img class="bookmarkImage"
+             th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
+             th:id="${'bookmarkImage-' + post.id}">
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function () {
+    console.log("Document is ready!");
+
+    $(".bookmarkButton").click(function () {
+      var postId = $(this).data("post-id");
+      var isBookmarked = $(this).data("is-bookmarked");
+      console.log("Post ID: " + postId);
+      $.ajax({
+        url: "/post/" + postId + "/bookmark",
+        type: "POST",
+        success: function (response) {
+          if (response.status === "notLoggedIn") {
+            window.location.href = "/member/form";
+            return;
+          }
+          var newIsBookmarked = response.newIsBookmarked;
+
+          $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+              newIsBookmarked);
+
+          var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
+              : "/images/bookmark_off.png";
+          $("#bookmarkImage-" + postId).attr("src", newImageSrc);
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

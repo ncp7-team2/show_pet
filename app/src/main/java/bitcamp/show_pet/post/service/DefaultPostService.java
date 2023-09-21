@@ -50,7 +50,9 @@ public class DefaultPostService implements PostService {
             int loggedInUserId = loginUser.getId();
             for (Post post : posts) {
                 boolean isLiked = postDao.isLiked(post.getId(), loggedInUserId);
+                boolean isBookmarked = postDao.isBookmarked(post.getId(), loggedInUserId);
                 post.setLiked(isLiked);
+                post.setBookmarked(isBookmarked);
             }
         }
         return posts;
@@ -91,6 +93,7 @@ public class DefaultPostService implements PostService {
     public int delete(int postId) throws Exception {
         postDao.deleteFiles(postId);
         postDao.deleteLikes(postId);
+        postDao.deleteBookmarks(postId);
         return postDao.delete(postId);
     }
 
@@ -100,34 +103,83 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public boolean postLike(int postId, int memberId) {
-        boolean liked = postDao.isLiked(postId, memberId);
-        if (liked) {
-            System.out.println("postLike -1 호출!");
-            postDao.deleteLike(postId, memberId);
-            postDao.updateLikeCount(postId, -1);
-        } else {
-            postDao.insertLike(postId, memberId);
-            postDao.updateLikeCount(postId, 1);
-            System.out.println("postLike 1 호출!");
-        }
-        return !liked;
-    }
-
-    @Override
     public int getLikeCount(int postId) {
         return postDao.getLikeCount(postId);
     }
 
     @Override
-    public Post likeSession(int id, HttpSession session) throws Exception {
+    public boolean postLike(int postId, int memberId) {
+        boolean liked = postDao.isLiked(postId, memberId);
+        if (liked) {
+            postDao.deleteLike(postId, memberId);
+            postDao.updateLikeCount(postId, -1);
+        } else {
+            postDao.insertLike(postId, memberId);
+            postDao.updateLikeCount(postId, 1);
+        }
+        return !liked;
+    }
+
+    @Override
+    public List<Post> getLikedPosts(int memberId, HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        List<Post> posts = postDao.findLikedPosts(memberId);
+        if (loginUser != null) {
+            int loggedInUserId = loginUser.getId();
+            for (Post post : posts) {
+                boolean isLiked = postDao.isLiked(post.getId(), loggedInUserId);
+                post.setLiked(isLiked);
+            }
+        }
+        return posts;
+    }
+
+    @Override
+    public boolean postBookmark(int postId, int memberId) {
+        boolean isBookmarked = postDao.isBookmarked(postId, memberId);
+        if (isBookmarked) {
+            postDao.deleteBookmark(postId, memberId);
+        } else {
+            postDao.insertBookmark(postId, memberId);
+        }
+        return !isBookmarked;
+    }
+
+    @Override
+    public List<Post> getBookmarkedPosts(int memberId, HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        List<Post> posts = postDao.findBookmarkedPosts(memberId);
+        if (loginUser != null) {
+            int loggedInUserId = loginUser.getId();
+            for (Post post : posts) {
+                boolean isBookmarked = postDao.isBookmarked(post.getId(), loggedInUserId);
+                post.setBookmarked(isBookmarked);
+            }
+        }
+        return posts;
+    }
+
+    @Override
+    public Post setSessionStatus(int id, HttpSession session) throws Exception {
         Post post = postDao.findBy(id);
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser != null) {
             int loggedInUserId = loginUser.getId();
             boolean isLiked = postDao.isLiked(id, loggedInUserId);
+            boolean isBookmarked = postDao.isBookmarked(id, loggedInUserId);
             post.setLiked(isLiked);
+            post.setBookmarked(isBookmarked);
         }
         return post;
+    }
+
+    @Override
+    public boolean isLiked(int postId, int memberId) {
+        return postDao.isLiked(postId, memberId);
+    }
+
+    @Override
+    public boolean isBookmarked(int postId, int memberId) {
+        return postDao.isBookmarked(postId, memberId);
     }
 }
