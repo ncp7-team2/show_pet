@@ -1,22 +1,93 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>show_pet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShowPet</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
 </head>
-<body>
-  <h1>show_pet 실행되었어요!</h1>
+<body class="is-preload">
 
-  <div>
-    <a href='/member/login'>회원</a>
-    <a href='/post/list'>게시글</a>
-    <a data-th-if="${session.loginUser == null}" href='/member/form'>로그인</a>
-    <a href='/member/join'>회원가입</a>
-    <div style="display:inline;" data-th-if="${session.loginUser != null}">
-      <span data-th-text="${session.loginUser.getNickName()}"></span>
-      <a href='/member/logout'>로그아웃</a>
+<!-- Wrapper -->
+<div id="wrapper" class="divided">
+
+  <!-- One -->
+  <section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+    <div class="content">
+      <link rel="stylesheet" href="static/css/join.css">
+      <h1>ShowPet</h1>
+      <p class="major"> 글작성을 원한다면 <a href="http://localhost/member/join">회원가입</a> 을 눌러주세요
+        로그인을 원한다면
+        <a href="http://localhost/member/form">로그인</a>.</p>
+      <ul class="actions stacked"> 원하는 카테고리를 누르세요
+        <li><a href="http://localhost/post/list" class="button big wide smooth-scroll-middle">전체보기</a></li>
+        <li><a href="#first" class="button big wide smooth-scroll-middle">강아지</a></li>
+        <li><a href="#Two" class="button big wide smooth-scroll-middle">고양이</a></li>
+        <li><a href="#Third" class="button big wide smooth-scroll-middle">기타</a></li>
+      </ul>
     </div>
-  </div>
+    <div class="image">
+      <img src="/images/banner.jpg" alt="" />
+    </div>
+  </section>
+
+  <!-- Two -->
+  <section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="first">
+    <div class="content">
+      <h2>게시물 제목</h2>
+      <p> 게시물 내용</p>
+      <ul class="actions stacked">
+        <li><a href="http://localhost/post/listDog" class="button">강아지</a></li>
+      </ul>
+    </div>
+    <div class="image">
+      <img src="/images/spotlight01.jpg" alt="" />
+    </div>
+  </section>
+
+  <!-- Three -->
+  <section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in">
+    <div class="content">
+      <h2>Tempus adipiscing</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id ante sed ex pharetra lacinia sit amet vel massa. Donec facilisis laoreet nulla eu bibendum. Donec ut ex risus. Fusce lorem lectus, pharetra pretium massa et, hendrerit vestibulum odio lorem ipsum dolor sit amet.</p>
+      <ul class="actions stacked">
+        <li><a href="http://localhost/post/listCat" class="button">고양이</a></li>
+      </ul>
+    </div>
+    <div class="image">
+      <img src="/images/spotlight02.jpg" alt="" />
+    </div>
+  </section>
+
+  <!-- Four -->
+  <section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in">
+    <div class="content">
+      <h2>Pharetra etiam nulla</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id ante sed ex pharetra lacinia sit amet vel massa. Donec facilisis laoreet nulla eu bibendum. Donec ut ex risus. Fusce lorem lectus, pharetra pretium massa et, hendrerit vestibulum odio lorem ipsum dolor sit amet.</p>
+      <ul class="actions stacked">
+        <li><a href="http://localhost/post/listEtc" class="button">기타 동물</a></li>
+      </ul>
+    </div>
+    <div class="image">
+      <img src="/images/spotlight03.jpg" alt="" />
+    </div>
+  </section>
+
+
+  <!-- Scripts -->
+  <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/jquery.scrollex.min.js"></script>
+  <script src="/assets/js/jquery.scrolly.min.js"></script>
+  <script src="/assets/js/browser.min.js"></script>
+  <script src="/assets/js/breakpoints.min.js"></script>
+  <script src="/assets/js/util.js"></script>
+  <script src="/assets/js/main.js"></script>
+
 </body>
 </html>
