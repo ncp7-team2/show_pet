@@ -71,54 +71,31 @@
     </tr>
   </table>
 
-    <div>
-        <button>수정</button>
-        <button type='reset'>초기화</button>
-        <button><a data-th-href="@{'/post/delete?category=' + ${post.category} + '&id=' + ${post.id}}">삭제</a></button>
+  <div>
+    <button>수정</button>
+    <button type='reset'>초기화</button>
+    <button><a data-th-href="@{'/post/delete?category=' + ${post.category} + '&id=' + ${post.id}}">삭제</a>
+    </button>
 
-    </div>
+  </div>
 </form>
 <script>
-    $(document).ready(function(){
-        // 페이지 로딩이 완료되면 실행됨
-        console.log("Document is ready!");
-
-        // 좋아요 버튼에 클릭 이벤트 핸들러를 설정합니다.
-        $(".likeButton").click(function(event){
-            // 기본 이벤트를 막습니다. (이 경우 폼 전송을 막습니다.)
-            event.preventDefault();
-
-            // 디버깅을 위해 콘솔에 메시지를 출력합니다.
-            console.log("Like button clicked!");
-
-            // 클릭한 좋아요 버튼의 post-id 데이터와 is-liked 데이터를 가져옵니다.
-            var postId = $(this).data("post-id");
-            var isLiked = $(this).data("is-liked");
-
-            // 디버깅을 위해 콘솔에 메시지를 출력합니다.
-            console.log("Post ID: " + postId);
-            console.log("Is Liked: " + isLiked);
-
-            // 서버에 좋아요 상태를 변경하는 AJAX 요청을 보냅니다.
-            $.ajax({
-                url: "/post/" + postId + "/like",
-                type: "POST",
-                success: function(response) {
-                    // 로그인이 안 되어 있는 경우
-                    if (response.status === "notLoggedIn") {
-                        window.location.href = "/member/form";
-                        return;
-                    }
-
-                    // 새로운 좋아요 카운트와 상태를 가져와서 화면에 업데이트합니다.
-                    var newCount = response.newLikeCount;
-                    var newIsLiked = response.newIsLiked;
-
-                    // 좋아요 카운트 업데이트
-                    $(".likeCount[data-post-id='" + postId + "']").text(newCount);
-
-                    // 좋아요 버튼의 데이터 속성 업데이트
-                    $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
+  $(document).ready(function () {
+    $(".likeButton").click(function () {
+      var postId = $(this).data("post-id");
+      var isLiked = $(this).data("is-liked");
+      $.ajax({
+        url: "/post/" + postId + "/like",
+        type: "POST",
+        success: function (response) {
+          if (response.status === "notLoggedIn") {
+            window.location.href = "/member/form";
+            return;
+          }
+          var newCount = response.newLikeCount;
+          var newIsLiked = response.newIsLiked;
+          $(".likeCount[data-post-id='" + postId + "']").text(newCount);
+          $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
 
           var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
           $("#likeImage-" + postId).attr("src", newImageSrc);

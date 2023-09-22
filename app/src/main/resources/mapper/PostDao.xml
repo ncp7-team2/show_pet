@@ -243,17 +243,47 @@
         post_id = #{postId}
     </select>
 
-    <select id="findPostsByMemberId" resultMap="postMap">
+    <select id="findLikedPosts" resultMap="postMap">
         SELECT
         p.post_id,
         m.nickname,
         m.member_id,
         p.title,
         p.content,
-        p.hashTag,
-        p.created_at
+        p.hashtag,
+        p.created_at,
+        f.file_id,
+        f.filepath
         FROM
-        post p inner join member m on p.member_id=m.member_id
+        post p
+        JOIN like_list l ON p.post_id = l.post_id
+        JOIN member m ON p.member_id = m.member_id
+        LEFT JOIN file f ON p.post_id = f.post_id
+        WHERE
+        l.member_id = #{memberId}
+        ORDER BY
+        p.post_id DESC
+    </select>
+
+    <insert id="insertBookmark" parameterType="map">
+        INSERT INTO bookmark_list (post_id, member_id)
+        VALUES (#{postId}, #{memberId})
+        ON DUPLICATE KEY UPDATE
+        post_id = VALUES(post_id), member_id = VALUES(member_id);
+    </insert>
+
+
+    <delete id="deleteBookmark">
+        DELETE FROM
+        bookmark_list
+        WHERE
+        post_id = #{postId} AND member_id = #{memberId}
+    </delete>
+
+    <select id="isBookmarked" resultType="boolean">
+        SELECT
+        COUNT(*)
+        FROM bookmark_list
         WHERE
         m.member_id = #{memberId}
     </select>

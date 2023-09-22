@@ -20,11 +20,13 @@
 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a>
 </span>
 <div style='margin:5px;'>
-    <a href='/post/list'>전체보기</a>
-    <a href='/post/listDog'>강아지</a>
-    <a href='/post/listCat'>고양이</a>
-    <a href='/post/listBird'>새</a>
-    <a href='/post/listEtc'>기타</a>
+  <a href='/post/list'>전체보기</a>
+  <a href='/post/listDog'>강아지</a>
+  <a href='/post/listCat'>고양이</a>
+  <a href='/post/listBird'>새</a>
+  <a href='/post/listEtc'>기타</a>
+  <a href="/post/bookmarked"><img src="/images/bookmark_on.png">내 북마크</a>
+  <a href="/post/liked"><img src="/images/like_on.png">내 좋아요</a>
 </div>
 
 <div data-th-each="post : ${list}">
@@ -65,68 +67,108 @@
     </div>
 </div>
 <script>
-    // 내 게시물 보기 링크 클릭 이벤트 처리
-    $(".round-image a").click(function (e) {
-        e.preventDefault(); // 기본 링크 동작 방지
+  $(document).ready(function () {
+    $(".likeButton").click(function () {
+      var postId = $(this).data("post-id");
+      var isLiked = $(this).data("is-liked");
+      $.ajax({
+        url: "/post/" + postId + "/like",
+        type: "POST",
+        success: function (response) {
+          if (response.status === "notLoggedIn") {
+            window.location.href = "/member/form";
+            return;
+          }
+          var newCount = response.newLikeCount;
+          var newIsLiked = response.newIsLiked;
+          $(".likeCount[data-post-id='" + postId + "']").text(newCount);
+          $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
 
-        // 클릭된 링크의 href 값을 가져와서 post/myPosts API 호출
-        var memberId = $(this).attr("href").split("/")[3];  // "/member/myPage/" 다음의 문자열(사용자 ID)을 가져옴
+          var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
+          $("#likeImage-" + postId).attr("src", newImageSrc);
+        }
+      });
+    });
+
+    $(".bookmarkButton").click(function () {
+      var postId = $(this).data("post-id");
+      var isBookmarked = $(this).data("is-bookmarked");
+      $.ajax({
+        url: "/post/" + postId + "/bookmark",
+        type: "POST",
+        success: function (response) {
+          if (response.status === "notLoggedIn") {
+            window.location.href = "/member/form";
+            return;
+          }
+          var newIsBookmarked = response.newIsBookmarked;
+          $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+              newIsBookmarked);
+
+          var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
+              : "/images/bookmark_off.png";
+          $("#bookmarkImage-" + postId).attr("src", newImageSrc);
+        }
+      });
+    });
+
+    function updateLikeStatus() {
+      let postIds = $(".likeButton").map(function () {
+        return $(this).data("post-id");
+      }).get();
+
+      if (postIds.length > 0) {
         $.ajax({
-            url: "/post/myPosts/" + id,  // 서버의 API 엔드포인트 변경 (가정: /post/userPosts/{userId} 형식으로 요청을 받는 엔드포인트가 있다.)
-            type: "GET", // GET 요청
-            success: function (response) {
-                var myPosts = response;
-                for (var i = 0; i < myPosts.length; i++) {
-                    var post = myPosts[i];
+          url: "/post/getLikeStatus",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(postIds),
+          success: function (response) {
+            for (let postId in response) {
+              let isLiked = response[postId].isLiked;
+              let likeCount = response[postId].likeCount;
 
-                    // 각 게시글에 첨부된 파일들을 순회
-                    for (var j = 0; j < post.attachedFiles.length; j++) {
-                        var file = post.attachedFiles[j];
-
-                        // 새로운 img 요소 생성
-                        var imgElement = document.createElement("img");
-
-                        // img 요소의 src 속성 설정
-                        imgElement.src = "https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/" + file.filePath;
-
-                        // 만든 img 요소를 body 태그 안에 추가
-                        document.body.appendChild(imgElement);
-                    }
-                }
-            },
-            error: function (error) {
-                console.error("Error fetching my posts:", error);
+              let imageSrc = isLiked ? "/images/like_on.png" : "/images/like_off.png";
+              $("#likeImage-" + postId).attr("src", imageSrc);
+              $(".likeButton[data-post-id='" + postId + "']").data("is-liked", isLiked);
+              $(".likeCount[data-post-id='" + postId + "']").text(likeCount);
             }
+          }
         });
-    });
+      }
+    }
 
+    function updateBookmarkStatus() {
+      let postIds = $(".bookmarkButton").map(function () {
+        return $(this).data("post-id");
+      }).get();
 
-        $(document).ready(function () {
-        console.log("Document is ready!");
-        $(".likeButton").click(function () {
-            console.log("Button clicked!");
-            var postId = $(this).data("post-id");
-            var isLiked = $(this).data("is-liked");
-            console.log("Post ID: " + postId);
-            $.ajax({
-                url: "/post/" + postId + "/like",
-                type: "POST",
-                success: function (response) {
-                    if (response.status === "notLoggedIn") {
-                        window.location.href = "/member/form";
-                        return;
-                    }
-                    var newCount = response.newLikeCount;
-                    var newIsLiked = response.newIsLiked;
-                    $(".likeCount[data-post-id='" + postId + "']").text(newCount);
-                    $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
-
-                    var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
-                    $("#likeImage-" + postId).attr("src", newImageSrc);
-                }
-            });
+      if (postIds.length > 0) {
+        $.ajax({
+          url: "/post/getBookmarkStatus",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(postIds),
+          success: function (response) {
+            for (let postId in response) {
+              let isBookmarked = response[postId];
+              let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
+              $("#bookmarkImage-" + postId).attr("src", imageSrc);
+              $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+                  isBookmarked);
+            }
+          }
         });
+      }
+    }
+
+    updateLikeStatus();
+    updateBookmarkStatus();
+    $(window).on("pageshow", function (event) {
+      updateLikeStatus();
+      updateBookmarkStatus();
     });
+  });
 </script>
 </body>
 </html>
