@@ -27,7 +27,7 @@ public class Post implements Serializable {
     private List<AttachedFile> attachedFiles;
     private int likeCount;
     private boolean liked;
-
+    private boolean isBookmarked;
 
     @Override
     public String toString() {
@@ -145,5 +145,13 @@ public class Post implements Serializable {
 
     public void setLiked(boolean liked) {
         this.liked = liked;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 }

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -108,7 +106,7 @@ public class PostController {
     @GetMapping("detail/{category}/{id}")
     public String detail(@PathVariable int id, Model model, HttpSession session) throws Exception {
         System.out.println("detail 호출! PostController");
-        Post post = postService.likeSession(id, session);
+        Post post = postService.setSessionStatus(id, session);
         Member loginUser = (Member) session.getAttribute("loginUser");
         boolean isLoggedIn = (loginUser != null);
         model.addAttribute("isLoggedIn", isLoggedIn);
@@ -195,5 +193,20 @@ public class PostController {
         return postService.getMyPosts(id);
     }
 
+    @PostMapping("/getBookmarkStatus")
+    @ResponseBody
+    public Map<Integer, Boolean> getBookmarkStatus(@RequestBody List<Integer> postIds, HttpSession session) {
+        System.out.println("북마크 상태 정보 업데이트!");
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        Map<Integer, Boolean> response = new HashMap<>();
+        if (loginUser != null) {
+            int memberId = loginUser.getId();
+            for (int postId : postIds) {
+                boolean isBookmarked = postService.isBookmarked(postId, memberId);
+                response.put(postId, isBookmarked);
+            }
+        }
+        return response;
+    }
 
 }

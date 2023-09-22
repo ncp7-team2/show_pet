@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
-    <title>ShowPet 상세보기</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset='UTF-8'>
+  <title>ShowPet 상세보기</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -13,50 +13,63 @@
 
 <p data-th-unless="${post}">해당 번호의 게시글이 없습니다</p>
 
-<form data-th-if="${post}" data-th-action="@{/post/update}" method='post' enctype='multipart/form-data'>
-    <table border='1'>
-        <tr>
-            <th style='width:120px;'>번호</th>
-            <td style='width:300px;'><input type='text' name='id' value="100" data-th-value="${post.id}" readonly></td>
-        </tr>
-        <tr>
-            <th>닉네임</th>
-            <td data-th-text="${post.member.nickName}">홍길동</td>
-        </tr>
-        <tr>
-            <th>제목</th>
-            <td><input type='text' name='title' value="제목입니다." data-th-value="${post.title}"></td>
-        </tr>
-        <tr>
-            <th>내용</th>
-            <td><textarea name='content' style='height:200px; width:400px;' data-th-text="${post.content}"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <th>등록일</th>
-            <td data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</td>
+<form data-th-if="${post}" data-th-action="@{/post/update}" method='post'
+      enctype='multipart/form-data'>
+  <table border='1'>
+    <tr>
+      <th style='width:120px;'>번호</th>
+      <td style='width:300px;'><input type='text' name='id' value="100" data-th-value="${post.id}"
+                                      readonly></td>
+    </tr>
+    <tr>
+      <th>닉네임</th>
+      <td data-th-text="${post.member.nickName}">홍길동</td>
+    </tr>
+    <tr>
+      <th>제목</th>
+      <td><input type='text' name='title' value="제목입니다." data-th-value="${post.title}"></td>
+    </tr>
+    <tr>
+      <th>내용</th>
+      <td><textarea name='content' style='height:200px; width:400px;'
+                    data-th-text="${post.content}"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <th>등록일</th>
+      <td data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</td>
 
-        </tr>
-        <tr>
-            <th>첨부파일</th>
-            <td>
-                <div data-th-each="file : ${post.attachedFiles}">
-                    <a data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|"> image.gif </a>
-                    <img data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
-                    [<a data-th-href="|/post/fileDelete/attachedFile;id=${file.id}|">삭제</a>]<br>
-                </div>
-                </c:forEach>
-                <input type='file' name='files' multiple>
-            </td>
-            <th>좋아요</th>
-            <td>
-                <button type="button" class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
-                    <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'" th:id="${'likeImage-' + post.id}">
-                </button>
-                <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
-            </td>
-        </tr>
-    </table>
+    </tr>
+    <tr>
+      <th>첨부파일</th>
+      <td>
+        <div data-th-each="file : ${post.attachedFiles}">
+          <a data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|"
+             data-th-text="${file.filePath}">okok.gif</a>
+          [<a data-th-href="|/post/fileDelete/attachedFile;id=${file.id}|">삭제</a>]<br>
+        </div>
+        </c:forEach>
+        <input type='file' name='files' multiple>
+      </td>
+      <th>좋아요</th>
+      <td>
+        <button type="button" class="likeButton" th:data-is-liked="${post.isLiked}"
+                th:data-post-id="${post.id}">
+          <img class="likeImage"
+               th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
+               th:id="${'likeImage-' + post.id}">
+        </button>
+        <span class="likeCount" data-th-text="${post.likeCount}"
+              th:data-post-id="${post.id}">0</span>
+        <button type="button" class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
+                th:data-post-id="${post.id}">
+          <img class="bookmarkImage"
+               th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
+               th:id="${'bookmarkImage-' + post.id}">
+        </button>
+      </td>
+    </tr>
+  </table>
 
     <div>
         <button>수정</button>
@@ -107,17 +120,92 @@
                     // 좋아요 버튼의 데이터 속성 업데이트
                     $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
 
-                    // 이미지 src 변경
-                    var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
-                    $("#likeImage-" + postId).attr("src", newImageSrc);
-                },
-                error: function(error) {
-                    // 오류 처리
-                    console.error("An error occurred: ", error);
-                }
-            });
-        });
+          var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
+          $("#likeImage-" + postId).attr("src", newImageSrc);
+        }
+      });
     });
+
+    $(".bookmarkButton").click(function () {
+      var postId = $(this).data("post-id");
+      var isBookmarked = $(this).data("is-bookmarked");
+      $.ajax({
+        url: "/post/" + postId + "/bookmark",
+        type: "POST",
+        success: function (response) {
+          if (response.status === "notLoggedIn") {
+            window.location.href = "/member/form";
+            return;
+          }
+          var newIsBookmarked = response.newIsBookmarked;
+          $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+              newIsBookmarked);
+
+          var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
+              : "/images/bookmark_off.png";
+          $("#bookmarkImage-" + postId).attr("src", newImageSrc);
+        }
+      });
+    });
+
+    function updateLikeStatus() {
+      let postIds = $(".likeButton").map(function () {
+        return $(this).data("post-id");
+      }).get();
+
+      if (postIds.length > 0) {
+        $.ajax({
+          url: "/post/getLikeStatus",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(postIds),
+          success: function (response) {
+            for (let postId in response) {
+              let isLiked = response[postId].isLiked;
+              let likeCount = response[postId].likeCount;
+
+              let imageSrc = isLiked ? "/images/like_on.png" : "/images/like_off.png";
+              $("#likeImage-" + postId).attr("src", imageSrc);
+              $(".likeButton[data-post-id='" + postId + "']").data("is-liked", isLiked);
+              $(".likeCount[data-post-id='" + postId + "']").text(likeCount);
+            }
+          }
+        });
+      }
+    }
+
+    function updateBookmarkStatus() {
+      let postIds = $(".bookmarkButton").map(function () {
+        return $(this).data("post-id");
+      }).get();
+
+      if (postIds.length > 0) {
+        $.ajax({
+          url: "/post/getBookmarkStatus",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(postIds),
+          success: function (response) {
+            for (let postId in response) {
+              let isBookmarked = response[postId];
+              let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
+              $("#bookmarkImage-" + postId).attr("src", imageSrc);
+              $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+                  isBookmarked);
+            }
+          }
+        });
+      }
+    }
+
+    updateLikeStatus();
+    updateBookmarkStatus();
+    $(window).on("pageshow", function (event) {
+      updateLikeStatus();
+      updateBookmarkStatus();
+    });
+
+  });
 </script>
 </body>
 </html>

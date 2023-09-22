@@ -50,7 +50,9 @@ public class DefaultPostService implements PostService {
             int loggedInUserId = loginUser.getId();
             for (Post post : posts) {
                 boolean isLiked = postDao.isLiked(post.getId(), loggedInUserId);
+                boolean isBookmarked = postDao.isBookmarked(post.getId(), loggedInUserId);
                 post.setLiked(isLiked);
+                post.setBookmarked(isBookmarked);
             }
         }
         return posts;

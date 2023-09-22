@@ -22,12 +22,18 @@ public interface PostDao {
     int delete(int id);
     int deleteFile(int fileId);
     int deleteFiles(int postId);
+
     int deleteLikes(int postId);
     int updateLikeCount(@Param("postId") int postId, @Param("amount") int amount);
     int insertLike(@Param("postId") int postId, @Param("memberId") int memberId);
     int deleteLike(@Param("postId") int postId, @Param("memberId") int memberId);
     boolean isLiked(@Param("postId") int postId, @Param("memberId") int memberId);
     int getLikeCount(int postId);
-    List<Post> findPostsByMemberId(int memberId);
+    List<Post> findLikedPosts(int memberId);
 
+    int deleteBookmarks(int postId);
+    int insertBookmark(@Param("postId") int postId, @Param("memberId") int memberId);
+    int deleteBookmark(@Param("postId") int postId, @Param("memberId") int memberId);
+    boolean isBookmarked(@Param("postId") int postId, @Param("memberId") int memberId);
+    List<Post> findBookmarkedPosts(int memberId);
 }

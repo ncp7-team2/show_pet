@@ -17,11 +17,15 @@
             <id column="member_id" property="id"/>
             <result column="nickname" property="nickName"/>
         </association>
-
         <collection property="attachedFiles" ofType="attachedFile">
             <id column="file_id" property="id"/>
             <result column="filepath" property="filePath"/>
         </collection>
+    </resultMap>
+
+    <resultMap type="post" id="bookmarkMap">
+        <id column="post_id" property="id"/>
+        <result column="member_id" property="memberId"/>
     </resultMap>
 
     <resultMap type="attachedFile" id="attachedFileMap">
@@ -190,6 +194,12 @@
 
     <delete id="deleteLikes" parameterType="int">
         delete from like_list
+        where
+        post_id=#{postId}
+    </delete>
+
+    <delete id="deleteBookmarks" parameterType="int">
+        delete from bookmark_list
         where
         post_id=#{postId}
     </delete>
