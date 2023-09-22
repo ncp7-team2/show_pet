@@ -67,6 +67,13 @@
                th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
                th:id="${'bookmarkImage-' + post.id}">
         </button>
+        </button>
+        <button type="button" class="followButton" th:data-is-followed="${post.member.isFollowed}"
+                th:data-member-id="${post.member.id}">
+          <img class="followImage"
+               th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
+               th:id="${'followImage-' + post.member.id}">
+        </button>
       </td>
     </tr>
   </table>
@@ -125,6 +132,25 @@
       });
     });
 
+    $(".followButton").on("click", function() {
+      let memberId = $(this).data("member-id");
+      let isFollowed = $(this).data("is-followed");
+
+      $.ajax({
+        url: "/member/" + memberId + "/follow",
+        type: "POST",
+        success: function(response) {
+          if (response.newIsFollowed) {
+            $("#followImage-" + memberId).attr("src", "/images/follow_on.png");
+            $(".followButton[data-member-id='" + memberId + "']").data("is-followed", true);
+          } else {
+            $("#followImage-" + memberId).attr("src", "/images/follow_off.png");
+            $(".followButton[data-member-id='" + memberId + "']").data("is-followed", false);
+          }
+        }
+      });
+    });
+
     function updateLikeStatus() {
       let postIds = $(".likeButton").map(function () {
         return $(this).data("post-id");
@@ -174,12 +200,36 @@
         });
       }
     }
+    function updateFollowStatus() {
+      let memberIds = $(".followButton").map(function() {
+        return $(this).data("member-id");
+      }).get();
 
+      if (memberIds.length > 0) {
+        $.ajax({
+          url: "/member/getFollowStatus",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(memberIds),
+          success: function(response) {
+            for (let memberId in response) {
+              let isFollowed = response[memberId];
+              let imageSrc = isFollowed ? "/images/follow_on.png" : "/images/follow_off.png";
+              $("#followImage-" + memberId).attr("src", imageSrc);
+              $(".followButton[data-member-id='" + memberId + "']").data("is-followed", isFollowed);
+            }
+          }
+        });
+      }
+    }
     updateLikeStatus();
     updateBookmarkStatus();
+    updateFollowStatus();
+
     $(window).on("pageshow", function (event) {
       updateLikeStatus();
       updateBookmarkStatus();
+      updateFollowStatus();
     });
 
   });

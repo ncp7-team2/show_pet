@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Followings</title>
+</head>
+<body>
+<h2>나를 팔로우</h2>
+<p>팔로잉 수: <span th:text="${followingsCount}"></span></p>
+<ul>
+  <li th:each="following : ${followingsList}">
+    <span th:text="${following.nickName}"></span>
+  </li>
+</ul>
+</body>
+</html>
