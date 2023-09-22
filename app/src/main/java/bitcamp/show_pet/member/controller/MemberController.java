@@ -192,6 +192,7 @@ public class MemberController {
   @PostMapping("update")
   public String update(
       Member member,
+      HttpSession session,
       MultipartFile photofile) throws Exception {
 
     if (photofile.getSize() > 0) {
@@ -203,6 +204,7 @@ public class MemberController {
     if (memberService.update(member) == 0) {
       throw new Exception("회원이 없습니다.");
     } else {
+      session.setAttribute("loginUser", member);
       return "redirect:../post/list";
     }
 
