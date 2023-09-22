@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties("ncp")
+@ConfigurationProperties(prefix = "ncp")
 public class NcpConfig {
     private String endPoint;
     private String regionName;
