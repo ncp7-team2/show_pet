@@ -10,17 +10,17 @@ import java.util.List;
 public interface MemberDao {
 
     int insert(Member member);
-
     List<Member> findAll();
-
     Member findBy(int id);
-
     Member findByEmailAndPassword(
             @Param("email") String email,
             @Param("password") String password);
-
     int update (Member member);
-
     int delete(int no);
+
+    void insertFollow(int followerId, int followingId);
+    void deleteFollow(int followerId, int followingId);
+    boolean isFollowed(int followerId, int followingId);
+    List<Member> getFollowers(int memberId);
+    List<Member> getFollowings(int memberId);
 }
-              
