@@ -130,4 +130,10 @@ public class DefaultPostService implements PostService {
         }
         return post;
     }
+
+    @Override
+    public List<Post> getMyPosts(int memberId) {
+        return postDao.findPostsByMemberId(memberId);
+    }
+
 }

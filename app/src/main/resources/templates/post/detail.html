@@ -41,8 +41,8 @@
             <th>첨부파일</th>
             <td>
                 <div data-th-each="file : ${post.attachedFiles}">
-                    <a data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|"
-                       data-th-text="${file.filePath}">okok.gif</a>
+                    <a data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|"> image.gif </a>
+                    <img data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
                     [<a data-th-href="|/post/fileDelete/attachedFile;id=${file.id}|">삭제</a>]<br>
                 </div>
                 </c:forEach>
@@ -121,16 +121,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -28,4 +28,6 @@ public interface PostDao {
     int deleteLike(@Param("postId") int postId, @Param("memberId") int memberId);
     boolean isLiked(@Param("postId") int postId, @Param("memberId") int memberId);
     int getLikeCount(int postId);
+    List<Post> findPostsByMemberId(int memberId);
+
 }

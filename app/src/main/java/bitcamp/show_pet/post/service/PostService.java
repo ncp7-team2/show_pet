@@ -22,4 +22,5 @@ public interface PostService {
     boolean postLike(int postId, int memberId) throws Exception;
     int getLikeCount(int postId);
     Post likeSession(int id, HttpSession session) throws Exception;
+    List<Post> getMyPosts(int memberId);
 }

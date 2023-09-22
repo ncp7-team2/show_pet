@@ -68,13 +68,17 @@
         p.post_id,
         m.nickname,
         m.member_id,
+        m.photo,
         p.title,
         p.content,
         p.hashTag,
         p.created_at,
+        f.file_id,
+        f.filepath,
         like_count
         FROM
         post p inner join member m on p.member_id=m.member_id
+        left outer join file f on p.post_id=f.post_id
         ORDER BY
         p.post_id DESC
     </select>
@@ -228,5 +232,21 @@
         WHERE
         post_id = #{postId}
     </select>
+
+    <select id="findPostsByMemberId" resultMap="postMap">
+        SELECT
+        p.post_id,
+        m.nickname,
+        m.member_id,
+        p.title,
+        p.content,
+        p.hashTag,
+        p.created_at
+        FROM
+        post p inner join member m on p.member_id=m.member_id
+        WHERE
+        m.member_id = #{memberId}
+    </select>
+
 
 </mapper>

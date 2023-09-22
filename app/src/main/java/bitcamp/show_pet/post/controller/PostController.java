@@ -6,9 +6,12 @@ import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
 import bitcamp.show_pet.member.model.vo.Member;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -186,5 +189,11 @@ public class PostController {
         response.put("newLikeCount", newLikeCount);
         return response;
     }
+
+    @GetMapping("/myPosts/{id}")
+    public List<Post> getUserPosts(@PathVariable int id) {
+        return postService.getMyPosts(id);
+    }
+
 
 }

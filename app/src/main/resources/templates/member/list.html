@@ -24,8 +24,8 @@
     <td data-th-text="${member.id}"></td>
     <td>
       <img data-th-unless="${member.photo}" src="/images/avatar.png" style="width:50px; height: 50px;"/>
-      <img data-th-if="${member.photo}" data-th-src="|http://guosqxeocfoi19010728.cdn.ntruss.com/member/${member.photo}?type=f&w=50&h=50&align=4&faceopt=true&quality=90&autorotate=true&anilimit=100&ttype=png|">
-      <a data-th-href='${member.id}' data-th-text="${member.nickName}"></a>
+      <img style="width:50px; height: 50px;" th:if="${member.photo}" th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|">
+      <a data-th-href="@{'/member/detail/' + ${member.id}}" data-th-text="${member.nickName}"></a>
     </td>
     <td data-th-text="${member.email}"></td>
     <td data-th-text="${member.category}"></td>
