@@ -12,10 +12,123 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
   <link rel="stylesheet" th:href="@{/css/header.css}"/>
   <link rel="stylesheet" th:href="@{/css/index.css}"/>
+
+  <style>
+    .post-container {
+      border: 3px solid #dddddd;
+      margin: 50px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .left-content-box {
+      flex: 2; /* 가로로 2등분 */
+      border: 1px solid #cccccc; /* 왼쪽 박스의 테두리 스타일 */
+      padding: 10px; /* 내부 간격 설정 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .square-box {
+      flex: 1; /* 2등분한 왼쪽 박스를 1:1로 분할 */
+      border: 1px solid #cccccc; /* 정사각형 박스의 테두리 스타일 */
+      padding: 10px; /* 내부 간격 설정 */
+      width: 500px; /* 너비 500px로 설정 */
+      height: 500px; /* 높이 500px로 설정 */
+      overflow: hidden; /* 내부 컨텐츠를 넘치지 않도록 설정 */
+    }
+
+    .square-box img {
+      width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+      height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+      object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
+    }                                                                                 .buttons {
+                                                                                        margin-top: 10px; /* Like와 Bookmark 버튼 사이의 간격 설정 */
+                                                                                      }
+
+    .right-content-box {
+      flex: 3; /* 가로로 3등분 */
+      border: 1px solid #cccccc; /* 오른쪽 박스의 테두리 스타일 */
+      padding: 10px; /* 내부 간격 설정 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+
+    .text-like {
+      font-size: 13px;
+      font-weight: bold;
+      margin: 0 15px 15px 15px;
+    }
+    .box-comment {
+      margin: 15px 0 20px 15px;
+    }
+
+    .date-comment {
+      /* display: inline-block; */
+      /* width: 400px; */
+      margin: 0 0 14px 0;
+      font-size: 12px;
+      color: #828282;
+    }
+    .img-heart-comment:hover,
+    .img-delete-comment:hover {
+      cursor: pointer;
+    }
+    .img-delete-comment {
+      margin: 0 0 2px 10px;
+    }
+    .text-comment {
+      display: inline-block;
+      width: 390px;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+
+    .box-chat {
+      border-top: 1px solid #e1e1e1;
+      display: flex;
+      align-items: center;
+      padding: 15px;
+    }
+    .input-chat {
+      width: 350px;
+      border: none;
+    }
+    .btn-chat {
+      border: none;
+      background-color: transparent;
+      font-weight: bold;
+      color: rgb(0, 149, 246, 0.3);
+    }
+    .btn-chat-effect {
+      color: rgb(0, 149, 246, 1);
+    }
+    .btn-chat-effect:hover {
+      cursor: pointer;
+    }
+
+
+    /* 버튼 테두리 없애기 */
+    .likeButton,
+    .bookmarkButton {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+  </style>
+
+
 </head>
+
 <body>
 
 <div data-th-replace="header :: header"></div>
+
 <span>
 <h1>모아보기</h1>
 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a>
@@ -30,98 +143,6 @@
   <a href="/post/liked"><img src="/images/like_on.png">내 좋아요</a>
 </div>
 
-<style>
-  .post-container {
-    border: 3px solid #dddddd;
-    margin: 50px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .left-content-box {
-    flex: 2; /* 가로로 2등분 */
-    border: 1px solid #cccccc; /* 왼쪽 박스의 테두리 스타일 */
-    padding: 10px; /* 내부 간격 설정 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .square-box {
-    flex: 1; /* 2등분한 왼쪽 박스를 1:1로 분할 */
-    border: 1px solid #cccccc; /* 정사각형 박스의 테두리 스타일 */
-    padding: 10px; /* 내부 간격 설정 */
-    width: 500px; /* 너비 500px로 설정 */
-    height: 500px; /* 높이 500px로 설정 */
-    overflow: hidden; /* 내부 컨텐츠를 넘치지 않도록 설정 */
-  }
-
-  .square-box img {
-    width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
-    height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
-    object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
-  }                                                                                 .buttons {
-    margin-top: 10px; /* Like와 Bookmark 버튼 사이의 간격 설정 */
-  }
-
-  .right-content-box {
-    flex: 3; /* 가로로 3등분 */
-    border: 1px solid #cccccc; /* 오른쪽 박스의 테두리 스타일 */
-    padding: 10px; /* 내부 간격 설정 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-     /* ... 이전 CSS 규칙들 ... */
-  .text-comment {
-    display: inline-block;
-    width: display: flex;
-    margin: 0 0 10px 0;
-    font-size: 14px;
-  }
-
-  .box-chat {
-    border-top: 1px solid #e1e1e1;
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    width: 100%; /* 부모인 post-container에 맞춰 너비 조정 */
-  }
-
-  .input-chat {
-    width: 100%; /* 부모인 box-chat에 맞춰 너비 조정 */
-    border: none;
-  }
-
-  .btn-chat {
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-    color: rgba(0, 149, 246, 0.3);
-    margin-left: 10px; /* 버튼과 입력란 사이 간격 설정 */
-    cursor: pointer; /* 커서를 포인터로 변경 */
-  }
-
-  .btn-chat-effect {
-    color: rgba(0, 149, 246, 1);
-  }
-
-  .btn-chat-effect:hover {
-    cursor: pointer;
-  }
-
-
-     /* 버튼 테두리 없애기 */
-   .likeButton,
-   .bookmarkButton {
-     border: none;
-     background: none;
-     padding: 0;
-   }
-
-</style>
 <div data-th-each="post : ${list}">
   <div class="post-container">
     <!-- 왼쪽 컨텐츠 -->
@@ -195,16 +216,22 @@
       </div>
 
       <div class="box-chat">
-        <form>
-          <input
-                  class="input-chat"
-                  type="text"
-                  placeholder="댓글 달기..."
-          />
-          <button class="btn-chat btn-chat-effect" type="submit">게시</button>
-        </form>
+
+        <div class="box-comment"></div>
+
+        <div class="box-chat">
+          <form>
+            <input
+                    class="input-chat"
+                    type="text"
+                    placeholder="댓글 달기..."
+            />
+            <button class="btn-chat" type="submit">게시</button>
+          </form>
+        </div>
     </div>
   </div>
+</div>
 </div>
 
 
@@ -311,6 +338,35 @@
       updateBookmarkStatus();
     });
   });
-</script>
-</body>
+
+  // 댓글 쓰기
+  const leaveComment = function (e) {
+    e.preventDefault();
+    const comment = document.createElement("p");
+    const wrapComment = document.createElement("div");
+    comment.textContent = $inputChat.value;
+    wrapComment.appendChild(comment);
+    comment.classList.add("text-comment");
+    $inputChat.value = "";
+
+    const likeIcon = document.createElement("img");
+    likeIcon.src = "./src/icon/heart.png";
+    likeIcon.width = 14;
+    likeIcon.height = 14;
+    likeIcon.classList.add("img-heart-comment");
+    wrapComment.appendChild(likeIcon);
+
+    const deleteIcon = document.createElement("img");
+    deleteIcon.src = "./src/icon/delete.png";
+    deleteIcon.width = 10;
+    deleteIcon.height = 10;
+    deleteIcon.classList.add("img-delete-comment");
+    wrapComment.appendChild(deleteIcon);
+
+    $commentBox.appendChild(wrapComment);
+  };
+
+
+  </script>
+    </body>
 </html>
