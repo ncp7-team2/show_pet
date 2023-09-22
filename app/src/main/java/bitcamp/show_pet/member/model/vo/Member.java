@@ -2,6 +2,7 @@ package bitcamp.show_pet.member.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Member implements Serializable {
@@ -22,6 +23,10 @@ public class Member implements Serializable {
     private String photo;
     private String intro;
     private int category;
+
+    private boolean isFollowed;
+    private List<Member> followers;
+    private List<Member> followings;
 
     @Override
     public String toString() {
@@ -122,5 +127,29 @@ public class Member implements Serializable {
 
     public void setCategory(int category) {
         this.category = category;
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean followed) {
+        isFollowed = followed;
+    }
+
+    public List<Member> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<Member> followers) {
+        this.followers = followers;
+    }
+
+    public List<Member> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(List<Member> followings) {
+        this.followings = followings;
     }
 }
