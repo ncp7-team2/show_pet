@@ -25,8 +25,12 @@
   <a href='/post/listCat'>고양이</a>
   <a href='/post/listBird'>새</a>
   <a href='/post/listEtc'>기타</a>
-  <a href="/post/bookmarked"><img src="/images/bookmark_on.png">내 북마크</a>
-  <a href="/post/liked"><img src="/images/like_on.png">내 좋아요</a>
+    <a href="/post/bookmarked"><img src="/images/bookmark_on.png">내 북마크</a>
+    <a href="/post/liked"><img src="/images/like_on.png">내 좋아요</a>
+    <a href="/member/followers"><img src="/images/follow_on.png">내가팔로우</a>
+    <span th:text="${followerCount}"></span>
+    <a href="/member/followings"><img src="/images/follow_off.png">나를팔로우</a>
+    <span th:text="${followingsCount}"></span>
 </div>
 
 <div data-th-each="post : ${list}">
@@ -58,117 +62,123 @@
         <!--좋아요 -->
         <p>
             <button class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
-                <!-- 이미지에 id 속성 추가 -->
-                <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
+                <img class="likeImage"
+                     th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
                      th:id="${'likeImage-' + post.id}">
             </button>
             <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
+            <button class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
+                    th:data-post-id="${post.id}">
+                <img class="bookmarkImage"
+                     th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
+                     th:id="${'bookmarkImage-' + post.id}">
+            </button>
         </p>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-    $(".likeButton").click(function () {
-      var postId = $(this).data("post-id");
-      var isLiked = $(this).data("is-liked");
-      $.ajax({
-        url: "/post/" + postId + "/like",
-        type: "POST",
-        success: function (response) {
-          if (response.status === "notLoggedIn") {
-            window.location.href = "/member/form";
-            return;
-          }
-          var newCount = response.newLikeCount;
-          var newIsLiked = response.newIsLiked;
-          $(".likeCount[data-post-id='" + postId + "']").text(newCount);
-          $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
+        $(".likeButton").click(function () {
+            var postId = $(this).data("post-id");
+            var isLiked = $(this).data("is-liked");
+            $.ajax({
+                url: "/post/" + postId + "/like",
+                type: "POST",
+                success: function (response) {
+                    if (response.status === "notLoggedIn") {
+                        window.location.href = "/member/form";
+                        return;
+                    }
+                    var newCount = response.newLikeCount;
+                    var newIsLiked = response.newIsLiked;
+                    $(".likeCount[data-post-id='" + postId + "']").text(newCount);
+                    $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
 
-          var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
-          $("#likeImage-" + postId).attr("src", newImageSrc);
-        }
-      });
-    });
-
-    $(".bookmarkButton").click(function () {
-      var postId = $(this).data("post-id");
-      var isBookmarked = $(this).data("is-bookmarked");
-      $.ajax({
-        url: "/post/" + postId + "/bookmark",
-        type: "POST",
-        success: function (response) {
-          if (response.status === "notLoggedIn") {
-            window.location.href = "/member/form";
-            return;
-          }
-          var newIsBookmarked = response.newIsBookmarked;
-          $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-              newIsBookmarked);
-
-          var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
-              : "/images/bookmark_off.png";
-          $("#bookmarkImage-" + postId).attr("src", newImageSrc);
-        }
-      });
-    });
-
-    function updateLikeStatus() {
-      let postIds = $(".likeButton").map(function () {
-        return $(this).data("post-id");
-      }).get();
-
-      if (postIds.length > 0) {
-        $.ajax({
-          url: "/post/getLikeStatus",
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(postIds),
-          success: function (response) {
-            for (let postId in response) {
-              let isLiked = response[postId].isLiked;
-              let likeCount = response[postId].likeCount;
-
-              let imageSrc = isLiked ? "/images/like_on.png" : "/images/like_off.png";
-              $("#likeImage-" + postId).attr("src", imageSrc);
-              $(".likeButton[data-post-id='" + postId + "']").data("is-liked", isLiked);
-              $(".likeCount[data-post-id='" + postId + "']").text(likeCount);
-            }
-          }
+                    var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
+                    $("#likeImage-" + postId).attr("src", newImageSrc);
+                }
+            });
         });
-      }
-    }
 
-    function updateBookmarkStatus() {
-      let postIds = $(".bookmarkButton").map(function () {
-        return $(this).data("post-id");
-      }).get();
+        $(".bookmarkButton").click(function () {
+            var postId = $(this).data("post-id");
+            var isBookmarked = $(this).data("is-bookmarked");
+            $.ajax({
+                url: "/post/" + postId + "/bookmark",
+                type: "POST",
+                success: function (response) {
+                    if (response.status === "notLoggedIn") {
+                        window.location.href = "/member/form";
+                        return;
+                    }
+                    var newIsBookmarked = response.newIsBookmarked;
+                    $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+                        newIsBookmarked);
 
-      if (postIds.length > 0) {
-        $.ajax({
-          url: "/post/getBookmarkStatus",
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(postIds),
-          success: function (response) {
-            for (let postId in response) {
-              let isBookmarked = response[postId];
-              let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
-              $("#bookmarkImage-" + postId).attr("src", imageSrc);
-              $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                  isBookmarked);
-            }
-          }
+                    var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
+                        : "/images/bookmark_off.png";
+                    $("#bookmarkImage-" + postId).attr("src", newImageSrc);
+                }
+            });
         });
-      }
-    }
 
-    updateLikeStatus();
-    updateBookmarkStatus();
-    $(window).on("pageshow", function (event) {
-      updateLikeStatus();
-      updateBookmarkStatus();
+        function updateLikeStatus() {
+            let postIds = $(".likeButton").map(function () {
+                return $(this).data("post-id");
+            }).get();
+
+            if (postIds.length > 0) {
+                $.ajax({
+                    url: "/post/getLikeStatus",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(postIds),
+                    success: function (response) {
+                        for (let postId in response) {
+                            let isLiked = response[postId].isLiked;
+                            let likeCount = response[postId].likeCount;
+
+                            let imageSrc = isLiked ? "/images/like_on.png" : "/images/like_off.png";
+                            $("#likeImage-" + postId).attr("src", imageSrc);
+                            $(".likeButton[data-post-id='" + postId + "']").data("is-liked", isLiked);
+                            $(".likeCount[data-post-id='" + postId + "']").text(likeCount);
+                        }
+                    }
+                });
+            }
+        }
+
+        function updateBookmarkStatus() {
+            let postIds = $(".bookmarkButton").map(function () {
+                return $(this).data("post-id");
+            }).get();
+
+            if (postIds.length > 0) {
+                $.ajax({
+                    url: "/post/getBookmarkStatus",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(postIds),
+                    success: function (response) {
+                        for (let postId in response) {
+                            let isBookmarked = response[postId];
+                            let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
+                            $("#bookmarkImage-" + postId).attr("src", imageSrc);
+                            $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
+                                isBookmarked);
+                        }
+                    }
+                });
+            }
+        }
+
+        updateLikeStatus();
+        updateBookmarkStatus();
+        $(window).on("pageshow", function (event) {
+            updateLikeStatus();
+            updateBookmarkStatus();
+        });
     });
-  });
 </script>
 </body>
 </html>

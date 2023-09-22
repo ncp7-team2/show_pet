@@ -24,10 +24,10 @@
         <div  class="header-container" data-th-if="${session.loginUser != null}">
             <div class="round-image">
                 <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
-                    <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.photo == null}" th:src="@{/images/avatar.png}"></a>
+                    <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.getPhoto() == null}" th:src="@{/images/avatar.png}"></a>
                 <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
-                    <img data-th-if="${session.loginUser.photo != null}"
-                         data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.photo}|"></a>
+                    <img data-th-if="${session.loginUser.getPhoto() != null}"
+                         data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.getPhoto()}|"></a>
             </div>
             <span style="margin-right: 40px" data-th-text="${session.loginUser.getNickName()}"></span>
             <a href="/member/logout"><button class="login-button">로그아웃</button></a>
