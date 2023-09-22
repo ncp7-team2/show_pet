@@ -18,15 +18,16 @@
                 <button type="submit" class="search-button">검색</button>
             </div>
         </form>
-        <img class="alarm" data-th-if="${session.loginUser  != null}" th:src="@{/images/alarm.png}">
+        <img class="alarm" data-th-if="${session.loginUser != null}" th:src="@{/images/alarm.png}">
         <a href="/member/form" data-th-if="${session.loginUser == null}"><button class="login-button">로그인</button></a>
         <a href="/member/join" data-th-if="${session.loginUser == null}"><button class="login-button">회원가입</button></a>
         <div  class="header-container" data-th-if="${session.loginUser != null}">
             <div class="round-image">
-                <a data-th-href="@{'/member/detail/' + ${session.loginUser.getId()}}"><img data-th-if="${session.loginUser.photo == null}" th:src="@{/images/avatar.png}"></a>
-                <a data-th-href="@{'/member/detail/' + ${session.loginUser.getId()}}">
+                <a data-th-href="@{'/member/myPage/' + ${session.loginUser.getId()}}">
+                    <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.photo == null}" th:src="@{/images/avatar.png}"></a>
+                <a data-th-href="@{'/member/myPage/' + ${session.loginUser.getId()}}">
                     <img data-th-if="${session.loginUser.photo != null}"
-                     data-th-src="${'http://mvsenqskbqzl19010704.cdn.ntruss.com/member/' + session.loginUser.photo + '?type=f&w=30&h=40&faceopt=true&ttype=jpg'}"></a>
+                         data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.photo}|"></a>
             </div>
             <span style="margin-right: 40px" data-th-text="${session.loginUser.getNickName()}"></span>
             <a href="/member/logout"><button class="login-button">로그아웃</button></a>

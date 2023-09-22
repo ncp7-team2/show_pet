@@ -16,10 +16,10 @@
         <tr>
             <th style='width:120px;'>사진</th>
             <td style='width:300px;'>
-                <img data-th-unless="${member.photo}" style='height:80px' src='/images/avatar.jpeg'>
+                <img data-th-unless="${member.photo}" style="width:50px; height: 50px;" src='/images/avatar.jpeg' >
                 <a data-th-if="${member.photo}"
                    data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|">
-                    <img data-th-src="|http://guosqxeocfoi19010728.cdn.ntruss.com/member/${member.photo}?type=f&w=50&h=50&align=4&faceopt=true&quality=90&autorotate=true&anilimit=100&ttype=png|">
+                    <img data-th-src="|http://guosqxeocfoi19010728.cdn.ntruss.com/member2/${member.photo}?type=f&w=50&h=50&align=4&faceopt=true&quality=90&autorotate=true&anilimit=100&ttype=jpg|">
                 </a>
                 <input type='file' name='photofile'></td>
         </tr>
@@ -40,7 +40,7 @@
     <div>
         <button>변경</button>
         <button type='reset'>초기화</button>
-        <a href='../post/list'>뒤로가기</a>
+        <a href='../../post/list'>뒤로가기</a>
     </div>
 </form>
 

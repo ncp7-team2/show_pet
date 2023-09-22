@@ -188,70 +188,9 @@ public class PostController {
         return response;
     }
 
-    @GetMapping("/liked")
-    public String getLikedPosts(Model model, HttpSession session) throws Exception {
-        Member loginUser = (Member) session.getAttribute("loginUser");
-        if (loginUser == null) {
-            return "redirect:/member/form";
-        }
-        int memberId = loginUser.getId();
-        List<Post> posts = postService.getLikedPosts(memberId, session);
-        model.addAttribute("likedPosts", posts);
-        return "/post/likeList";
-    }
-
-    @PostMapping("/getLikeStatus")
-    @ResponseBody
-    public Map<Integer, Map<String, Object>> getLikeStatus(@RequestBody List<Integer> postIds, HttpSession session)
-        throws Exception {
-        System.out.println("좋아요 상태 정보 업데이트!");
-        Member loginUser = (Member) session.getAttribute("loginUser");
-        Map<Integer, Map<String, Object>> response = new HashMap<>();
-
-        if (loginUser != null) {
-            int memberId = loginUser.getId();
-
-            for (int postId : postIds) {
-                boolean isLiked = postService.isLiked(postId, memberId);
-                int likeCount = postService.getLikeCount(postId);
-
-                Map<String, Object> postStatus = new HashMap<>();
-                postStatus.put("isLiked", isLiked);
-                postStatus.put("likeCount", likeCount);
-
-                response.put(postId, postStatus);
-            }
-        }
-        return response;
-    }
-
-    @PostMapping("/{postId}/bookmark")
-    @ResponseBody
-    public Map<String, Object> postBookmark(@PathVariable int postId, HttpSession session)
-        throws Exception {
-        Map<String, Object> response = new HashMap<>();
-        Member loginUser = (Member) session.getAttribute("loginUser");
-        if (loginUser == null) {
-            response.put("status", "notLoggedIn");
-            return response;
-        }
-
-        int memberId = loginUser.getId();
-        boolean newIsBookmarked = postService.postBookmark(postId, memberId);
-        response.put("newIsBookmarked", newIsBookmarked);
-        return response;
-    }
-
-    @GetMapping("/bookmarked")
-    public String getBookmarkedPosts(Model model, HttpSession session) throws Exception {
-        Member loginUser = (Member) session.getAttribute("loginUser");
-        if (loginUser == null) {
-            return "redirect:/member/form";
-        }
-        int memberId = loginUser.getId();
-        List<Post> posts = postService.getBookmarkedPosts(memberId, session);
-        model.addAttribute("bookmarkedPosts", posts);
-        return "/post/bookmarkList";
+    @GetMapping("/myPosts/{id}")
+    public List<Post> getUserPosts(@PathVariable int id) {
+        return postService.getMyPosts(id);
     }
 
     @PostMapping("/getBookmarkStatus")

@@ -159,11 +159,11 @@ public class MemberController {
         model.addAttribute("list", memberService.list());
     }
 
-//    @GetMapping("{id}")
-//    public String myPage(@PathVariable int id, Model model) throws Exception {
-//        model.addAttribute("member", memberService.get(id));
-//        return "member/myPage";
-//    }
+    @GetMapping("myPage/{id}")
+    public String myPage(@PathVariable int id, Model model) throws Exception {
+        model.addAttribute("member", memberService.get(id));
+        return "member/myPage";
+    }
 
     @GetMapping("detail/{id}")
     public String detail(@PathVariable int id, Model model) throws Exception {
@@ -184,8 +184,7 @@ public class MemberController {
     @PostMapping("update")
     public String update(
             Member member,
-            MultipartFile photofile,
-            Model model) throws Exception {
+            MultipartFile photofile) throws Exception {
 
 
         if (photofile.getSize() > 0) {

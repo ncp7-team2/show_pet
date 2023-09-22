@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset='UTF-8'>
-  <title>ShowPet 게시글</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
-  <link rel="stylesheet" th:href="@{/css/header.css}"/>
-  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <meta charset='UTF-8'>
+    <title>ShowPet 게시글</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
 </head>
 <body>
 
@@ -31,29 +30,41 @@
 </div>
 
 <div data-th-each="post : ${list}">
-  <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
-    <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
-       data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-    <p data-th-text="${post.member.nickName}">닉네임</p>
-    <a data-th-href="@{'/member/detail/' + ${post.member.id}}">마이페이지</a>
-    <p data-th-text="${post.content}">테스트</p>
-    <p data-th-text="${post.hashTag}">테스트</p>
-    <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
-    <p>
-      <button class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
-        <img class="likeImage"
-             th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
-             th:id="${'likeImage-' + post.id}">
-      </button>
-      <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
-      <button class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
-              th:data-post-id="${post.id}">
-        <img class="bookmarkImage"
-             th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
-             th:id="${'bookmarkImage-' + post.id}">
-      </button>
-    </p>
-  </div>
+    <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
+        <!--회원 프로필 사진 -->
+        <div class="round-image">
+            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+                <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
+                     th:src="@{/images/avatar.png}"></a>
+            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+                <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
+                     data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
+        </div>
+        <!--회원 닉네임-->
+        <a data-th-href="@{'/member/myPage/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
+        <!--게시글 제목-->
+        <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
+           data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
+        <!--게시글 사진 -->
+        <div data-th-each="file : ${post.attachedFiles}">
+            <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
+        </div>
+        <!-- 게시글 내용 -->
+        <p data-th-text="${post.content}">내용</p>
+        <!-- 해시태그-->
+        <p data-th-text="${post.hashTag}">해시태그</p>
+        <!-- 글쓴 날짜-->
+        <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
+        <!--좋아요 -->
+        <p>
+            <button class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
+                <!-- 이미지에 id 속성 추가 -->
+                <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
+                     th:id="${'likeImage-' + post.id}">
+            </button>
+            <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
+        </p>
+    </div>
 </div>
 <script>
   $(document).ready(function () {
