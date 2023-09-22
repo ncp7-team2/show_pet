@@ -285,7 +285,29 @@
         COUNT(*)
         FROM bookmark_list
         WHERE
-        m.member_id = #{memberId}
+        post_id = #{postId} AND member_id = #{memberId}
+    </select>
+
+    <select id="findBookmarkedPosts" resultMap="postMap">
+        SELECT
+        p.post_id,
+        m.nickname,
+        m.member_id,
+        p.title,
+        p.content,
+        p.hashtag,
+        p.created_at,
+        f.file_id,
+        f.filepath
+        FROM
+        post p
+        JOIN bookmark_list b ON p.post_id = b.post_id
+        JOIN member m ON p.member_id = m.member_id
+        LEFT JOIN file f ON p.post_id = f.post_id
+        WHERE
+        b.member_id = #{memberId}
+        ORDER BY
+        p.post_id DESC
     </select>
 
 
