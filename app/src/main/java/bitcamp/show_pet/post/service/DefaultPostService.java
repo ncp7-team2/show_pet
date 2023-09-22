@@ -182,4 +182,10 @@ public class DefaultPostService implements PostService {
     public boolean isBookmarked(int postId, int memberId) {
         return postDao.isBookmarked(postId, memberId);
     }
+
+    @Transactional
+    @Override
+    public List<Post> getMyPosts(int memberId) {
+        return postDao.getMyPosts(memberId);
+    }
 }

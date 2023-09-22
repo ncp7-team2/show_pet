@@ -188,11 +188,6 @@ public class PostController {
         return response;
     }
 
-    @GetMapping("/myPosts/{id}")
-    public List<Post> getUserPosts(@PathVariable int id) {
-        return postService.getMyPosts(id);
-    }
-
     @PostMapping("/getBookmarkStatus")
     @ResponseBody
     public Map<Integer, Boolean> getBookmarkStatus(@RequestBody List<Integer> postIds, HttpSession session) {

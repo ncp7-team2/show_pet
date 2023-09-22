@@ -33,10 +33,10 @@
     <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
         <!--회원 프로필 사진 -->
         <div class="round-image">
-            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
                 <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
                      th:src="@{/images/avatar.png}"></a>
-            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
                 <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
                      data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
         </div>
@@ -67,7 +67,7 @@
     </div>
 </div>
 <script>
-  $(document).ready(function () {
+    $(document).ready(function () {
     $(".likeButton").click(function () {
       var postId = $(this).data("post-id");
       var isLiked = $(this).data("is-liked");

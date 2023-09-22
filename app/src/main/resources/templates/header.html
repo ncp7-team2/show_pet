@@ -23,9 +23,9 @@
         <a href="/member/join" data-th-if="${session.loginUser == null}"><button class="login-button">회원가입</button></a>
         <div  class="header-container" data-th-if="${session.loginUser != null}">
             <div class="round-image">
-                <a data-th-href="@{'/member/myPage/' + ${session.loginUser.getId()}}">
+                <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
                     <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.photo == null}" th:src="@{/images/avatar.png}"></a>
-                <a data-th-href="@{'/member/myPage/' + ${session.loginUser.getId()}}">
+                <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
                     <img data-th-if="${session.loginUser.photo != null}"
                          data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.photo}|"></a>
             </div>

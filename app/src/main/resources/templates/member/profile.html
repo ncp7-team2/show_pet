@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .round-image {
+            text-align: center;
+        }
+
+        .round-image img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .profile-edit {
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="myPage text-center">
+    <input type="hidden" name="id" data-th-value="${member.id}">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <!-- 프로필 사진 및 수정 버튼 -->
+            <div class="round-image">
+                <!-- 프로필 사진 -->
+                <a data-th-href="@{'/member/detail/' + ${member.id}}">
+                    <img style="width: 150px; height: 150px; object-fit: cover;" data-th-if="${member.photo == null}"
+                         th:src="@{/images/avatar.png}" class="img-fluid rounded-circle"></a>
+                <a data-th-href="@{'/member/detail/' + ${member.id}}">
+                    <img data-th-if="${member.photo != null}" style="width: 150px; height: 150px; object-fit: cover;"
+                         data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|"
+                         class="img-fluid rounded-circle"></a>
+            </div>
+
+            <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
+            <a data-th-if="${session.loginUser.id == member.id}" th:href="@{'/member/detail/' + ${member.id}}"
+               class="btn btn-primary btn-block mt-3">프로필 수정</a>
+
+            <div class="col-md-6 mx-auto">
+                <!-- 소개글 -->
+                <div>
+                    <p th:text="${member.intro}">intro</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 여기를 기준으로 나눠야할것-->
+
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-4 mb-4" th:each="post : ${myPosts}">
+                    <div class="card">
+                        <div th:if="${#lists.size(post.attachedFiles) > 0}">
+                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                 class="card-img-top" alt="...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/">메인으로</a>
+
+    <!-- 필요한 JavaScript 파일 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"/>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"/>
+    <script>
+    </script>
+</div>
+</body>

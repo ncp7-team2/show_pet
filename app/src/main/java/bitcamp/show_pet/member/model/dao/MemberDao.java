@@ -13,7 +13,7 @@ public interface MemberDao {
 
     List<Member> findAll();
 
-    Member findBy(int id);
+    Member findBy(int memberId);
 
     Member findByEmailAndPassword(
             @Param("email") String email,
