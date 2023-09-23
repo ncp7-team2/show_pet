@@ -17,6 +17,7 @@
                 <input type='search' id="search" name='search' class="search" placeholder='검색어를 입력해주세요.' value=''>
                 <button type="submit" class="search-button">검색</button>
             </div>
+<!--            <input type='hidden' name='category' value='${param.category}'>-->
         </form>
         <img class="alarm" data-th-if="${session.loginUser != null}" th:src="@{/images/alarm.png}">
         <a href="/member/form" data-th-if="${session.loginUser == null}"><button class="login-button">로그인</button></a>

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
     <meta charset='UTF-8'>
@@ -33,7 +34,8 @@
     <span th:text="${followingsCount}"></span>
 </div>
 
-<div data-th-each="post : ${list}">
+<!--th:if="${searchKeyword == null or post.title.contains(searchKeyword)}"-->
+<div data-th-each="post : ${list}" th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
     <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
         <!--회원 프로필 사진 -->
         <div class="round-image">

@@ -5,9 +5,11 @@ import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
 import bitcamp.show_pet.member.model.vo.Member;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +47,7 @@ public class PostController {
         for (MultipartFile part : files) {
             if (part.getSize() > 0) {
                 String uploadFileUrl = ncpObjectStorageService.uploadFile(
-                    "bitcamp-nc7-bucket-16", "post/", part);
+                        "bitcamp-nc7-bucket-16", "post/", part);
                 AttachedFile attachedFile = new AttachedFile();
                 attachedFile.setFilePath(uploadFileUrl);
                 attachedFiles.add(attachedFile);
@@ -75,31 +77,36 @@ public class PostController {
     }
 
     @GetMapping("list")
-    public void list(Model model, HttpSession session) throws Exception {
+    public void list(
+            @RequestParam(name = "search", required = false)
+            String searchKeyword,
+            Model model, HttpSession session) throws Exception {
         model.addAttribute("list", postService.list(session));
+        model.addAttribute("searchKeyword", searchKeyword);
+
     }
 
     @GetMapping("listEtc")
     public void listEtc(
-        Model model) throws Exception {
+            Model model) throws Exception {
         model.addAttribute("listEtc", postService.listEtc());
     }
 
     @GetMapping("listDog")
     public void listDog(
-        Model model) throws Exception {
+            Model model) throws Exception {
         model.addAttribute("listDog", postService.listDog());
     }
 
     @GetMapping("listCat")
     public void listCat(
-        Model model) throws Exception {
+            Model model) throws Exception {
         model.addAttribute("listCat", postService.listCat());
     }
 
     @GetMapping("listBird")
     public void listBird(
-        Model model) throws Exception {
+            Model model) throws Exception {
         model.addAttribute("listBird", postService.listBird());
     }
 
@@ -132,7 +139,7 @@ public class PostController {
         for (MultipartFile part : files) {
             if (part.getSize() > 0) {
                 String uploadFileUrl = ncpObjectStorageService.uploadFile(
-                    "bitcamp-nc7-bucket-16", "post/", part);
+                        "bitcamp-nc7-bucket-16", "post/", part);
                 AttachedFile attachedFile = new AttachedFile();
                 attachedFile.setFilePath(uploadFileUrl);
                 attachedFiles.add(attachedFile);
@@ -147,8 +154,8 @@ public class PostController {
 
     @GetMapping("fileDelete/{attachedFile}") // 예) .../fileDelete/attachedFile;no=30
     public String fileDelete(
-        @MatrixVariable("id") int id,
-        HttpSession session) throws Exception {
+            @MatrixVariable("id") int id,
+            HttpSession session) throws Exception {
 
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser == null) {
@@ -173,7 +180,7 @@ public class PostController {
     @PostMapping("/{postId}/like")
     @ResponseBody
     public Map<String, Object> postLike(@PathVariable int postId, HttpSession session)
-        throws Exception {
+            throws Exception {
         Map<String, Object> response = new HashMap<>();
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser == null) {
@@ -203,7 +210,7 @@ public class PostController {
     @PostMapping("/getLikeStatus")
     @ResponseBody
     public Map<Integer, Map<String, Object>> getLikeStatus(@RequestBody List<Integer> postIds, HttpSession session)
-        throws Exception {
+            throws Exception {
         System.out.println("좋아요 상태 정보 업데이트!");
         Member loginUser = (Member) session.getAttribute("loginUser");
         Map<Integer, Map<String, Object>> response = new HashMap<>();
@@ -228,7 +235,7 @@ public class PostController {
     @PostMapping("/{postId}/bookmark")
     @ResponseBody
     public Map<String, Object> postBookmark(@PathVariable int postId, HttpSession session)
-        throws Exception {
+            throws Exception {
         Map<String, Object> response = new HashMap<>();
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser == null) {
