@@ -29,12 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -151,7 +145,6 @@ public class MemberController {
 
   }
 
-
   // 회원가입
   @PostMapping("add")
   public String add(Member member) throws Exception {
@@ -178,14 +171,43 @@ public class MemberController {
     model.addAttribute("list", memberService.list());
   }
 
-    @GetMapping("profile/{memberId}")
-    public String viewProfile(@PathVariable int memberId, Model model) throws Exception {
-
-        List<Post> myPosts = postService.getMyPosts(memberId);
-        model.addAttribute("member", memberService.get(memberId));
-        model.addAttribute("myPosts", postService.getMyPosts(memberId));
-        return "member/profile";
+  @GetMapping("profile/{memberId}")
+  public String viewProfile(@PathVariable int memberId, Model model, HttpSession session)
+      throws Exception {
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      return "redirect:/member/form";
     }
+    List<Post> likedPosts;
+    List<Post> bookmarkedPosts;
+    List<Member> followersList;
+    List<Member> followingsList;
+
+    if (loginUser.getId() == memberId) {
+      likedPosts = postService.getLikedPosts(loginUser.getId(), session);
+      bookmarkedPosts = postService.getBookmarkedPosts(loginUser.getId(), session);
+      followersList = memberService.getFollowers(loginUser.getId());
+      followingsList = memberService.getFollowings(loginUser.getId());
+    } else {
+      likedPosts = postService.getLikedPosts(memberId, session);
+      bookmarkedPosts = postService.getBookmarkedPosts(memberId, session);
+      followersList = memberService.getFollowers(memberId);
+      followingsList = memberService.getFollowings(memberId);
+    }
+
+    model.addAttribute("followersList", followersList);
+    model.addAttribute("followerCount", followersList.size());
+    model.addAttribute("followingsList", followingsList);
+    model.addAttribute("followingsCount", followingsList.size());
+
+    List<Post> myPosts = postService.getMyPosts(memberId);
+    model.addAttribute("member", memberService.get(memberId));
+    model.addAttribute("myPosts", myPosts);
+    model.addAttribute("likedPosts", likedPosts);
+    model.addAttribute("bookmarkedPosts", bookmarkedPosts);
+
+    return "member/profile";
+  }
 
   @GetMapping("detail/{id}")
   public String detail(@PathVariable int id, Model model) throws Exception {
@@ -249,30 +271,6 @@ public class MemberController {
       }
     }
     return response;
-  }
-
-  @GetMapping("/followers")
-  public String followers(HttpSession session, Model model) throws Exception {
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      return "redirect:/member/form";
-    }
-    List<Member> followersList = memberService.getFollowers(loginUser.getId());
-    model.addAttribute("followersList", followersList);
-    model.addAttribute("followerCount", followersList.size());
-    return "member/followers";
-  }
-
-  @GetMapping("/followings")
-  public String followings(HttpSession session, Model model) throws Exception {
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      return "redirect:/member/form";
-    }
-    List<Member> followingsList = memberService.getFollowings(loginUser.getId());
-    model.addAttribute("followingsList", followingsList);
-    model.addAttribute("followingsCount", followingsList.size()); // 팔로잉 숫자 추가
-    return "member/followings";
   }
 }
 
