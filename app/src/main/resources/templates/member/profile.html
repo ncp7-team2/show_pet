@@ -11,15 +11,27 @@
         }
 
         .round-image img {
-            width: 50px;
-            height: 50px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .profile-edit {
             margin-top: 10px;
             display: block;
             text-align: center;
+        }
+
+        /* 버튼 색상 변경 */
+        .btn.btn-primary {
+            background-color: #f05400;
+            color: white;
+        }
+
+        .btn.btn-primary:hover {
+            background-color: #e04000;
+            color: white;
         }
     </style>
 </head>
@@ -44,134 +56,149 @@
             <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
             <a data-th-if="${session.loginUser.id == member.id}" th:href="@{'/member/detail/' + ${member.id}}"
                class="btn btn-primary btn-block mt-3">프로필 수정</a>
+        </div>
+    </div>
 
-            <div class="col-md-6 mx-auto">
-                <!-- 소개글 -->
-                <div>
-                    <div>
-                        <p th:text="${member.intro}">intro</p>
-                        <div class="profile-align">
-                            <p>팔로워 수: <span class="profile-count" th:text="${followerCount}" onclick="openFollowerModal()"></span></p>
-                            <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}" onclick="openFollowingModal()"></span></p>
-                        </div>
-                        <div class="profile-align2">
-                            <p class="profile-count" onclick="openLikeModal()">좋아요</p>
-                            <p class="profile-count" onclick="openBookmarkModal()">북마크</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="container my-5">
+        <div>
+            <p th:text="${member.intro}">intro</p>
+            <p>팔로워 수: <span class="profile-count" th:text="${followerCount}" onclick="openFollowerModal()"></span></p>
+            <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}" onclick="openFollowingModal()"></span></p>
+        </div>
 
-                <!--팔로워 모달창-->
-                <div id="followerModal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeFollowerModal()">&times;</span>
-                        <h2>팔로워 목록</h2>
-                        <ul id="followerList">
-                            <!-- 팔로워 이름들이 여기에 추가됩니다. -->
-                            <li th:each="follower : ${followersList}">
-                                <span th:text="${follower.nickName}"></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!--팔로잉 모달창-->
-                <div id="followingModal" class="modal" style="display: none;">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeFollowingModal()">&times;</span>
-                        <h2>팔로잉 목록</h2>
-                        <ul id="followingList">
-                            <!-- 팔로잉 이름들이 여기에 추가됩니다. -->
-                            <li th:each="following : ${followingsList}">
-                                <span th:text="${following.nickName}"></span>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-
-                <!--테스트용 좋아요 모달창 스크롤 기능 구현되면 없애겠습니다!-->
-<!--                <div id="likeModal" class="modal" style="display: none;">-->
-<!--                    <div class="modal-content">-->
-<!--                        <span class="close" onclick="closeLikeModal()">&times;</span>-->
-<!--                        <h2>좋아요 목록</h2>-->
-<!--                        <ul id="likeList">-->
-<!--                            &lt;!&ndash; 좋아요한 게시물 제목들이 여기에 추가됩니다. &ndash;&gt;-->
-<!--                            <li th:each="post : ${likedPosts}">-->
-<!--                                <span th:text="${post.title}"></span>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <script th:src="@{/js/Follower.js}"></script>
-                <script th:src="@{/js/Following.js}"></script>
-                <script th:src="@{/js/like.js}"></script>
+        <!-- 팔로워 목록 모달창 -->
+        <div id="followerModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeFollowerModal()">&times;</span>
+                <h2>팔로워 목록</h2>
+                <ul id="followerList">
+                    <!-- 팔로워 이름들이 여기에 추가됩니다. -->
+                    <li th:each="follower : ${followersList}">
+                        <span th:text="${follower.nickName}"></span>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <!-- 여기를 기준으로 나눠야할것-->
-
-        <div class="container my-5">
-            <!-- 내 게시물 -->
-            <div id="myPosts" class="post-list">
-                <div class="row">
-                    <div class="col-md-4 mb-4" th:each="post : ${myPosts}">
-                        <div class="card">
-                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
-                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                     class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- 팔로잉 목록 모달창 -->
+        <div id="followingModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeFollowingModal()">&times;</span>
+                <h2>팔로잉 목록</h2>
+                <ul id="followingList">
+                    <!-- 팔로잉 이름들이 여기에 추가됩니다. -->
+                    <li th:each="following : ${followingsList}">
+                        <span th:text="${following.nickName}"></span>
+                    </li>
+                </ul>
             </div>
+        </div>
 
-            <!-- 좋아요한 게시물 -->
-            <div id="likedPosts" class="post-list" style='display:none;'>
-                <div class="row">
-                    <div class="col-md-4 mb-4" th:each="post : ${likedPosts}">
-                        <div class="card">
-                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
-                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                     class="card-img-top" alt="...">
-                            </div>
-                        </div>
+        <div class="button-container">
+            <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
+            <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
+            <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
+        </div>
+
+        <div id="myPosts" class="post-list">
+            <div class="row">
+                <!-- 내 게시물 -->
+                <th:block th:each="post : ${myPosts}">
+                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
+                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                 class="card-img-top" alt="...">
+                        </a>
                     </div>
-                </div>
+                </th:block>
             </div>
+        </div>
 
+        <div id="likedPosts" class="post-list" style='display:none;'>
+            <div class="row">
+                <!-- 좋아요한 게시물 -->
+                <th:block th:each="post : ${likedPosts}">
+                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
+                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                 class="card-img-top" alt="...">
+                        </a>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+        <div id='bookmarkedPosts' class="post-list" style='display:none;'>
+            <div class="row">
                 <!-- 북마크한 게시물 -->
-                <div id='bookmarkedPosts' style='display:none;'>
-                    <!-- 북마크 한게 없으면 아래 div가 안보이도록 설정-->
-                    ...
-                    <!-- 북마크 한게 있으면 보이도록 설정-->
-                    ...
-                    <!-- 포스트 리스트를 가져와서 보여주기-->
-                    ...
-                    <th:block th:each= "b_post : ${bookMarkedPosts}">
-                        <div class="card">
-                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
-                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                     class="card-img-top" alt="...">
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
-
+                <th:block th:each="post : ${bookMarkedPosts}">
+                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
+                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                 class="card-img-top" alt="...">
+                        </a>
+                    </div>
+                </th:block>
             </div>
+        </div>
     </div>
 
-
-
-
-    <a href="/">메인으로</a>
-
     <!-- 필요한 JavaScript 파일 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"/>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"/>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
+        const myPostsButton = document.getElementById('myPostsButton');
+        const likedPostsButton = document.getElementById('likedPostsButton');
+        const bookmarkedPostsButton = document.getElementById('bookmarkedPostsButton');
+
+        const myPosts = document.getElementById('myPosts');
+        const likedPosts = document.getElementById('likedPosts');
+        const bookmarkedPosts = document.getElementById('bookmarkedPosts');
+
+        myPostsButton.addEventListener('click', () => {
+            myPosts.style.display = 'block';
+            likedPosts.style.display = 'none';
+            bookmarkedPosts.style.display = 'none';
+        });
+
+        likedPostsButton.addEventListener('click', () => {
+            myPosts.style.display = 'none';
+            likedPosts.style.display = 'block';
+            bookmarkedPosts.style.display = 'none';
+        });
+
+        bookmarkedPostsButton.addEventListener('click', () => {
+            myPosts.style.display = 'none';
+            likedPosts.style.display = 'none';
+            bookmarkedPosts.style.display = 'block';
+        });
+
+        // 팔로워 목록 모달창 열기
+        function openFollowerModal() {
+            var modal = document.getElementById("followerModal");
+            modal.style.display = "block";
+        }
+
+        // 팔로워 목록 모달창 닫기
+        function closeFollowerModal() {
+            var modal = document.getElementById("followerModal");
+            modal.style.display = "none";
+        }
+
+        // 팔로잉 목록 모달창 열기
+        function openFollowingModal() {
+            var modal = document.getElementById("followingModal");
+            modal.style.display = "block";
+        }
+
+        // 팔로잉 목록 모달창 닫기
+        function closeFollowingModal() {
+            var modal = document.getElementById("followingModal");
+            modal.style.display = "none";
+        }
     </script>
 </div>
 </body>
+</html>
