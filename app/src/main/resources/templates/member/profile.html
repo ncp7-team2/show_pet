@@ -47,6 +47,8 @@
                 <!-- 소개글 -->
                 <div>
                     <p th:text="${member.intro}">intro</p>
+                    <p>팔로워 수: <span th:text="${followerCount}"></span></p>
+                    <p>팔로잉 수: <span th:text="${followingsCount}"></span></p>
                 </div>
             </div>
         </div>

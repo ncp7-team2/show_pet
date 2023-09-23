@@ -58,6 +58,9 @@ public class MemberController {
   @Autowired
   NcpObjectStorageService ncpObjectStorageService;
 
+  @Autowired
+  PostService postService;
+
   @GetMapping("form")
   public void form(@CookieValue(required = false) String email, Model model) {
     model.addAttribute("email", email);
