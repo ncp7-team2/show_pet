@@ -9,15 +9,31 @@ body {
     color: #000000; /* 링크 색상을 원하는 색상으로 지정 */
     text-decoration: none; /* 밑줄 제거 */
 }
+
 .header-container {
+    position: fixed; /* 헤더를 고정 위치로 설정 */
+    top: 0; /* 페이지 상단에 고정 */
+    /*left: 0;*/
+    /*right: 0; !* 페이지 너비에 맞춤 *!*/
     background-color: #ffffff;
     color: #000000;
-    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    /* 필요한 다른 스타일링을 추가할 수 있습니다. */
+}
+
+.fix-container {
+    background-color: #ffffff;
+    color: #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 120px;
-
+    height: 50px;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    /* 필요한 다른 스타일링을 추가할 수 있습니다. */
 }
 
 /* 로고 스타일링 */

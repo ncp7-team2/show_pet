@@ -3,6 +3,8 @@
 <head>
     <title>마이페이지</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/modal.css}"/>
+    <link rel="stylesheet" th:href="@{/css/profile.css}"/>
     <style>
         .round-image {
             text-align: center;
@@ -48,33 +50,63 @@
                 <div>
                     <div>
                         <p th:text="${member.intro}">intro</p>
-                        <p>팔로워 수: <span th:text="${followerCount}"></span></p>
-                        <ul>
+                        <div class="profile-align">
+                            <p>팔로워 수: <span class="profile-count" th:text="${followerCount}" onclick="openFollowerModal()"></span></p>
+                            <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}" onclick="openFollowingModal()"></span></p>
+                        </div>
+                        <div class="profile-align2">
+                            <p class="profile-count" onclick="openLikeModal()">좋아요</p>
+                            <p class="profile-count" onclick="openBookmarkModal()">북마크</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--팔로워 모달창-->
+                <div id="followerModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeFollowerModal()">&times;</span>
+                        <h2>팔로워 목록</h2>
+                        <ul id="followerList">
+                            <!-- 팔로워 이름들이 여기에 추가됩니다. -->
                             <li th:each="follower : ${followersList}">
                                 <span th:text="${follower.nickName}"></span>
                             </li>
                         </ul>
-                        <p>팔로잉 수: <span th:text="${followingsCount}"></span></p>
-                        <ul>
+                    </div>
+                </div>
+
+                <!--팔로잉 모달창-->
+                <div id="followingModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeFollowingModal()">&times;</span>
+                        <h2>팔로잉 목록</h2>
+                        <ul id="followingList">
+                            <!-- 팔로잉 이름들이 여기에 추가됩니다. -->
                             <li th:each="following : ${followingsList}">
                                 <span th:text="${following.nickName}"></span>
                             </li>
-                        </ul>
-                        <!-- 좋아요 리스트 -->
-                        <p>좋아요:</p>
-                        <ul>
-                            <li th:each="post : ${likedPosts}">
-                                <span th:text="${post.title}"></span>
-                            </li>
-                        </ul>
-                        <p>북마크:</p>
-                        <ul>
-                            <li th:each="post : ${bookmarkedPosts}">
-                                <span th:text="${post.title}"></span>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
+
+                <!--테스트용 좋아요 모달창 스크롤 기능 구현되면 없애겠습니다!-->
+<!--                <div id="likeModal" class="modal" style="display: none;">-->
+<!--                    <div class="modal-content">-->
+<!--                        <span class="close" onclick="closeLikeModal()">&times;</span>-->
+<!--                        <h2>좋아요 목록</h2>-->
+<!--                        <ul id="likeList">-->
+<!--                            &lt;!&ndash; 좋아요한 게시물 제목들이 여기에 추가됩니다. &ndash;&gt;-->
+<!--                            <li th:each="post : ${likedPosts}">-->
+<!--                                <span th:text="${post.title}"></span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <script th:src="@{/js/Follower.js}"></script>
+                <script th:src="@{/js/Following.js}"></script>
+                <script th:src="@{/js/like.js}"></script>
             </div>
         </div>
 
@@ -129,6 +161,9 @@
 
             </div>
     </div>
+
+
+
 
     <a href="/">메인으로</a>
 

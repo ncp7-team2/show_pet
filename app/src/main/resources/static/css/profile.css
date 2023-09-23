@@ -1,0 +1,16 @@
+.profile-align {
+    display: flex; /* 내부 요소를 가로로 나란히 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 내부 요소 사이에 공간 배분 */
+}
+.profile-align2 {
+    display: flex; /* 내부 요소를 가로로 나란히 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: space-between; /* 내부 요소 사이에 공간 배분 */
+}
+
+.profile-count{
+    margin-right: 10px; /* 각 요소 사이에 오른쪽 여백 추가 */
+    cursor: pointer; /* 커서를 포인터로 설정 */
+}
+
