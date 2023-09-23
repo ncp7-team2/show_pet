@@ -29,4 +29,6 @@ public interface PostService {
     boolean postBookmark(int postId, int memberId) throws Exception;
     Post setSessionStatus(int id, HttpSession session) throws Exception;
     boolean isBookmarked(int postId, int memberId);
+
+    List<Post> getMyPosts(int memberId);
 }

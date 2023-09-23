@@ -7,10 +7,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class DefaultMemberService implements MemberService {
 
-  MemberDao memberDao;
+    MemberDao memberDao;
 
   public DefaultMemberService(MemberDao memberDao) {
     this.memberDao = memberDao;

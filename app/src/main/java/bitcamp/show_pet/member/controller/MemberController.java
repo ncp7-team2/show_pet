@@ -7,6 +7,8 @@ import bitcamp.show_pet.mail.EmailService;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.member.model.vo.Role;
 import bitcamp.show_pet.member.service.MemberService;
+import bitcamp.show_pet.post.model.vo.Post;
+import bitcamp.show_pet.post.service.PostService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/member")
@@ -167,11 +175,14 @@ public class MemberController {
     model.addAttribute("list", memberService.list());
   }
 
-  @GetMapping("myPage/{id}")
-  public String myPage(@PathVariable int id, Model model) throws Exception {
-    model.addAttribute("member", memberService.get(id));
-    return "member/myPage";
-  }
+    @GetMapping("profile/{memberId}")
+    public String viewProfile(@PathVariable int memberId, Model model) throws Exception {
+
+        List<Post> myPosts = postService.getMyPosts(memberId);
+        model.addAttribute("member", memberService.get(memberId));
+        model.addAttribute("myPosts", postService.getMyPosts(memberId));
+        return "member/profile";
+    }
 
   @GetMapping("detail/{id}")
   public String detail(@PathVariable int id, Model model) throws Exception {
@@ -179,15 +190,6 @@ public class MemberController {
     return "member/detail";
   }
 
-//    @GetMapping("profile/{id}")
-//    public void profile(@PathVariable int id, Model model) throws Exception {
-//        Member member = memberService.get(id);
-//        if (member != null) {
-//            model.addAttribute("member", member);
-//        } else {
-//            throw new Exception("회원이 없습니다.");
-//        }
-//    }
 
   @PostMapping("update")
   public String update(
