@@ -1,13 +1,13 @@
 /* 헤더 컨테이너 스타일링 */
 body {
-    font-family: Arial, sans-serif;
-    padding: 0;
+    font-family: Arial, sans-serif ;
+    padding: 0 ;
 
 }
 
 .logo-link {
-    color: #000000; /* 링크 색상을 원하는 색상으로 지정 */
-    text-decoration: none; /* 밑줄 제거 */
+    color: #000000 !important; /* 링크 색상을 원하는 색상으로 지정 */
+    text-decoration: none !important;; /* 밑줄 제거 */
 }
 
 .header-container {
@@ -93,6 +93,7 @@ body {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 16px;
+    font-size: 16px !important;
 }
 
 /* 버튼에 호버 효과 추가 */

@@ -59,11 +59,11 @@ h2 {
     text-align: center;
 }
 
-.round-image {
+.member-round-image {
     text-align: center;
 }
 
-.round-image img {
+.member-round-image img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -81,7 +81,14 @@ h2 {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
+.btn.btn-primary {
+    background-color: #f05400;
+    color: white;
+}
+.btn.btn-primary:hover {
+    background-color: #e04000;
+    color: white;
+}
 .post-list {
     margin-top: 20px;
 }

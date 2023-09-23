@@ -1,52 +1,3 @@
-// JS (profile.js)
-function openFollowerModal() {
-  var modal = document.getElementById("followerModal");
-  modal.style.display = "block";
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-}
-
-function closeFollowerModal() {
-  var modal = document.getElementById("followerModal");
-  modal.style.display = "none";
-}
-
-function openFollowingModal() {
-  var modal = document.getElementById("followingModal");
-  modal.style.display = "block";
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-}
-
-function closeFollowingModal() {
-  var modal = document.getElementById("followingModal");
-  modal.style.display = "none";
-}
-
-function openLikeModal() {
-  var modal = document.getElementById("likeModal");
-  modal.style.display = "block";
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-}
-
-function closeLikeModal() {
-  var modal = document.getElementById("likeModal");
-  modal.style.display = "none";
-}
-
 const myPostsButton = document.getElementById('myPostsButton');
 const likedPostsButton = document.getElementById('likedPostsButton');
 const bookmarkedPostsButton = document.getElementById('bookmarkedPostsButton');
@@ -72,3 +23,27 @@ bookmarkedPostsButton.addEventListener('click', () => {
   likedPosts.style.display = 'none';
   bookmarkedPosts.style.display = 'block';
 });
+
+// 팔로워 목록 모달창 열기
+function openFollowerModal() {
+  var modal = document.getElementById("followerModal");
+  modal.style.display = "block";
+}
+
+// 팔로워 목록 모달창 닫기
+function closeFollowerModal() {
+  var modal = document.getElementById("followerModal");
+  modal.style.display = "none";
+}
+
+// 팔로잉 목록 모달창 열기
+function openFollowingModal() {
+  var modal = document.getElementById("followingModal");
+  modal.style.display = "block";
+}
+
+// 팔로잉 목록 모달창 닫기
+function closeFollowingModal() {
+  var modal = document.getElementById("followingModal");
+  modal.style.display = "none";
+}
