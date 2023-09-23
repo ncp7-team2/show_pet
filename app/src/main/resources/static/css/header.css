@@ -4,7 +4,11 @@ body {
     padding: 0;
 
 }
-
+/* 로고 링크 스타일 */
+.logo-link {
+    color: #000000; /* 링크 색상을 원하는 색상으로 지정 */
+    text-decoration: none; /* 밑줄 제거 */
+}
 
 .header-container {
     background-color: #ffffff;

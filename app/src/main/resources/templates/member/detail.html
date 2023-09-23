@@ -33,10 +33,9 @@
             </div>
             <script th:src="@{/js/PreviewImage.js}"></script>
         </div>
-        <span class="intro-box" th:text="${member.intro}"></span>
         <label class="intro-text" for="myTextarea">소개글</label>
-        <textarea class="text-box" id="myTextarea" name="intro" data-th-value="${member.intro}"
-                  placeholder="최대 글자수는 띄어쓰기 포함 50자로 제한됩니다"></textarea>
+        <textarea class="text-box" id="myTextarea" name="intro" data-th-value="${member.intro}" th:text="${member.intro}"
+        placeholder="최대 글자수는 50자로 제한됩니다"></textarea>
         <script th:src="@{/js/TextArea.js}"></script>
         <br>
         <label class="text" for="password">비밀번호</label>
