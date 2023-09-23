@@ -88,38 +88,26 @@ public class PostController {
 
     @GetMapping("listEtc")
     public void listEtc(
-            @RequestParam(name = "search", required = false)
-            String searchKeyword,
             Model model) throws Exception {
         model.addAttribute("listEtc", postService.listEtc());
-        model.addAttribute("searchKeyword", searchKeyword);
     }
 
     @GetMapping("listDog")
     public void listDog(
-            @RequestParam(name = "search", required = false)
-            String searchKeyword,
             Model model) throws Exception {
         model.addAttribute("listDog", postService.listDog());
-        model.addAttribute("searchKeyword", searchKeyword);
     }
 
     @GetMapping("listCat")
     public void listCat(
-            @RequestParam(name = "search", required = false)
-            String searchKeyword,
             Model model) throws Exception {
         model.addAttribute("listCat", postService.listCat());
-        model.addAttribute("searchKeyword", searchKeyword);
     }
 
     @GetMapping("listBird")
     public void listBird(
-            @RequestParam(name = "search", required = false)
-            String searchKeyword,
             Model model) throws Exception {
         model.addAttribute("listBird", postService.listBird());
-        model.addAttribute("searchKeyword", searchKeyword);
     }
 
     @GetMapping("detail/{category}/{id}")

@@ -81,17 +81,53 @@
         <!-- 여기를 기준으로 나눠야할것-->
 
         <div class="container my-5">
-            <div class="row">
-                <div class="col-md-4 mb-4" th:each="post : ${myPosts}">
-                    <div class="card">
-                        <div th:if="${#lists.size(post.attachedFiles) > 0}">
-                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                 class="card-img-top" alt="...">
+            <!-- 내 게시물 -->
+            <div id="myPosts" class="post-list">
+                <div class="row">
+                    <div class="col-md-4 mb-4" th:each="post : ${myPosts}">
+                        <div class="card">
+                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
+                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                     class="card-img-top" alt="...">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- 좋아요한 게시물 -->
+            <div id="likedPosts" class="post-list" style='display:none;'>
+                <div class="row">
+                    <div class="col-md-4 mb-4" th:each="post : ${likedPosts}">
+                        <div class="card">
+                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
+                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                     class="card-img-top" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- 북마크한 게시물 -->
+                <div id='bookmarkedPosts' style='display:none;'>
+                    <!-- 북마크 한게 없으면 아래 div가 안보이도록 설정-->
+                    ...
+                    <!-- 북마크 한게 있으면 보이도록 설정-->
+                    ...
+                    <!-- 포스트 리스트를 가져와서 보여주기-->
+                    ...
+                    <th:block th:each= "b_post : ${bookmarkedPost}">
+                        <div class="card">
+                            <div th:if="${#lists.size(post.attachedFiles) > 0}">
+                                <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                                     class="card-img-top" alt="...">
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+            </div>
     </div>
 
     <a href="/">메인으로</a>

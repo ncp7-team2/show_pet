@@ -262,7 +262,7 @@
         post_id = #{postId}
     </select>
 
-    <select id="findLikedPosts" resultMap="postMap">
+    <select id="getLikedPosts" resultMap="postMap">
         SELECT
         p.post_id,
         m.nickname,
@@ -307,7 +307,7 @@
         post_id = #{postId} AND member_id = #{memberId}
     </select>
 
-    <select id="findBookmarkedPosts" resultMap="postMap">
+    <select id="getBookmarkedPosts" resultMap="postMap">
         SELECT
         p.post_id,
         m.nickname,

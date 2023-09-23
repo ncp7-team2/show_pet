@@ -29,13 +29,13 @@ public interface PostDao {
     int deleteLike(@Param("postId") int postId, @Param("memberId") int memberId);
     boolean isLiked(@Param("postId") int postId, @Param("memberId") int memberId);
     int getLikeCount(int postId);
-    List<Post> findLikedPosts(int memberId);
+    List<Post> getLikedPosts(int memberId);
 
     int deleteBookmarks(int postId);
     int insertBookmark(@Param("postId") int postId, @Param("memberId") int memberId);
     int deleteBookmark(@Param("postId") int postId, @Param("memberId") int memberId);
     boolean isBookmarked(@Param("postId") int postId, @Param("memberId") int memberId);
-    List<Post> findBookmarkedPosts(int memberId);
+    List<Post> getBookmarkedPosts(int memberId);
     List<Post> getMyPosts(int memberId);
 
 }

@@ -4,6 +4,8 @@ import bitcamp.show_pet.member.model.dao.MemberDao;
 import bitcamp.show_pet.member.model.vo.Member;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+
+import bitcamp.show_pet.post.model.vo.Post;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,5 +94,4 @@ public class DefaultMemberService implements MemberService {
   public List<Member> getFollowings(int memberId) throws Exception {
     return memberDao.getFollowings(memberId);
   }
-
 }

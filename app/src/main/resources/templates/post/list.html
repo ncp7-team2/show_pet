@@ -152,6 +152,9 @@
   <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
   <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
   <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
+
+  <button class="button" type="button" onclick="location.href='/post/bookmarked'"><img src="/images/bookmark_on.png">내 북마크</button>
+  <button class="button" type="button" onclick="location.href='/post/liked'"><img src="/images/like_on.png">내 좋아요</button>
 </div>
 
 <div data-th-each="post : ${list}" th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
@@ -192,7 +195,7 @@
             <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
               <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
                    th:src="@{/images/avatar.png}"></a>
-            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
               <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
                    data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
           </div>

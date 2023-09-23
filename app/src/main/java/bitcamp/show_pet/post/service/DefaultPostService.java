@@ -123,7 +123,7 @@ public class DefaultPostService implements PostService {
     @Override
     public List<Post> getLikedPosts(int memberId, HttpSession session) {
         Member loginUser = (Member) session.getAttribute("loginUser");
-        List<Post> posts = postDao.findLikedPosts(memberId);
+        List<Post> posts = postDao.getLikedPosts(memberId);
         if (loginUser != null) {
             int loggedInUserId = loginUser.getId();
             for (Post post : posts) {
@@ -148,7 +148,7 @@ public class DefaultPostService implements PostService {
     @Override
     public List<Post> getBookmarkedPosts(int memberId, HttpSession session) {
         Member loginUser = (Member) session.getAttribute("loginUser");
-        List<Post> posts = postDao.findBookmarkedPosts(memberId);
+        List<Post> posts = postDao.getBookmarkedPosts(memberId);
         if (loginUser != null) {
             int loggedInUserId = loginUser.getId();
             for (Post post : posts) {
