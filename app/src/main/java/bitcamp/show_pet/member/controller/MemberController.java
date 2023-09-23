@@ -178,8 +178,34 @@ public class MemberController {
     model.addAttribute("list", memberService.list());
   }
 
-    @GetMapping("profile/{memberId}")
-    public String viewProfile(@PathVariable int memberId, Model model,HttpSession session) throws Exception {
+  @GetMapping("profile/{memberId}")
+  public String viewProfile(@PathVariable int memberId, Model model, HttpSession session)
+      throws Exception {
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      return "redirect:/member/form";
+    }
+    List<Post> likedPosts;
+    List<Post> bookmarkedPosts;
+    List<Member> followersList;
+    List<Member> followingsList;
+
+    if (loginUser.getId() == memberId) {
+      likedPosts = postService.getLikedPosts(loginUser.getId(), session);
+      bookmarkedPosts = postService.getBookmarkedPosts(loginUser.getId(), session);
+      followersList = memberService.getFollowers(loginUser.getId());
+      followingsList = memberService.getFollowings(loginUser.getId());
+    } else {
+      likedPosts = postService.getLikedPosts(memberId, session);
+      bookmarkedPosts = postService.getBookmarkedPosts(memberId, session);
+      followersList = memberService.getFollowers(memberId);
+      followingsList = memberService.getFollowings(memberId);
+    }
+
+    model.addAttribute("followersList", followersList);
+    model.addAttribute("followerCount", followersList.size());
+    model.addAttribute("followingsList", followingsList);
+    model.addAttribute("followingsCount", followingsList.size());
 
         model.addAttribute("member", memberService.get(memberId));
         model.addAttribute("myPosts", postService.getMyPosts(memberId));
