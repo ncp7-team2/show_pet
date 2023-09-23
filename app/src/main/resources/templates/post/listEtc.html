@@ -3,6 +3,15 @@
 <head>
     <meta charset='UTF-8'>
     <title>ShowPet 게시글</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
 </head>
 <body>
 
@@ -16,7 +25,7 @@
     <a href='/post/listBird'>새</a>
     <a href='/post/listEtc'>기타</a>
 </div>
-<div data-th-each="post : ${listEtc}">
+<div data-th-each="post : ${listEtc}" th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
     <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
         <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
            data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
