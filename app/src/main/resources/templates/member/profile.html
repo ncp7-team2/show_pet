@@ -117,7 +117,7 @@
                     ...
                     <!-- 포스트 리스트를 가져와서 보여주기-->
                     ...
-                    <th:block th:each= "b_post : ${bookmarkedPost}">
+                    <th:block th:each= "b_post : ${bookMarkedPosts}">
                         <div class="card">
                             <div th:if="${#lists.size(post.attachedFiles) > 0}">
                                 <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"

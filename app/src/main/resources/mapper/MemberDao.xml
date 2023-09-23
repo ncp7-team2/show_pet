@@ -14,11 +14,12 @@
         <result column="photo"          property="photo"/>
         <result column="intro"          property="intro"/>
         <result column="category"       property="category"/>
+        <result column="tel"            property="tel"/>
     </resultMap>
 
     <insert id="insert" parameterType="member">
-        insert into member (email, password, nickname, category)
-        values(#{email}, sha1(#{password}), #{nickName}, #{category})
+        insert into member (email, password, nickname, category, tel)
+        values(#{email}, sha1(#{password}), #{nickName}, #{category}, #{tel})
     </insert>
 
     <select id="findAll" resultMap="memberMap">
@@ -30,7 +31,8 @@
             nickname,
             photo,
             intro,
-            category
+            category,
+            tel
         from
             member
         order by
@@ -46,7 +48,8 @@
             nickname,
             photo,
             intro,
-            category
+            category,
+            tel
         from
             member
         where
@@ -72,6 +75,7 @@
             <if test="photo != null">
                 ,photo=#{photo}
             </if>
+            ,tel=#{tel}
         where
             member_id=#{id}
     </update>
