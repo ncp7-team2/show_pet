@@ -46,9 +46,34 @@
             <div class="col-md-6 mx-auto">
                 <!-- 소개글 -->
                 <div>
-                    <p th:text="${member.intro}">intro</p>
-                    <p>팔로워 수: <span th:text="${followerCount}"></span></p>
-                    <p>팔로잉 수: <span th:text="${followingsCount}"></span></p>
+                    <div>
+                        <p th:text="${member.intro}">intro</p>
+                        <p>팔로워 수: <span th:text="${followerCount}"></span></p>
+                        <ul>
+                            <li th:each="follower : ${followersList}">
+                                <span th:text="${follower.nickName}"></span>
+                            </li>
+                        </ul>
+                        <p>팔로잉 수: <span th:text="${followingsCount}"></span></p>
+                        <ul>
+                            <li th:each="following : ${followingsList}">
+                                <span th:text="${following.nickName}"></span>
+                            </li>
+                        </ul>
+                        <!-- 좋아요 리스트 -->
+                        <p>좋아요:</p>
+                        <ul>
+                            <li th:each="post : ${likedPosts}">
+                                <span th:text="${post.title}"></span>
+                            </li>
+                        </ul>
+                        <p>북마크:</p>
+                        <ul>
+                            <li th:each="post : ${bookmarkedPosts}">
+                                <span th:text="${post.title}"></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
