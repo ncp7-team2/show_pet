@@ -22,6 +22,7 @@ public class Member implements Serializable {
     private String nickName;
     private String photo;
     private String intro;
+    private String tel;
     private int category;
 
     private boolean isFollowed;
@@ -37,6 +38,13 @@ public class Member implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ", photo='" + photo + '\'' +
+                ", intro='" + intro + '\'' +
+                ", tel='" + tel + '\'' +
+                ", category=" + category +
+                ", isFollowed=" + isFollowed +
+                ", followers=" + followers +
+                ", followings=" + followings +
                 '}';
     }
 
@@ -151,5 +159,13 @@ public class Member implements Serializable {
 
     public void setFollowings(List<Member> followings) {
         this.followings = followings;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }
