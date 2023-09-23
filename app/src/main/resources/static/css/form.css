@@ -1,20 +1,22 @@
 
 html {
-	font-size:62.5%;
+  font-size:62.5%;
 }
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 ul, li {
-	list-style: none;
+  list-style: none;
 }
 input {
-	border: none;
+  border: none;
 }
 body {
   width: 144rem;
-}.item-1--BzH {
+  margin: 0 auto; /* 가운데 정렬을 위해 좌우 여백을 자동 조정 */
+}
+.item-1--BzH {
   box-sizing: border-box;
   padding: 13.5rem 12.076rem 13.5rem 12.076rem;
   width: 100%;
@@ -118,6 +120,7 @@ body {
   line-height: 1.5;
   color: #e48700;
   font-family: Poppins, 'Source Sans Pro';
+  cursor: pointer;
 }
 .item-1--BzH .group-1-93w .item--RLD .item--HBP {
   margin: 0rem 0.047rem 2.58rem 0rem;
@@ -218,6 +221,7 @@ body {
   background-color: #f05400;
   border-radius: 1rem;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .item-1--BzH .group-1-93w .item--RLD .item--sWH {
   margin: 0rem 0rem 3.056rem 0.103rem;
