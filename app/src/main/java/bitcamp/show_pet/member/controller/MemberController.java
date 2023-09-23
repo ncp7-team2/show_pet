@@ -179,11 +179,13 @@ public class MemberController {
   }
 
     @GetMapping("profile/{memberId}")
-    public String viewProfile(@PathVariable int memberId, Model model) throws Exception {
+    public String viewProfile(@PathVariable int memberId, Model model,HttpSession session) throws Exception {
 
-        List<Post> myPosts = postService.getMyPosts(memberId);
         model.addAttribute("member", memberService.get(memberId));
         model.addAttribute("myPosts", postService.getMyPosts(memberId));
+        model.addAttribute("likedPosts", postService.getLikedPosts(memberId, session));
+        model.addAttribute("bookMarkedPosts", postService.getBookmarkedPosts(memberId, session));
+
         return "member/profile";
     }
 

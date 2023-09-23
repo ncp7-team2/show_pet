@@ -192,16 +192,16 @@
           <!-- 이미지 -->
           <!--회원 프로필 사진 -->
           <div class="round-image">
-            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
               <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
                    th:src="@{/images/avatar.png}"></a>
-            <a data-th-href="@{'/member/myPage/' + ${post.member.id}}">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
               <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
                    data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
           </div>
           <!-- 닉네임 -->
           <!--회원 닉네임-->
-          <a data-th-href="@{'/member/myPage/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
+          <a data-th-href="@{'/member/profile/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
           <!-- 날짜 -->
           <span style="margin-left: 10px;">
             <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>

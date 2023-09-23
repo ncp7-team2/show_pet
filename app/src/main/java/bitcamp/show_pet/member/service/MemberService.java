@@ -1,6 +1,7 @@
 package bitcamp.show_pet.member.service;
 
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.post.model.vo.Post;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;

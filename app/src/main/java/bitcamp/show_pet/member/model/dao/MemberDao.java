@@ -1,6 +1,7 @@
 package bitcamp.show_pet.member.model.dao;
 
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.post.model.vo.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
