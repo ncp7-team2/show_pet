@@ -17,11 +17,12 @@
     left: 50%;
     transform: translate(-50%, -50%); /* 가운데 정렬 */
     width: 500px; /* 모달창의 너비를 500px로 설정 */
-    height: 500px; /* 모달창의 높이를 500px로 설정 */
+    max-height: 500px; /* 모달창의 최대 높이를 500px로 설정 */
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+    overflow-y: auto; /* 내용이 모달 내에서 넘칠 때 스크롤 추가 */
 }
 
 /* 모달 닫기 버튼 스타일 */

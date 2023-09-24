@@ -1,6 +1,7 @@
 package bitcamp.show_pet.post.controller;
 
 import bitcamp.show_pet.NcpObjectStorageService;
+import bitcamp.show_pet.member.service.DefaultNotificationService;
 import bitcamp.show_pet.post.model.vo.AttachedFile;
 import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jdk.jshell.spi.ExecutionControlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +29,9 @@ public class PostController {
 
     @Autowired
     NcpObjectStorageService ncpObjectStorageService;
+
+    @Autowired
+    DefaultNotificationService defaultNotificationService;
 
     @GetMapping("form")
     public void form() {
@@ -202,6 +205,16 @@ public class PostController {
         int memberId = loginUser.getId();
         boolean isLiked = postService.postLike(postId, memberId);
         int newLikeCount = postService.getLikeCount(postId);
+        response.put("newIsLiked", isLiked);
+        response.put("newLikeCount", newLikeCount);
+
+        // 알림
+        Post post = postService.get(postId);
+        if (post != null) {
+            String content = loginUser.getNickName() + "님이 당신의 게시글을 좋아합니다.";
+            defaultNotificationService.send(content, post.getMember().getId());
+        }
+
         response.put("newIsLiked", isLiked);
         response.put("newLikeCount", newLikeCount);
         return response;
