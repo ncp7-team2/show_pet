@@ -5,9 +5,10 @@ import bitcamp.show_pet.config.KakaoConfig;
 import bitcamp.show_pet.config.NcpConfig;
 import bitcamp.show_pet.mail.EmailService;
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.member.model.vo.Notification;
 import bitcamp.show_pet.member.model.vo.Role;
 import bitcamp.show_pet.member.service.MemberService;
-import bitcamp.show_pet.post.model.vo.Post;
+import bitcamp.show_pet.member.service.DefaultNotificationService;
 import bitcamp.show_pet.post.service.PostService;
 
 import java.util.HashMap;
@@ -31,11 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Controller
 @RequestMapping("/member")
@@ -62,6 +59,9 @@ public class MemberController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    private DefaultNotificationService defaultNotificationService;
 
     @GetMapping("form")
     public void form(@CookieValue(required = false) String email, Model model) {
@@ -299,6 +299,29 @@ public class MemberController {
         model.addAttribute("followingsList", followingsList);
         model.addAttribute("followingsCount", followingsList.size()); // 팔로잉 숫자 추가
         return "member/followings";
+    }
+
+    /*@GetMapping("/notifications")
+    public String notifications(HttpSession session, Model model) throws Exception {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return "redirect:/member/form";
+        }
+        List<Notification> notifications = memberService.getNotifications(loginUser.getId());
+        model.addAttribute("notifications", notifications);
+        return "member/notifications";
+    }*/
+
+    @GetMapping("/notifications/stream")
+    public SseEmitter streamNotifications(HttpSession session) {
+        Member loginUser = (Member) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            // 로그인하지 않은 사용자에 대한 예외 처리
+            throw new RuntimeException("로그인이 필요합니다.");
+        }
+
+        int memberId = loginUser.getId();
+        return defaultNotificationService.connectNotification(memberId);
     }
 }
 

@@ -2,19 +2,16 @@ package bitcamp.show_pet.member.service;
 
 import bitcamp.show_pet.member.model.dao.MemberDao;
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.member.model.vo.Notification;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-
-import bitcamp.show_pet.post.model.vo.Post;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class DefaultMemberService implements MemberService {
 
-    MemberDao memberDao;
+  MemberDao memberDao;
 
   public DefaultMemberService(MemberDao memberDao) {
     this.memberDao = memberDao;
@@ -73,14 +70,12 @@ public class DefaultMemberService implements MemberService {
   @Override
   public Member get(int memberId, HttpSession session) throws Exception {
     Member member = memberDao.findBy(memberId);
-
-    // 세션에서 로그인 사용자의 정보를 가져옵니다.
     Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser != null) {
       int loggedInUserId = loginUser.getId();
       member.setFollowed(memberDao.isFollowed(loggedInUserId, memberId));
     } else {
-      member.setFollowed(false);  // 팔로우 정보를 false로 설정
+      member.setFollowed(false);
     }
     return member;
   }
@@ -93,5 +88,10 @@ public class DefaultMemberService implements MemberService {
   @Override
   public List<Member> getFollowings(int memberId) throws Exception {
     return memberDao.getFollowings(memberId);
+  }
+
+  @Override
+  public List<Notification> getNotifications(int memberId) throws Exception {
+    return memberDao.findNotificationsByMemberId(memberId);
   }
 }
