@@ -117,4 +117,22 @@
         WHERE f.follower_member_id=#{memberId}
     </select>
 
+    <insert id="insertNotification">
+        INSERT INTO notification (member_id, content, created_at, type, isRead)
+        VALUES (#{memberId}, #{content}, NOW(), #{type}, #{isRead})
+    </insert>
+
+    <select id="findNotificationsByMemberId" resultType="bitcamp.show_pet.member.model.vo.Notification">
+        SELECT * FROM notification WHERE member_id = #{memberId}
+    </select>
+
+    <update id="updateReadStatus">
+        UPDATE notification SET isRead = #{isRead} WHERE id = #{id}
+    </update>
+
+    <insert id="saveNotification" parameterType="bitcamp.show_pet.member.model.vo.Notification">
+        INSERT INTO notification (member_id, content, created_at, type, isRead)
+        VALUES (#{memberId}, #{content}, #{createdAt}, #{type}, #{isRead})
+    </insert>
+
 </mapper>

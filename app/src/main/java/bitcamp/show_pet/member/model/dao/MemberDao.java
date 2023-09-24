@@ -1,6 +1,7 @@
 package bitcamp.show_pet.member.model.dao;
 
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.member.model.vo.Notification;
 import bitcamp.show_pet.post.model.vo.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,4 +27,7 @@ public interface MemberDao {
     boolean isFollowed(int followerId, int followingId);
     List<Member> getFollowers(int memberId);
     List<Member> getFollowings(int memberId);
+    int insertNotification(Notification notification);
+    int updateReadStatus(int id, boolean isRead);
+    List<Notification> findNotificationsByMemberId(int memberId);
 }

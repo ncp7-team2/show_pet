@@ -1,6 +1,7 @@
 package bitcamp.show_pet.member.service;
 
 import bitcamp.show_pet.member.model.vo.Member;
+import bitcamp.show_pet.member.model.vo.Notification;
 import bitcamp.show_pet.post.model.vo.Post;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface MemberService {
     List<Member> getFollowers(int memberId) throws Exception;
     List<Member> getFollowings(int memberId) throws Exception;
     Member get(int memberId, HttpSession session) throws  Exception;
+    List<Notification> getNotifications(int memberId) throws Exception;
 }

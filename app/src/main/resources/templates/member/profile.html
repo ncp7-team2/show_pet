@@ -102,6 +102,19 @@
             <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
             <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
             <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
+            <button id="notificationsButton" class="btn btn-primary">받은 알림</button>
+        </div>
+
+        <div id="notificationModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" onclick="closeNotificationModal()">&times;</span>
+                <h2>받은 알림</h2>
+                <ul id="notificationList">
+                    <li th:each="notification : ${notifications}">
+                        <span th:text="${notification.content}"></span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <div id="myPosts" class="post-list">

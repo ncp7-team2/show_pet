@@ -47,3 +47,42 @@ function closeFollowingModal() {
   var modal = document.getElementById("followingModal");
   modal.style.display = "none";
 }
+
+const notificationsButton = document.getElementById('notificationsButton');
+const notificationModal = document.getElementById('notificationModal');
+
+// 알림 목록 모달창 열기
+function openNotificationModal() {
+  notificationModal.style.display = "block";
+}
+
+// 알림 목록 모달창 닫기
+function closeNotificationModal() {
+  notificationModal.style.display = "none";
+}
+
+notificationsButton.addEventListener('click', openNotificationModal);
+
+// 실시간 SSE처리
+document.addEventListener("DOMContentLoaded", function() {
+  const eventSource = new EventSource('/member/notifications/stream');
+
+  eventSource.addEventListener('alarm', function(event) {
+    const data = JSON.parse(event.data);
+    const notiContainer = document.querySelector("#notificationList");
+
+    const newNoti = document.createElement("li");
+    newNoti.textContent = data.content;
+
+    // 새로운 알림을 상단에 추가
+    if (notiContainer.firstChild) {
+      notiContainer.insertBefore(newNoti, notiContainer.firstChild);
+    } else {
+      notiContainer.appendChild(newNoti);
+    }
+  });
+
+  eventSource.onerror = function(event) {
+    eventSource.close();
+  };
+});
