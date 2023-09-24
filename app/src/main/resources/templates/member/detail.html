@@ -39,7 +39,7 @@
         <script th:src="@{/js/TextArea.js}"></script>
         <br>
         <label class="text" for="password">비밀번호</label>
-        <input class="password-box" type="password" id="password" name="password" placeholder="변경할 비밀번호를 입력해주세요">
+        <input class="password-box" type="password" id="password" name="password" placeholder="변경할 비밀번호 또는 기존 비밀번호를 입력해주세요">
 
         <br>
         <label class="text" for="nickname">닉네임</label>
@@ -57,8 +57,7 @@
             <option value='1'>기타</option>
         </select>
 
-        <button type="submit" class="button-box">변경확인</button>
-
+        <button type="submit" class="button-box" id="submitBtn">변경확인</button>
 
     </div>
     <div class="reset-container">
@@ -68,5 +67,20 @@
         <script th:src="@{/js/GoToMainpage.js}"></script>
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var passwordInput = document.getElementById('password');
+        var submitButton = document.getElementById('submitBtn');
+
+        submitButton.addEventListener('click', function(event) {
+            if (passwordInput.value === '') {
+                event.preventDefault();
+                alert('비밀번호를 입력하세요.');
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

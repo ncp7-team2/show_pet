@@ -187,7 +187,7 @@ public class MemberController {
         if (loginUser == null) {
             return "redirect:/member/form";
         }
-        
+
         List<Member> followersList;
         List<Member> followingsList;
 
@@ -195,7 +195,6 @@ public class MemberController {
             followersList = memberService.getFollowers(loginUser.getId());
             followingsList = memberService.getFollowings(loginUser.getId());
         } else {
-
             followersList = memberService.getFollowers(memberId);
             followingsList = memberService.getFollowings(memberId);
         }
@@ -221,15 +220,16 @@ public class MemberController {
 
 
     @PostMapping("update")
-    public String update(
-            Member member,
-            HttpSession session,
-            MultipartFile photofile) throws Exception {
+    public String update(Member member, HttpSession session, MultipartFile photofile) throws Exception {
 
         if (photofile.getSize() > 0) {
             String uploadFileUrl = ncpObjectStorageService.uploadFile(
                     "bitcamp-nc7-bucket-16", "member/", photofile);
             member.setPhoto(uploadFileUrl);
+        } else {
+            // 사용자가 사진을 업로드하지 않은 경우, 기존의 프로필 사진을 그대로 유지하도록 합니다.
+            Member loginUser = (Member) session.getAttribute("loginUser");
+            member.setPhoto(loginUser.getPhoto());
         }
 
         if (memberService.update(member) == 0) {
