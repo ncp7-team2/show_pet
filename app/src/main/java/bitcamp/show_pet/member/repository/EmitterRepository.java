@@ -1,4 +1,4 @@
-package bitcamp.show_pet.member.service;
+package bitcamp.show_pet.member.repository;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

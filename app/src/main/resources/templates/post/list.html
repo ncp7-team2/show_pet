@@ -147,14 +147,11 @@
 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a>
 </span>
 <div style='margin:5px;'>
-  <button class="button" type="button" onclick="location.href='/post/list.html'">전체보기</button>
+  <button class="button" type="button" onclick="location.href='/post/list'">전체보기</button>
   <button class="button" type="button" onclick="location.href='/post/listDog'">강아지</button>
   <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
   <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
   <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
-
-  <button class="button" type="button" onclick="location.href='/post/bookmarked'"><img src="/images/bookmark_on.png">내 북마크</button>
-  <button class="button" type="button" onclick="location.href='/post/liked'"><img src="/images/like_on.png">내 좋아요</button>
 </div>
 
 <div data-th-each="post : ${list}" th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">

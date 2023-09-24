@@ -3,6 +3,7 @@ package bitcamp.show_pet.member.service;
 import bitcamp.show_pet.member.model.dao.MemberDao;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.member.model.vo.Notification;
+import bitcamp.show_pet.member.repository.EmitterRepository;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
