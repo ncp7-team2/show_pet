@@ -63,6 +63,33 @@ function closeNotificationModal() {
 
 notificationsButton.addEventListener('click', openNotificationModal);
 
+const deleteAllNotificationsButton = document.getElementById('deleteAllNotificationsButton');
+
+deleteAllNotificationsButton.addEventListener('click', function() {
+  if (!confirm('모든 알림을 삭제하시겠습니까?')) {
+    return;
+  }
+  fetch('/member/notifications/deleteAll', {
+    method: 'POST',
+  })
+  .then(response => {
+    if (!response.ok) {
+      return Promise.reject('Error deleting notifications: ' + response.statusText);
+    }
+    return response.text();
+  })
+  .then(text => {
+    alert(text);
+    // 성공적으로 삭제하면 목록을 비웁니다.
+    document.querySelector('#notificationList').innerHTML = '';
+  })
+  .catch(error => {
+    console.error(error);
+    alert(error);
+  });
+});
+
+
 // 실시간 SSE처리
 document.addEventListener("DOMContentLoaded", function() {
   const eventSource = new EventSource('/member/notifications/stream');

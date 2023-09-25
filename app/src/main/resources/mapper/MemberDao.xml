@@ -135,4 +135,7 @@
         VALUES (#{memberId}, #{content}, #{createdAt}, #{type}, #{isRead})
     </insert>
 
+    <delete id="deleteAllNotifications" parameterType="int">
+        DELETE FROM notification WHERE member_id=#{memberId}
+    </delete>
 </mapper>
