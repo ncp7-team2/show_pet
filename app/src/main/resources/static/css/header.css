@@ -118,9 +118,8 @@ body {
 }
 
 .alarm {
-  width: 40px; /* 이미지의 너비 조정 */
-  height: 46px; /* 이미지의 높이 조정 */
+  width: 57px; /* 이미지의 너비를 2배로 조정 */
+  height: 60px; /* 이미지의 높이를 2배로 조정 */
   margin-right: 20px;
 }
-
 

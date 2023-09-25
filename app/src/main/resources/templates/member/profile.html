@@ -84,20 +84,6 @@
       <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
       <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
       <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
-      <button id="notificationsButton" class="btn btn-primary">받은 알림</button>
-    </div>
-
-    <div id="notificationModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close" onclick="closeNotificationModal()">&times;</span>
-        <h2>받은 알림</h2>
-        <button id="deleteAllNotificationsButton" class="btn btn-danger">전체 삭제</button>
-        <ul id="notificationList">
-          <li th:each="notification : ${notifications}">
-            <span th:text="${notification.content}"></span>
-          </li>
-        </ul>
-      </div>
     </div>
 
     <div id="myPosts" class="post-list">
@@ -153,9 +139,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script th:src="@{/js/profile.js}"></script>
   <script th:src="@{/js/header.js}"></script>
-
 </div>
 </body>
 </html>

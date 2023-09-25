@@ -28,6 +28,12 @@ bookmarkedPostsButton.addEventListener('click', () => {
 function openFollowerModal() {
   var modal = document.getElementById("followerModal");
   modal.style.display = "block";
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
 }
 
 // 팔로워 목록 모달창 닫기
@@ -40,6 +46,12 @@ function closeFollowerModal() {
 function openFollowingModal() {
   var modal = document.getElementById("followingModal");
   modal.style.display = "block";
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 }
 
 // 팔로잉 목록 모달창 닫기
@@ -47,70 +59,3 @@ function closeFollowingModal() {
   var modal = document.getElementById("followingModal");
   modal.style.display = "none";
 }
-
-const notificationsButton = document.getElementById('notificationsButton');
-const notificationModal = document.getElementById('notificationModal');
-
-// 알림 목록 모달창 열기
-function openNotificationModal() {
-  notificationModal.style.display = "block";
-}
-
-// 알림 목록 모달창 닫기
-function closeNotificationModal() {
-  notificationModal.style.display = "none";
-}
-
-notificationsButton.addEventListener('click', openNotificationModal);
-
-const deleteAllNotificationsButton = document.getElementById(
-    'deleteAllNotificationsButton');
-
-deleteAllNotificationsButton.addEventListener('click', function () {
-  if (!confirm('모든 알림을 삭제하시겠습니까?')) {
-    return;
-  }
-  fetch('/member/notifications/deleteAll', {
-    method: 'POST',
-  })
-  .then(response => {
-    if (!response.ok) {
-      return Promise.reject(
-          'Error deleting notifications: ' + response.statusText);
-    }
-    return response.text();
-  })
-  .then(text => {
-    alert(text);
-    // 성공적으로 삭제하면 목록을 비웁니다.
-    document.querySelector('#notificationList').innerHTML = '';
-  })
-  .catch(error => {
-    console.error(error);
-    alert(error);
-  });
-});
-
-// 실시간 SSE처리
-document.addEventListener("DOMContentLoaded", function () {
-  const eventSource = new EventSource('/member/notifications/stream');
-
-  eventSource.addEventListener('alarm', function (event) {
-    const data = JSON.parse(event.data);
-    const notiContainer = document.querySelector("#notificationList");
-
-    const newNoti = document.createElement("li");
-    newNoti.textContent = data.content;
-
-    // 새로운 알림을 상단에 추가
-    if (notiContainer.firstChild) {
-      notiContainer.insertBefore(newNoti, notiContainer.firstChild);
-    } else {
-      notiContainer.appendChild(newNoti);
-    }
-  });
-
-  eventSource.onerror = function (event) {
-    eventSource.close();
-  };
-});
