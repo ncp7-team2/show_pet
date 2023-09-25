@@ -3,52 +3,53 @@ package bitcamp.show_pet.post.model.vo;
 import java.io.Serializable;
 
 public class AttachedFile implements Serializable {
-    private static final long serialVersionUID = 1L;
 
-    int id;
-    String originName;
-    String filePath;
-    int postId;
+  private static final long serialVersionUID = 1L;
 
-    @Override
-    public String toString() {
-        return "AttachedFile {" +
-            "id=" + id +
-            ", originName='" + originName + '\'' +
-            ", filePath='" + filePath + '\'' +
-            ", postId=" + postId +
-            '}';
-    }
+  int id;
+  String originName;
+  String filePath;
+  int postId;
 
-    public int getId() {
-        return id;
-    }
+  @Override
+  public String toString() {
+    return "AttachedFile {" +
+        "id=" + id +
+        ", originName='" + originName + '\'' +
+        ", filePath='" + filePath + '\'' +
+        ", postId=" + postId +
+        '}';
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getOriginName() {
-        return originName;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setOriginName(String originName) {
-        this.originName = originName;
-    }
+  public String getOriginName() {
+    return originName;
+  }
 
-    public String getFilePath() {
-        return filePath;
-    }
+  public void setOriginName(String originName) {
+    this.originName = originName;
+  }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+  public String getFilePath() {
+    return filePath;
+  }
 
-    public int getPostId() {
-        return postId;
-    }
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
+  }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
+  public int getPostId() {
+    return postId;
+  }
+
+  public void setPostId(int postId) {
+    this.postId = postId;
+  }
 }

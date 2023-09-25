@@ -260,7 +260,7 @@ public class PostController {
     @PostMapping("/{postId}/bookmark")
     @ResponseBody
     public Map<String, Object> postBookmark(@PathVariable int postId, HttpSession session)
-            throws Exception {
+        throws Exception {
         Map<String, Object> response = new HashMap<>();
         Member loginUser = (Member) session.getAttribute("loginUser");
         if (loginUser == null) {
@@ -270,6 +270,12 @@ public class PostController {
 
         int memberId = loginUser.getId();
         boolean newIsBookmarked = postService.postBookmark(postId, memberId);
+
+        Post post = postService.get(postId);
+        if (post != null) {
+            String content = loginUser.getNickName() + "님이 당신의 게시글을 북마크했습니다.";
+            defaultNotificationService.send(content, post.getMember().getId());
+        }
         response.put("newIsBookmarked", newIsBookmarked);
         return response;
     }

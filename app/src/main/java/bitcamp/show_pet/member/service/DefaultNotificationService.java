@@ -62,6 +62,7 @@ public class DefaultNotificationService implements NotificationService {
   }
 
   public void saveNotification(Notification notification) {
-    sqlSession.insert("bitcamp.show_pet.member.model.dao.MemberDao.insertNotification", notification);
+    sqlSession.insert("bitcamp.show_pet.member.model.dao.MemberDao.insertNotification",
+        notification);
   }
 }

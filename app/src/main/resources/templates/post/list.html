@@ -1,150 +1,163 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
-    <title>ShowPet 게시글</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
-    <link rel="stylesheet" th:href="@{/css/header.css}"/>
-    <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <meta charset='UTF-8'>
+  <title>ShowPet 게시글</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/js/header.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" th:href="@{/css/modal.css}"/>
 
-    <style>
-        .post-container {
-            border: 3px solid #dddddd;
-            margin: 50px;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
+  <style>
+    .post-container {
+      border: 3px solid #dddddd;
+      margin: 50px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
 
-        .image-thumbnail {
-            height: 400px; /* 원하는 높이로 설정 */
-            object-fit: cover;
-        }
+    .image-thumbnail {
+      height: 400px; /* 원하는 높이로 설정 */
+      object-fit: cover;
+    }
 
-        .left-content-box {
-            flex: 2; /* 가로로 2등분 */
-            border: 1px solid #cccccc; /* 왼쪽 박스의 테두리 스타일 */
-            padding: 10px; /* 내부 간격 설정 */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .square-box {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
-            grid-gap: 1px; /* 그리드 아이템 간 간격 설정 */
-        }
+    .left-content-box {
+      flex: 2; /* 가로로 2등분 */
+      border: 1px solid #cccccc; /* 왼쪽 박스의 테두리 스타일 */
+      padding: 10px; /* 내부 간격 설정 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-
-        /*.square-box {*/
-        /*  flex: 1; !* 2등분한 왼쪽 박스를 1:1로 분할 *!*/
-        /*  border: 1px solid #cccccc; !* 정사각형 박스의 테두리 스타일 *!*/
-        /*  padding: 10px; !* 내부 간격 설정 *!*/
-        /*  width: 500px; !* 너비 500px로 설정 *!*/
-        /*  height: 500px; !* 높이 500px로 설정 *!*/
-        /*  overflow: hidden; !* 내부 컨텐츠를 넘치지 않도록 설정 *!*/
-        /*}*/
-
-        .square-box img {
-            width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
-            height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
-            object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
-        }                                                                                 .buttons {
-                                                                                              margin-top: 10px; /* Like와 Bookmark 버튼 사이의 간격 설정 */
-                                                                                          }
-
-        .right-content-box {
-            flex: 3; /* 가로로 3등분 */
-            border: 1px solid #cccccc; /* 오른쪽 박스의 테두리 스타일 */
-            padding: 10px; /* 내부 간격 설정 */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    .square-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
+      grid-gap: 1px; /* 그리드 아이템 간 간격 설정 */
+    }
 
 
-        .text-like {
-            font-size: 13px;
-            font-weight: bold;
-            margin: 0 15px 15px 15px;
-        }
-        .box-comment {
-            margin: 15px 0 20px 15px;
-        }
+    /*.square-box {*/
+    /*  flex: 1; !* 2등분한 왼쪽 박스를 1:1로 분할 *!*/
+    /*  border: 1px solid #cccccc; !* 정사각형 박스의 테두리 스타일 *!*/
+    /*  padding: 10px; !* 내부 간격 설정 *!*/
+    /*  width: 500px; !* 너비 500px로 설정 *!*/
+    /*  height: 500px; !* 높이 500px로 설정 *!*/
+    /*  overflow: hidden; !* 내부 컨텐츠를 넘치지 않도록 설정 *!*/
+    /*}*/
 
-        .date-comment {
-            /* display: inline-block; */
-            /* width: 400px; */
-            margin: 0 0 14px 0;
-            font-size: 12px;
-            color: #828282;
-        }
-        .img-heart-comment:hover,
-        .img-delete-comment:hover {
-            cursor: pointer;
-        }
-        .img-delete-comment {
-            margin: 0 0 2px 10px;
-        }
-        .text-comment {
-            display: inline-block;
-            width: 390px;
-            margin: 0 0 10px 0;
-            font-size: 14px;
-        }
+    .square-box img {
+      width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+      height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+      object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
+    }
 
-        .box-chat {
-            border-top: 1px solid #e1e1e1;
-            display: flex;
-            align-items: center;
-            padding: 15px;
-        }
-        .input-chat {
-            width: 350px;
-            border: none;
-        }
-        .btn-chat {
-            border: none;
-            background-color: transparent;
-            font-weight: bold;
-            color: rgb(0, 149, 246, 0.3);
-        }
-        .btn-chat-effect {
-            color: rgb(0, 149, 246, 1);
-        }
-        .btn-chat-effect:hover {
-            cursor: pointer;
-        }
+    .buttons {
+      margin-top: 10px; /* Like와 Bookmark 버튼 사이의 간격 설정 */
+    }
+
+    .right-content-box {
+      flex: 3; /* 가로로 3등분 */
+      border: 1px solid #cccccc; /* 오른쪽 박스의 테두리 스타일 */
+      padding: 10px; /* 내부 간격 설정 */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
 
-        /* 버튼 테두리 없애기 */
-        .likeButton,
-        .bookmarkButton {
-            border: none;
-            background: none;
-            padding: 0;
-        }
+    .text-like {
+      font-size: 13px;
+      font-weight: bold;
+      margin: 0 15px 15px 15px;
+    }
 
-        .button {
-            background-color: #DDD;
-            border: none;
-            color: black;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 16px;
-        }
+    .box-comment {
+      margin: 15px 0 20px 15px;
+    }
 
-    </style>
+    .date-comment {
+      /* display: inline-block; */
+      /* width: 400px; */
+      margin: 0 0 14px 0;
+      font-size: 12px;
+      color: #828282;
+    }
+
+    .img-heart-comment:hover,
+    .img-delete-comment:hover {
+      cursor: pointer;
+    }
+
+    .img-delete-comment {
+      margin: 0 0 2px 10px;
+    }
+
+    .text-comment {
+      display: inline-block;
+      width: 390px;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+
+    .box-chat {
+      border-top: 1px solid #e1e1e1;
+      display: flex;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .input-chat {
+      width: 350px;
+      border: none;
+    }
+
+    .btn-chat {
+      border: none;
+      background-color: transparent;
+      font-weight: bold;
+      color: rgb(0, 149, 246, 0.3);
+    }
+
+    .btn-chat-effect {
+      color: rgb(0, 149, 246, 1);
+    }
+
+    .btn-chat-effect:hover {
+      cursor: pointer;
+    }
+
+
+    /* 버튼 테두리 없애기 */
+    .likeButton,
+    .bookmarkButton {
+      border: none;
+      background: none;
+      padding: 0;
+    }
+
+    .button {
+      background-color: #DDD;
+      border: none;
+      color: black;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 16px;
+    }
+
+  </style>
 
 
 </head>
@@ -157,31 +170,33 @@
 <h1>모아보기</h1>
 </span>
 <div style='margin:5px;'>
-    <button class="button" type="button" onclick="location.href='/post/list'">전체보기</button>
-    <button class="button" type="button" onclick="location.href='/post/listDog'">강아지</button>
-    <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
-    <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
-    <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
+  <button class="button" type="button" onclick="location.href='/post/list'">전체보기</button>
+  <button class="button" type="button" onclick="location.href='/post/listDog'">강아지</button>
+  <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
+  <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
+  <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
 </div>
 
 <div class="square-box">
-    <div data-th-each="post : ${list}">
-        <!-- 검색 키워드 필터링 -->
-        <div th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
+  <div data-th-each="post : ${list}">
+    <!-- 검색 키워드 필터링 -->
+    <div th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
 
-            <!-- attachedFiles가 null이 아닌 경우에만 내용 렌더링 -->
-            <div data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
+      <!-- attachedFiles가 null이 아닌 경우에만 내용 렌더링 -->
+      <div
+          data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
 
-                <!-- 첫 번째 파일만 선택하여 표시 -->
-                <div class="image-thumbnail" th:with="firstFile=${post.attachedFiles[0]}">
-                    <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
-                        <img th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
-                    </a>
-                </div>
-            </div>
-
+        <!-- 첫 번째 파일만 선택하여 표시 -->
+        <div class="image-thumbnail" th:with="firstFile=${post.attachedFiles[0]}">
+          <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+            <img
+                th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
+          </a>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>
 
 

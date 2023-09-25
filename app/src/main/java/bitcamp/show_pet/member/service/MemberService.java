@@ -21,5 +21,7 @@ public interface MemberService {
     List<Member> getFollowers(int memberId) throws Exception;
     List<Member> getFollowings(int memberId) throws Exception;
     Member get(int memberId, HttpSession session) throws  Exception;
+
     List<Notification> getNotifications(int memberId) throws Exception;
+    void deleteAllNotifications(int memberId) throws Exception;
 }
