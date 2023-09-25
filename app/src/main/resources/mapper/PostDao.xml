@@ -54,6 +54,7 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,

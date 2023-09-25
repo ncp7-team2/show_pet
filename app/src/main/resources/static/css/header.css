@@ -50,7 +50,7 @@ body {
 /* 검색 입력 필드 스타일링 */
 .search {
     padding: 5px;
-    border: 3px solid #4285F4; /* 테두리 색상 변경 */
+    border: 3px solid #f05400; /* 테두리 색상 변경 */
     border-radius: 10px; /* 모서리를 둥글게 만들기 */
     font-size: 16px;
     margin-right: 5px;
@@ -60,7 +60,7 @@ body {
     margin-left: 20px;
 }
 .search-button {
-    background-color: #4285F4;
+    background-color: #f05400;
     color: #ffffff;
     padding: 10px 20px;
     border: none;
