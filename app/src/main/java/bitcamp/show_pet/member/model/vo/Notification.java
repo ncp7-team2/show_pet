@@ -3,6 +3,7 @@ package bitcamp.show_pet.member.model.vo;
 import java.time.LocalDateTime;
 
 public class Notification {
+
   private int id;
   private int memberId;
   private String content;
@@ -10,7 +11,8 @@ public class Notification {
   private String type;
   private boolean isRead;
 
-  public Notification() {}
+  public Notification() {
+  }
 
   public int getId() {
     return id;

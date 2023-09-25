@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("form")
-    public void adminPage() {}
-
+  @GetMapping("form")
+  public void adminPage() {
+  }
 }

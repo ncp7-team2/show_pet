@@ -94,4 +94,9 @@ public class DefaultMemberService implements MemberService {
   public List<Notification> getNotifications(int memberId) throws Exception {
     return memberDao.findNotificationsByMemberId(memberId);
   }
+
+  @Override
+  public void deleteAllNotifications(int memberId) throws Exception {
+    memberDao.deleteAllNotifications(memberId);
+  }
 }

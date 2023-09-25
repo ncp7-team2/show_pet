@@ -7,10 +7,9 @@ import bitcamp.show_pet.mail.EmailService;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.member.model.vo.Notification;
 import bitcamp.show_pet.member.model.vo.Role;
-import bitcamp.show_pet.member.service.MemberService;
 import bitcamp.show_pet.member.service.DefaultNotificationService;
+import bitcamp.show_pet.member.service.MemberService;
 import bitcamp.show_pet.post.service.PostService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +18,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Controller
@@ -232,15 +231,15 @@ public class MemberController {
       HttpSession session,
       MultipartFile photofile) throws Exception {
 
-        if (photofile.getSize() > 0) {
-            String uploadFileUrl = ncpObjectStorageService.uploadFile(
-                    "bitcamp-nc7-bucket-16", "member/", photofile);
-            member.setPhoto(uploadFileUrl);
-        } else {
-            // 사용자가 사진을 업로드하지 않은 경우, 기존의 프로필 사진을 그대로 유지하도록 합니다.
-            Member loginUser = (Member) session.getAttribute("loginUser");
-            member.setPhoto(loginUser.getPhoto());
-        }
+    if (photofile.getSize() > 0) {
+      String uploadFileUrl = ncpObjectStorageService.uploadFile(
+          "bitcamp-nc7-bucket-16", "member/", photofile);
+      member.setPhoto(uploadFileUrl);
+    } else {
+      // 사용자가 사진을 업로드하지 않은 경우, 기존의 프로필 사진을 그대로 유지하도록 합니다.
+      Member loginUser = (Member) session.getAttribute("loginUser");
+      member.setPhoto(loginUser.getPhoto());
+    }
 
     if (memberService.update(member) == 0) {
       throw new Exception("회원이 없습니다.");
@@ -265,6 +264,11 @@ public class MemberController {
     int currentMemberId = loginUser.getId();
     boolean newIsFollowed = memberService.memberFollow(currentMemberId, memberId);
     response.put("newIsFollowed", newIsFollowed);
+    Member member = memberService.get(memberId);
+    if (member != null) {
+      String content = loginUser.getNickName() + "님이 당신을 팔로우했습니다.";
+      defaultNotificationService.send(content, member.getId());
+    }
     return response;
   }
 
@@ -311,17 +315,6 @@ public class MemberController {
     return "member/followings";
   }
 
-  /*@GetMapping("/notifications")
-  public String notifications(HttpSession session, Model model) throws Exception {
-    Member loginUser = (Member) session.getAttribute("loginUser");
-    if (loginUser == null) {
-      return "redirect:/member/form";
-    }
-    List<Notification> notifications = memberService.getNotifications(loginUser.getId());
-    model.addAttribute("notifications", notifications);
-    return "member/notifications";
-  }*/
-
   @GetMapping("/notifications/stream")
   public SseEmitter streamNotifications(HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
@@ -332,6 +325,35 @@ public class MemberController {
 
     int memberId = loginUser.getId();
     return defaultNotificationService.connectNotification(memberId);
+  }
+
+  @PostMapping("/notifications/deleteAll")
+  public ResponseEntity<?> deleteAllNotifications(HttpSession session) {
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      return new ResponseEntity<>("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED);
+    }
+
+    try {
+      memberService.deleteAllNotifications(loginUser.getId());
+      return new ResponseEntity<>("모든 알림이 삭제되었습니다.", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/headerNotifications")
+  public ResponseEntity<List<Notification>> getHeaderNotifications(HttpSession session) {
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    try {
+      List<Notification> notifications = memberService.getNotifications(loginUser.getId());
+      return new ResponseEntity<>(notifications, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
 

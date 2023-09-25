@@ -37,5 +37,4 @@ public interface PostDao {
     boolean isBookmarked(@Param("postId") int postId, @Param("memberId") int memberId);
     List<Post> getBookmarkedPosts(int memberId);
     List<Post> getMyPosts(int memberId);
-
 }

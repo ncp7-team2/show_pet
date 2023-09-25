@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700">
   <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/modal.css}"/>
   <style>
     body {
       margin: 0;
@@ -62,7 +63,8 @@
 <div data-th-replace="header :: header"></div>
 
 <div class="centered-content">
-  <form data-th-if="${post}" data-th-action="@{/post/update}" method='post' enctype='multipart/form-data' class="content-section">
+  <form data-th-if="${post}" data-th-action="@{/post/update}" method='post'
+        enctype='multipart/form-data' class="content-section">
     <table border='1'>
       <div style="border: 1px solid #594e4e; padding: 10px;">
         <div style="display: flex; align-items: center;">
@@ -74,12 +76,17 @@
               <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
                    data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
           </div>
-          <a data-th-href="@{'/member/profile/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
+          <a data-th-href="@{'/member/profile/' + ${post.member.id}}"
+             data-th-text="${post.member.nickName}">닉네임</a>
           <span style="margin-left: 10px;">
             <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
           </span>
-          <button type="button" class="button followButton" th:data-is-followed="${post.member.isFollowed}" th:data-member-id="${post.member.id}">
-            <img class="followImage" th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'" th:id="${'followImage-' + post.member.id}">
+          <button type="button" class="button followButton"
+                  th:data-is-followed="${post.member.isFollowed}"
+                  th:data-member-id="${post.member.id}">
+            <img class="followImage"
+                 th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
+                 th:id="${'followImage-' + post.member.id}">
           </button>
         </div>
       </div>
@@ -87,25 +94,34 @@
         <input type='text' name='title' value="제목입니다." data-th-value="${post.title}">
       </td>
       <tr>
-          <div class="square-box" style="text-align: center;">
-            <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
-              <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|">
-            </div>
+        <div class="square-box" style="text-align: center;">
+          <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
+            <img
+                th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|">
           </div>
+        </div>
       </tr>
       <tr>
       <tr>
-        <td><textarea name='content' style='height:50px; width:400px;' data-th-text="${post.content}"></textarea></td>
+        <td><textarea name='content' style='height:50px; width:400px;'
+                      data-th-text="${post.content}"></textarea></td>
       </tr>
 
       <tr>
         <td>
-          <button type="button" class="button likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
-            <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'" th:id="${'likeImage-' + post.id}">
+          <button type="button" class="button likeButton" th:data-is-liked="${post.isLiked}"
+                  th:data-post-id="${post.id}">
+            <img class="likeImage"
+                 th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
+                 th:id="${'likeImage-' + post.id}">
           </button>
-          <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
-          <button type="button" class="button bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}" th:data-post-id="${post.id}">
-            <img class="bookmarkImage" th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'" th:id="${'bookmarkImage-' + post.id}">
+          <span class="likeCount" data-th-text="${post.likeCount}"
+                th:data-post-id="${post.id}">0</span>
+          <button type="button" class="button bookmarkButton"
+                  th:data-is-bookmarked="${post.isBookmarked}" th:data-post-id="${post.id}">
+            <img class="bookmarkImage"
+                 th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
+                 th:id="${'bookmarkImage-' + post.id}">
           </button>
         </td>
       </tr>
@@ -159,14 +175,14 @@
       });
     });
 
-    $(".followButton").on("click", function() {
+    $(".followButton").on("click", function () {
       let memberId = $(this).data("member-id");
       let isFollowed = $(this).data("is-followed");
 
       $.ajax({
         url: "/member/" + memberId + "/follow",
         type: "POST",
-        success: function(response) {
+        success: function (response) {
           if (response.newIsFollowed) {
             $("#followImage-" + memberId).attr("src", "/images/follow_on.png");
             $(".followButton[data-member-id='" + memberId + "']").data("is-followed", true);
@@ -227,8 +243,9 @@
         });
       }
     }
+
     function updateFollowStatus() {
-      let memberIds = $(".followButton").map(function() {
+      let memberIds = $(".followButton").map(function () {
         return $(this).data("member-id");
       }).get();
 
@@ -238,7 +255,7 @@
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify(memberIds),
-          success: function(response) {
+          success: function (response) {
             for (let memberId in response) {
               let isFollowed = response[memberId];
               let imageSrc = isFollowed ? "/images/follow_on.png" : "/images/follow_off.png";
@@ -249,6 +266,7 @@
         });
       }
     }
+
     updateLikeStatus();
     updateBookmarkStatus();
     updateFollowStatus();
@@ -260,6 +278,96 @@
     });
 
   });
+  // 알림 모달 열기
+  function openHeaderNotificationModal() {
+    document.getElementById('headerNotificationModal').style.display = 'block';
+  }
+
+  // 알림 모달 닫기
+  function closeHeaderNotificationModal() {
+    document.getElementById('headerNotificationModal').style.display = 'none';
+  }
+
+  // 페이지가 로드되면 저장된 알림을 불러옵니다.
+  document.addEventListener('DOMContentLoaded', function() {
+    loadHeaderNotifications();
+
+    // "전체 삭제" 버튼에 이벤트 리스너를 추가합니다.
+    const deleteAllNotificationsButton = document.getElementById('deleteAllNotificationsButton');
+    if (deleteAllNotificationsButton) {
+      deleteAllNotificationsButton.addEventListener('click', function() {
+        fetch('/member/notifications/deleteAll', {
+          method: 'POST',
+        })
+        .then(response => {
+          if (!response.ok) {
+            return Promise.reject('Error deleting notifications: ' + response.statusText);
+          }
+          // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
+          const notiContainer = document.querySelector("#notificationList");
+          while (notiContainer.firstChild) {
+            notiContainer.removeChild(notiContainer.firstChild);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    }
+  });
+
+  function loadHeaderNotifications() {
+    fetch('/member/headerNotifications', {
+      method: 'GET',
+    })
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject('Error loading notifications: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(notifications => {
+      const notiContainer = document.querySelector("#notificationList");
+      notifications.forEach(notification => {
+        const newNoti = document.createElement("li");
+        newNoti.textContent = notification.content;
+        notiContainer.appendChild(newNoti);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  window.addEventListener('load', function() {
+    const alarmIcon = document.getElementById('alarmIcon');
+    if (!alarmIcon) {
+      console.error('alarmIcon does not exist!');
+      return;
+    }
+
+    alarmIcon.addEventListener('click', function() {
+      openHeaderNotificationModal();
+    });
+
+    const eventSource = new EventSource('/member/notifications/stream');
+    eventSource.addEventListener('alarm', function(event) {
+      const data = JSON.parse(event.data);
+      const notiContainer = document.querySelector("#notificationList");
+      const newNoti = document.createElement("li");
+      newNoti.textContent = data.content;
+      if (notiContainer.firstChild) {
+        notiContainer.insertBefore(newNoti, notiContainer.firstChild);
+      } else {
+        notiContainer.appendChild(newNoti);
+      }
+    });
+    eventSource.onerror = function(event) {
+      console.error('EventSource failed:', event);
+      eventSource.close();
+    };
+  });
+
 </script>
-  </body>
+</body>
 </html>

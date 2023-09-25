@@ -12,7 +12,8 @@ import lombok.Setter;
 @Getter
 @Builder
 public class MessageDto {
-    String to; // 전송할 전화번호
-    String content; // 전송할 내용
+
+  String to; // 전송할 전화번호
+  String content; // 전송할 내용
 }
 
