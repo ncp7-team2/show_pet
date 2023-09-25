@@ -63,9 +63,10 @@ function closeNotificationModal() {
 
 notificationsButton.addEventListener('click', openNotificationModal);
 
-const deleteAllNotificationsButton = document.getElementById('deleteAllNotificationsButton');
+const deleteAllNotificationsButton = document.getElementById(
+    'deleteAllNotificationsButton');
 
-deleteAllNotificationsButton.addEventListener('click', function() {
+deleteAllNotificationsButton.addEventListener('click', function () {
   if (!confirm('모든 알림을 삭제하시겠습니까?')) {
     return;
   }
@@ -74,7 +75,8 @@ deleteAllNotificationsButton.addEventListener('click', function() {
   })
   .then(response => {
     if (!response.ok) {
-      return Promise.reject('Error deleting notifications: ' + response.statusText);
+      return Promise.reject(
+          'Error deleting notifications: ' + response.statusText);
     }
     return response.text();
   })
@@ -89,12 +91,11 @@ deleteAllNotificationsButton.addEventListener('click', function() {
   });
 });
 
-
 // 실시간 SSE처리
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const eventSource = new EventSource('/member/notifications/stream');
 
-  eventSource.addEventListener('alarm', function(event) {
+  eventSource.addEventListener('alarm', function (event) {
     const data = JSON.parse(event.data);
     const notiContainer = document.querySelector("#notificationList");
 
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  eventSource.onerror = function(event) {
+  eventSource.onerror = function (event) {
     eventSource.close();
   };
 });

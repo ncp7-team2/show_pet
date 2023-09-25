@@ -278,6 +278,7 @@
     });
 
   });
+
   // 알림 모달 열기
   function openHeaderNotificationModal() {
     document.getElementById('headerNotificationModal').style.display = 'block';
@@ -289,13 +290,13 @@
   }
 
   // 페이지가 로드되면 저장된 알림을 불러옵니다.
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     loadHeaderNotifications();
 
     // "전체 삭제" 버튼에 이벤트 리스너를 추가합니다.
     const deleteAllNotificationsButton = document.getElementById('deleteAllNotificationsButton');
     if (deleteAllNotificationsButton) {
-      deleteAllNotificationsButton.addEventListener('click', function() {
+      deleteAllNotificationsButton.addEventListener('click', function () {
         fetch('/member/notifications/deleteAll', {
           method: 'POST',
         })
@@ -339,19 +340,19 @@
     });
   }
 
-  window.addEventListener('load', function() {
+  window.addEventListener('load', function () {
     const alarmIcon = document.getElementById('alarmIcon');
     if (!alarmIcon) {
       console.error('alarmIcon does not exist!');
       return;
     }
 
-    alarmIcon.addEventListener('click', function() {
+    alarmIcon.addEventListener('click', function () {
       openHeaderNotificationModal();
     });
 
     const eventSource = new EventSource('/member/notifications/stream');
-    eventSource.addEventListener('alarm', function(event) {
+    eventSource.addEventListener('alarm', function (event) {
       const data = JSON.parse(event.data);
       const notiContainer = document.querySelector("#notificationList");
       const newNoti = document.createElement("li");
@@ -362,7 +363,7 @@
         notiContainer.appendChild(newNoti);
       }
     });
-    eventSource.onerror = function(event) {
+    eventSource.onerror = function (event) {
       console.error('EventSource failed:', event);
       eventSource.close();
     };

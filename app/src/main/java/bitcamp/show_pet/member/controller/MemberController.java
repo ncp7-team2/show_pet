@@ -257,17 +257,21 @@ public class MemberController {
     System.out.println("컨트롤러 멤버팔로우 호출됨!");
     Map<String, Object> response = new HashMap<>();
     Member loginUser = (Member) session.getAttribute("loginUser");
+
     if (loginUser == null) {
       response.put("status", "notLoggedIn");
       return response;
     }
+
     int currentMemberId = loginUser.getId();
     boolean newIsFollowed = memberService.memberFollow(currentMemberId, memberId);
     response.put("newIsFollowed", newIsFollowed);
-    Member member = memberService.get(memberId);
-    if (member != null) {
-      String content = loginUser.getNickName() + "님이 당신을 팔로우했습니다.";
-      defaultNotificationService.send(content, member.getId());
+    if (newIsFollowed) {
+      Member member = memberService.get(memberId);
+      if (member != null) {
+        String content = loginUser.getNickName() + "님이 당신을 팔로우했습니다.";
+        defaultNotificationService.send(content, member.getId());
+      }
     }
     return response;
   }

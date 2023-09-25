@@ -1,171 +1,192 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>마이페이지</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
-    <link rel="stylesheet" th:href="@{/css/index.css}"/>
-    <link rel="stylesheet" th:href="@{/css/modal.css}"/>
-    <link rel="stylesheet" th:href="@{/css/profile.css}"/>
-    <link rel="stylesheet" th:href="@{/css/header.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrapOverride.css}"/>
+  <title>마이페이지</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee%3A400"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" th:href="@{/css/modal.css}"/>
+  <link rel="stylesheet" th:href="@{/css/profile.css}"/>
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/bootstrapOverride.css}"/>
 </head>
 <body id="my-body">
 <div class="header-container">
-    <a class="logo-link" href="/post/list"><p id="my-p" class="showpet-logo">ShowPet</p></a>
-    <form action="/post/list" method='get'>
-        <div class="search-container">
-            <input type='search' id="search" name='search' class="search" placeholder='검색어를 입력해주세요.' value=''>
-            <button type="submit" class="search-button">검색</button>
-        </div>
-    </form>
-    <img class="alarm" data-th-if="${session.loginUser != null}" th:src="@{/images/alarm.png}">
-    <a href="/member/form" data-th-if="${session.loginUser == null}"><button id="my-button1" class="login-button">로그인</button></a>
-    <a href="/member/join" data-th-if="${session.loginUser == null}"><button id="my-button2" class="login-button">회원가입</button></a>
-    <div  class="fix-container" data-th-if="${session.loginUser != null}">
-        <div class="round-image">
-            <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
-                <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.getPhoto() == null}" th:src="@{/images/avatar.png}"></a>
-
-            <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
-                <img data-th-if="${session.loginUser.getPhoto() != null}"
-                     data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.getPhoto()}|"></a>
-        </div>
-        <span style="margin-right: 40px" data-th-text="${session.loginUser.getNickName()}"></span>
-        <a data-th-href="@{/post/form(category=${param.category})}"><button class="login-button">글쓰기</button></a>
-        <a href="/member/logout"><button class="login-button">로그아웃</button></a>
+  <a class="logo-link" href="/post/list"><p id="my-p" class="showpet-logo">ShowPet</p></a>
+  <form action="/post/list" method='get'>
+    <div class="search-container">
+      <input type='search' id="search" name='search' class="search" placeholder='검색어를 입력해주세요.'
+             value=''>
+      <button type="submit" class="search-button">검색</button>
     </div>
+  </form>
+  <img class="alarm" data-th-if="${session.loginUser != null}" th:src="@{/images/alarm.png}">
+  <a href="/member/form" data-th-if="${session.loginUser == null}">
+    <button id="my-button1" class="login-button">로그인</button>
+  </a>
+  <a href="/member/join" data-th-if="${session.loginUser == null}">
+    <button id="my-button2" class="login-button">회원가입</button>
+  </a>
+  <div class="fix-container" data-th-if="${session.loginUser != null}">
+    <div class="round-image">
+      <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
+        <img style="width: 50px; height: 50px;" data-th-if="${session.loginUser.getPhoto() == null}"
+             th:src="@{/images/avatar.png}"></a>
+
+      <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
+        <img data-th-if="${session.loginUser.getPhoto() != null}"
+             data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${session.loginUser.getPhoto()}|"></a>
+    </div>
+    <span style="margin-right: 40px" data-th-text="${session.loginUser.getNickName()}"></span>
+    <a data-th-href="@{/post/form(category=${param.category})}">
+      <button class="login-button">글쓰기</button>
+    </a>
+    <a href="/member/logout">
+      <button class="login-button">로그아웃</button>
+    </a>
+  </div>
 </div>
 
 
-
 <div class="myPage text-center">
-    <input type="hidden" name="id" data-th-value="${member.id}">
-    <div class="row">
-        <div class="col-md-6 mx-auto">
-            <!-- 프로필 사진 및 수정 버튼 -->
-            <div class="member-round-image">
-                <!-- 프로필 사진 -->
-                    <img style="width: 150px; height: 150px; object-fit: cover;" data-th-if="${member.photo == null}"
-                         th:src="@{/images/avatar.png}" class="img-fluid rounded-circle">
-                    <img data-th-if="${member.photo != null}" style="width: 150px; height: 150px; object-fit: cover;"
-                         data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|"
-                         class="img-fluid rounded-circle">
-            </div>
+  <input type="hidden" name="id" data-th-value="${member.id}">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <!-- 프로필 사진 및 수정 버튼 -->
+      <div class="member-round-image">
+        <!-- 프로필 사진 -->
+        <img style="width: 150px; height: 150px; object-fit: cover;"
+             data-th-if="${member.photo == null}"
+             th:src="@{/images/avatar.png}" class="img-fluid rounded-circle">
+        <img data-th-if="${member.photo != null}"
+             style="width: 150px; height: 150px; object-fit: cover;"
+             data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|"
+             class="img-fluid rounded-circle">
+      </div>
 
-            <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
-            <a data-th-if="${session.loginUser.id == member.id}" th:href="@{'/member/detail/' + ${member.id}}"
-               class="btn btn-primary btn-block mt-3">프로필 수정</a>
-        </div>
+      <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
+      <a data-th-if="${session.loginUser.id == member.id}"
+         th:href="@{'/member/detail/' + ${member.id}}"
+         class="btn btn-primary btn-block mt-3">프로필 수정</a>
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <div>
+      <p th:text="${member.intro}">intro</p>
+      <p>팔로워 수: <span class="profile-count" th:text="${followerCount}"
+                      onclick="openFollowerModal()"></span></p>
+      <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}"
+                      onclick="openFollowingModal()"></span></p>
     </div>
 
-    <div class="container my-5">
-        <div>
-            <p th:text="${member.intro}">intro</p>
-            <p>팔로워 수: <span class="profile-count" th:text="${followerCount}" onclick="openFollowerModal()"></span></p>
-            <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}" onclick="openFollowingModal()"></span></p>
-        </div>
-
-        <!-- 팔로워 목록 모달창 -->
-        <div id="followerModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeFollowerModal()">&times;</span>
-                <h2>팔로워 목록</h2>
-                <ul id="followerList">
-                    <!-- 팔로워 이름들이 여기에 추가됩니다. -->
-                    <li th:each="follower : ${followersList}">
-                        <span th:text="${follower.nickName}"></span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- 팔로잉 목록 모달창 -->
-        <div id="followingModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeFollowingModal()">&times;</span>
-                <h2>팔로잉 목록</h2>
-                <ul id="followingList">
-                    <!-- 팔로잉 이름들이 여기에 추가됩니다. -->
-                    <li th:each="following : ${followingsList}">
-                        <span th:text="${following.nickName}"></span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
-            <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
-            <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
-            <button id="notificationsButton" class="btn btn-primary">받은 알림</button>
-        </div>
-
-        <div id="notificationModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <span class="close" onclick="closeNotificationModal()">&times;</span>
-                <h2>받은 알림</h2>
-                <button id="deleteAllNotificationsButton" class="btn btn-danger">전체 삭제</button>
-                <ul id="notificationList">
-                    <li th:each="notification : ${notifications}">
-                        <span th:text="${notification.content}"></span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="myPosts" class="post-list">
-            <div class="row">
-                <!-- 내 게시물 -->
-                <th:block th:each="post : ${myPosts}">
-                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
-                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
-                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                 class="card-img-top" alt="...">
-                        </a>
-                    </div>
-                </th:block>
-            </div>
-        </div>
-
-        <div id="likedPosts" class="post-list" style='display:none;'>
-            <div class="row">
-                <!-- 좋아요한 게시물 -->
-                <th:block th:each="post : ${likedPosts}">
-                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
-                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
-                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                 class="card-img-top" alt="...">
-                        </a>
-                    </div>
-                </th:block>
-            </div>
-        </div>
-
-        <div id='bookmarkedPosts' class="post-list" style='display:none;'>
-            <div class="row">
-                <!-- 북마크한 게시물 -->
-                <th:block th:each="post : ${bookMarkedPosts}">
-                    <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}" class="col-md-4 mb-4">
-                        <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
-                            <img th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                                 class="card-img-top" alt="...">
-                        </a>
-                    </div>
-                </th:block>
-            </div>
-        </div>
+    <!-- 팔로워 목록 모달창 -->
+    <div id="followerModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeFollowerModal()">&times;</span>
+        <h2>팔로워 목록</h2>
+        <ul id="followerList">
+          <!-- 팔로워 이름들이 여기에 추가됩니다. -->
+          <li th:each="follower : ${followersList}">
+            <span th:text="${follower.nickName}"></span>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <!-- 필요한 JavaScript 파일 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script th:src="@{/js/profile.js}"></script>
+    <!-- 팔로잉 목록 모달창 -->
+    <div id="followingModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeFollowingModal()">&times;</span>
+        <h2>팔로잉 목록</h2>
+        <ul id="followingList">
+          <!-- 팔로잉 이름들이 여기에 추가됩니다. -->
+          <li th:each="following : ${followingsList}">
+            <span th:text="${following.nickName}"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
+      <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
+      <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
+      <button id="notificationsButton" class="btn btn-primary">받은 알림</button>
+    </div>
+
+    <div id="notificationModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeNotificationModal()">&times;</span>
+        <h2>받은 알림</h2>
+        <button id="deleteAllNotificationsButton" class="btn btn-danger">전체 삭제</button>
+        <ul id="notificationList">
+          <li th:each="notification : ${notifications}">
+            <span th:text="${notification.content}"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="myPosts" class="post-list">
+      <div class="row">
+        <!-- 내 게시물 -->
+        <th:block th:each="post : ${myPosts}">
+          <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}"
+               class="col-md-4 mb-4">
+            <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+              <img
+                  th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                  class="card-img-top" alt="...">
+            </a>
+          </div>
+        </th:block>
+      </div>
+    </div>
+
+    <div id="likedPosts" class="post-list" style='display:none;'>
+      <div class="row">
+        <!-- 좋아요한 게시물 -->
+        <th:block th:each="post : ${likedPosts}">
+          <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}"
+               class="col-md-4 mb-4">
+            <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+              <img
+                  th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                  class="card-img-top" alt="...">
+            </a>
+          </div>
+        </th:block>
+      </div>
+    </div>
+
+    <div id='bookmarkedPosts' class="post-list" style='display:none;'>
+      <div class="row">
+        <!-- 북마크한 게시물 -->
+        <th:block th:each="post : ${bookMarkedPosts}">
+          <div th:if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}"
+               class="col-md-4 mb-4">
+            <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+              <img
+                  th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
+                  class="card-img-top" alt="...">
+            </a>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+  <!-- 필요한 JavaScript 파일 -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script th:src="@{/js/profile.js}"></script>
 
 </div>
 </body>
