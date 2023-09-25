@@ -20,7 +20,7 @@
             <!--            <input type='hidden' name='category' value='${param.category}'>-->
         </form>
         <img class="alarm" data-th-if="${session.loginUser != null}" th:src="@{/images/alarm.png}">
-        <a href="/member/form" data-th-if="${session.loginUser == null}"><button class="login-button">로그인</button></a>
+        <a href="/member/form" data-th-if="${session.loginUser == null}"><button class="login-button" style="margin-left: 192px">로그인</button></a>
         <a href="/member/join" data-th-if="${session.loginUser == null}"><button class="login-button">회원가입</button></a>
         <div  class="fix-container" data-th-if="${session.loginUser != null}">
             <div class="round-image">
