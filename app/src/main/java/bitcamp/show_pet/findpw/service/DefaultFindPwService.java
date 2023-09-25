@@ -13,7 +13,7 @@ public class DefaultFindPwService {
     public void sendTemporaryPasswordEmail(String toEmail, String temporaryPassword) {
         // 임시 비밀번호를 포함한 이메일 내용 생성
         String subject = "[Show Pet] 임시 비밀번호 발송";
-        String text = "[Show Pet] 임시 비밀번호: " + temporaryPassword + " 마이페이지에서 비밀번호를 변경해주세요.";
+        String text = "[Show Pet] 임시 비밀번호 : " + temporaryPassword + "\n" + " 마이페이지에서 비밀번호를 변경해주세요.";
 
         // 이메일 메시지 생성
         SimpleMailMessage message = new SimpleMailMessage();
