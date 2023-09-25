@@ -22,10 +22,8 @@
 
 <div class="myPage text-center">
   <input type="hidden" name="id" data-th-value="${member.id}">
-  <div class="row">
-    <div class="col-md-6 mx-auto">
       <!-- 프로필 사진 및 수정 버튼 -->
-      <div class="member-round-image">
+      <div class="profile-round-image">
         <!-- 프로필 사진 -->
         <img style="width: 150px; height: 150px; object-fit: cover;"
              data-th-if="${member.photo == null}"
@@ -39,9 +37,7 @@
       <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
       <a data-th-if="${session.loginUser.id == member.id}"
          th:href="@{'/member/detail/' + ${member.id}}"
-         class="btn btn-primary btn-block mt-3">프로필 수정</a>
-    </div>
-  </div>
+         class="my-profile-button">프로필 수정</a>
 
   <div class="container my-5">
     <div>
@@ -81,10 +77,10 @@
     </div>
 
     <div class="button-container">
-      <button id="myPostsButton" class="btn btn-primary">작성한 게시물</button>
-      <button id="likedPostsButton" class="btn btn-primary">좋아요한 게시물</button>
-      <button id="bookmarkedPostsButton" class="btn btn-primary">북마크한 게시물</button>
-      <button id="notificationsButton" class="btn btn-primary">받은 알림</button>
+      <button id="myPostsButton" class="my-button">작성한 게시물</button>
+      <button id="likedPostsButton" class="my-button">좋아요한 게시물</button>
+      <button id="bookmarkedPostsButton" class="my-button">북마크한 게시물</button>
+      <button id="notificationsButton" class="my-button">받은 알림</button>
     </div>
 
     <div id="notificationModal" class="modal" style="display: none;">
@@ -100,7 +96,7 @@
       </div>
     </div>
 
-    <div id="myPosts" class="post-list">
+    <div id="myPosts">
       <div class="row">
         <!-- 내 게시물 -->
         <th:block th:each="post : ${myPosts}">
@@ -109,14 +105,14 @@
             <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
               <img
                   th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                  class="card-img-top" alt="...">
+                  class="square-image" alt="...">
             </a>
           </div>
         </th:block>
       </div>
     </div>
 
-    <div id="likedPosts" class="post-list" style='display:none;'>
+    <div id="likedPosts" style='display:none;'>
       <div class="row">
         <!-- 좋아요한 게시물 -->
         <th:block th:each="post : ${likedPosts}">
@@ -125,14 +121,14 @@
             <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
               <img
                   th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                  class="card-img-top" alt="...">
+                  class="square-image" alt="...">
             </a>
           </div>
         </th:block>
       </div>
     </div>
 
-    <div id='bookmarkedPosts' class="post-list" style='display:none;'>
+    <div id='bookmarkedPosts' style='display:none;'>
       <div class="row">
         <!-- 북마크한 게시물 -->
         <th:block th:each="post : ${bookMarkedPosts}">
@@ -141,7 +137,7 @@
             <a th:href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
               <img
                   th:src="@{|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|}"
-                  class="card-img-top" alt="...">
+                  class="square-image" alt="...">
             </a>
           </div>
         </th:block>

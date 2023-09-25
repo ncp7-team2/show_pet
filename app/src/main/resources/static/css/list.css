@@ -6,7 +6,7 @@
 .square-box {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
-    grid-gap: 1px; /* 그리드 아이템 간 간격 설정 */
+    grid-gap: 5px; /* 그리드 아이템 간 간격 설정 */
 }
 
 .square-box img {
@@ -26,4 +26,9 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 16px;
+}
+.selected-button {
+    background-color: #f05400;; /* 선택한 버튼의 배경색을 원하는 색상으로 변경하세요 */
+    color: #ffffff; /* 선택한 버튼의 텍스트 색상을 원하는 색상으로 변경하세요 */
+    /* 기타 스타일 속성들을 추가하세요 */
 }
