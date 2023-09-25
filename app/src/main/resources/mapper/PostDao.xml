@@ -15,6 +15,7 @@
 
         <association property="member" javaType="member">
             <id column="member_id" property="id"/>
+            <result column="photo" property="photo"/>
             <result column="nickname" property="nickName"/>
         </association>
         <collection property="attachedFiles" ofType="attachedFile">
