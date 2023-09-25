@@ -4,88 +4,115 @@
   <meta charset='UTF-8'>
   <title>ShowPet 상세보기</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700">
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .centered-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+
+    }
+
+    th, td {
+      border: 1px solid #594e4e;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #594e4e;
+    }
+
+    td input[type='text'],
+    td textarea {
+      width: 400px;
+    }
+
+    .button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      opacity: 0.8;
+    }
+
+    .square-box img {
+      width: 400px;
+      height: 400px;
+    }
+
+  </style>
 </head>
 <body>
-
 <div data-th-replace="header :: header"></div>
 
-<h1>상세보기</h1>
-
-<p data-th-unless="${post}">해당 번호의 게시글이 없습니다</p>
-
-<form data-th-if="${post}" data-th-action="@{/post/update}" method='post'
-      enctype='multipart/form-data'>
-  <table border='1'>
-    <tr>
-      <th style='width:120px;'>번호</th>
-      <td style='width:300px;'><input type='text' name='id' value="100" data-th-value="${post.id}"
-                                      readonly></td>
-    </tr>
-    <tr>
-      <th>닉네임</th>
-      <td data-th-text="${post.member.nickName}">홍길동</td>
-    </tr>
-    <tr>
-      <th>제목</th>
-      <td><input type='text' name='title' value="제목입니다." data-th-value="${post.title}"></td>
-    </tr>
-    <tr>
-      <th>내용</th>
-      <td><textarea name='content' style='height:200px; width:400px;'
-                    data-th-text="${post.content}"></textarea>
-      </td>
-    </tr>
-    <tr>
-      <th>등록일</th>
-      <td data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</td>
-
-    </tr>
-    <tr>
-      <th>첨부파일</th>
-      <td>
-        <div data-th-each="file : ${post.attachedFiles}">
-          <a data-th-href="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|"
-             data-th-text="${file.filePath}">okok.gif</a>
-          [<a data-th-href="|/post/fileDelete/attachedFile;id=${file.id}|">삭제</a>]<br>
+<div class="centered-content">
+  <form data-th-if="${post}" data-th-action="@{/post/update}" method='post' enctype='multipart/form-data' class="content-section">
+    <table border='1'>
+      <div style="border: 1px solid #594e4e; padding: 10px;">
+        <div style="display: flex; align-items: center;">
+          <div class="round-image">
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
+              <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
+                   th:src="@{/images/avatar.png}"></a>
+            <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
+              <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
+                   data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
+          </div>
+          <a data-th-href="@{'/member/profile/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
+          <span style="margin-left: 10px;">
+            <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
+          </span>
+          <button type="button" class="button followButton" th:data-is-followed="${post.member.isFollowed}" th:data-member-id="${post.member.id}">
+            <img class="followImage" th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'" th:id="${'followImage-' + post.member.id}">
+          </button>
         </div>
-        </c:forEach>
-        <input type='file' name='files' multiple>
-      </td>
-      <th>좋아요</th>
+      </div>
       <td>
-        <button type="button" class="likeButton" th:data-is-liked="${post.isLiked}"
-                th:data-post-id="${post.id}">
-          <img class="likeImage"
-               th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
-               th:id="${'likeImage-' + post.id}">
-        </button>
-        <span class="likeCount" data-th-text="${post.likeCount}"
-              th:data-post-id="${post.id}">0</span>
-        <button type="button" class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
-                th:data-post-id="${post.id}">
-          <img class="bookmarkImage"
-               th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
-               th:id="${'bookmarkImage-' + post.id}">
-        </button>
-        </button>
-        <button type="button" class="followButton" th:data-is-followed="${post.member.isFollowed}"
-                th:data-member-id="${post.member.id}">
-          <img class="followImage"
-               th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
-               th:id="${'followImage-' + post.member.id}">
-        </button>
+        <input type='text' name='title' value="제목입니다." data-th-value="${post.title}">
       </td>
-    </tr>
-  </table>
+      <tr>
+          <div class="square-box" style="text-align: center;">
+            <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
+              <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|">
+            </div>
+          </div>
+      </tr>
+      <tr>
+      <tr>
+        <td><textarea name='content' style='height:50px; width:400px;' data-th-text="${post.content}"></textarea></td>
+      </tr>
 
-  <div>
-    <button>수정</button>
-    <button type='reset'>초기화</button>
-    <button><a data-th-href="@{'/post/delete?category=' + ${post.category} + '&id=' + ${post.id}}">삭제</a>
-    </button>
+      <tr>
+        <td>
+          <button type="button" class="button likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
+            <img class="likeImage" th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'" th:id="${'likeImage-' + post.id}">
+          </button>
+          <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
+          <button type="button" class="button bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}" th:data-post-id="${post.id}">
+            <img class="bookmarkImage" th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'" th:id="${'bookmarkImage-' + post.id}">
+          </button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
 
-  </div>
-</form>
 <script>
   $(document).ready(function () {
     $(".likeButton").click(function () {
@@ -234,5 +261,5 @@
 
   });
 </script>
-</body>
+  </body>
 </html>
