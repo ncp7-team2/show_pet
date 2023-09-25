@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitcamp.show_pet.post.model.dao.PostDao">
 
   <resultMap type="post" id="postMap">
@@ -36,7 +36,7 @@
   </resultMap>
 
   <insert id="insert" parameterType="post"
-    useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
+          useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
     insert into post(title,content,hashtag,category,member_id)
     values(#{title},#{content},#{hashtag},#{category},#{member.id})
   </insert>
@@ -97,9 +97,12 @@
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 1
     ORDER BY
@@ -111,12 +114,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 2
     ORDER BY
@@ -128,12 +135,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 3
     ORDER BY
@@ -145,12 +156,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 4
     ORDER BY

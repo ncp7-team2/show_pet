@@ -1,0 +1,29 @@
+.image-thumbnail {
+    height: 400px; /* 원하는 높이로 설정 */
+    object-fit: cover;
+}
+
+.square-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
+    grid-gap: 1px; /* 그리드 아이템 간 간격 설정 */
+}
+
+.square-box img {
+    width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+    height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+    object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
+}
+
+.button {
+    background-color: #DDD;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+}
