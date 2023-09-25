@@ -4,6 +4,7 @@
   <meta charset='UTF-8'>
   <title>ShowPet 게시글</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/js/header.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
   <link rel="stylesheet"
@@ -12,28 +13,38 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
   <link rel="stylesheet" th:href="@{/css/header.css}"/>
   <link rel="stylesheet" th:href="@{/css/index.css}"/>
+  <link rel="stylesheet" th:href="@{/css/list.css}"/>
+  <link rel="stylesheet" th:href="@{/css/modal.css}"/>
 </head>
 <body>
 
 <div data-th-replace="header :: header"></div>
 
-<h1>모아보기 <a data-th-href="@{/post/form(category=${param.category})}">글쓰기</a></h1>
+<h1>강아지</h1>
 <div style='margin:5px;'>
-  <a href='/post/list'>전체보기</a>
-  <a href='/post/listDog'>강아지</a>
-  <a href='/post/listCat'>고양이</a>
-  <a href='/post/listBird'>새</a>
-  <a href='/post/listEtc'>기타</a>
+  <button class="button" type="button" onclick="location.href='/post/list'">전체보기</button>
+  <button class="button" type="button" onclick="location.href='/post/listDog'">강아지</button>
+  <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
+  <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
+  <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
 </div>
-<div data-th-each="post : ${listDog}"
-     th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
-  <div style="border: 3px solid #dddddd; margin: 50px; padding: 10px;">
-    <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
-       data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-    <p data-th-text="${post.member.nickName}"></p>
-    <p data-th-text="${post.content}">테스트</p>
-    <p data-th-text="${post.hashTag}">테스트</p>
-    <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
+<div class="square-box">
+  <div data-th-each="post : ${listDog}">
+
+    <div th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
+
+      <div
+              data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
+
+        <!-- 첫 번째 파일만 선택하여 표시 -->
+        <div class="image-thumbnail" th:with="firstFile=${post.attachedFiles[0]}">
+          <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+            <img
+                    th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
