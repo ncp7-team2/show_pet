@@ -107,7 +107,8 @@
     <div class="round-image">
       <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
         <img style="width: 50px; height: 50px;"
-             data-th-if="${session.loginUser.getPhoto() == null}" th:src="@{/images/avatar.png}"></a>
+             data-th-if="${session.loginUser.getPhoto() == null}"
+             th:src="@{/images/avatar.png}"></a>
 
       <a data-th-href="@{'/member/profile/' + ${session.loginUser.getId()}}">
         <img data-th-if="${session.loginUser.getPhoto() != null}"

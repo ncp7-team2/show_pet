@@ -28,12 +28,6 @@ bookmarkedPostsButton.addEventListener('click', () => {
 function openFollowerModal() {
   var modal = document.getElementById("followerModal");
   modal.style.display = "block";
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
-
 }
 
 // 팔로워 목록 모달창 닫기
@@ -46,12 +40,6 @@ function closeFollowerModal() {
 function openFollowingModal() {
   var modal = document.getElementById("followingModal");
   modal.style.display = "block";
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
 }
 
 // 팔로잉 목록 모달창 닫기
@@ -65,21 +53,12 @@ const notificationModal = document.getElementById('notificationModal');
 
 // 알림 목록 모달창 열기
 function openNotificationModal() {
-  var modal = document.getElementById("notificationModal");
-  modal.style.display = "block";
-
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-      window.onclick = null; // 클릭 이벤트 제거
-    }
-  };
+  notificationModal.style.display = "block";
 }
 
 // 알림 목록 모달창 닫기
 function closeNotificationModal() {
-  var modal = document.getElementById("notificationModal");
-  modal.style.display = "none";
+  notificationModal.style.display = "none";
 }
 
 notificationsButton.addEventListener('click', openNotificationModal);
