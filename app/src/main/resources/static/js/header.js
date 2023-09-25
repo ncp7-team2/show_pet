@@ -1,21 +1,11 @@
 // 알림 모달 열기
 function openHeaderNotificationModal() {
-  var modal = document.getElementById('headerNotificationModal');
-  modal.style.display = 'block';
-
-  // 모달 바깥쪽을 클릭하면 모달 닫기
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-      window.onclick = null; // 클릭 이벤트 제거
-    }
-  };
+  document.getElementById('headerNotificationModal').style.display = 'block';
 }
 
 // 알림 모달 닫기
 function closeHeaderNotificationModal() {
-  var modal = document.getElementById('headerNotificationModal');
-  modal.style.display = 'none';
+  document.getElementById('headerNotificationModal').style.display = 'none';
 }
 
 // 페이지가 로드되면 저장된 알림을 불러옵니다.
