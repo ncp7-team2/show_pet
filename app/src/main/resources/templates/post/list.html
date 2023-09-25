@@ -22,6 +22,11 @@
             justify-content: space-between;
         }
 
+        .image-thumbnail {
+            height: 400px; /* 원하는 높이로 설정 */
+            object-fit: cover;
+        }
+
         .left-content-box {
             flex: 2; /* 가로로 2등분 */
             border: 1px solid #cccccc; /* 왼쪽 박스의 테두리 스타일 */
@@ -30,19 +35,25 @@
             flex-direction: column;
             justify-content: space-between;
         }
-
         .square-box {
-            flex: 1; /* 2등분한 왼쪽 박스를 1:1로 분할 */
-            border: 1px solid #cccccc; /* 정사각형 박스의 테두리 스타일 */
-            padding: 10px; /* 내부 간격 설정 */
-            width: 500px; /* 너비 500px로 설정 */
-            height: 500px; /* 높이 500px로 설정 */
-            overflow: hidden; /* 내부 컨텐츠를 넘치지 않도록 설정 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
+            grid-gap: 1px; /* 그리드 아이템 간 간격 설정 */
         }
 
+
+        /*.square-box {*/
+        /*  flex: 1; !* 2등분한 왼쪽 박스를 1:1로 분할 *!*/
+        /*  border: 1px solid #cccccc; !* 정사각형 박스의 테두리 스타일 *!*/
+        /*  padding: 10px; !* 내부 간격 설정 *!*/
+        /*  width: 500px; !* 너비 500px로 설정 *!*/
+        /*  height: 500px; !* 높이 500px로 설정 *!*/
+        /*  overflow: hidden; !* 내부 컨텐츠를 넘치지 않도록 설정 *!*/
+        /*}*/
+
         .square-box img {
-            width: 500px; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
-            height: 500px; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+            width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+            height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
             object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
         }                                                                                 .buttons {
                                                                                               margin-top: 10px; /* Like와 Bookmark 버튼 사이의 간격 설정 */
@@ -56,6 +67,62 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
+
+        .text-like {
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0 15px 15px 15px;
+        }
+        .box-comment {
+            margin: 15px 0 20px 15px;
+        }
+
+        .date-comment {
+            /* display: inline-block; */
+            /* width: 400px; */
+            margin: 0 0 14px 0;
+            font-size: 12px;
+            color: #828282;
+        }
+        .img-heart-comment:hover,
+        .img-delete-comment:hover {
+            cursor: pointer;
+        }
+        .img-delete-comment {
+            margin: 0 0 2px 10px;
+        }
+        .text-comment {
+            display: inline-block;
+            width: 390px;
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+
+        .box-chat {
+            border-top: 1px solid #e1e1e1;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        .input-chat {
+            width: 350px;
+            border: none;
+        }
+        .btn-chat {
+            border: none;
+            background-color: transparent;
+            font-weight: bold;
+            color: rgb(0, 149, 246, 0.3);
+        }
+        .btn-chat-effect {
+            color: rgb(0, 149, 246, 1);
+        }
+        .btn-chat-effect:hover {
+            cursor: pointer;
+        }
+
+
         /* 버튼 테두리 없애기 */
         .likeButton,
         .bookmarkButton {
@@ -97,182 +164,26 @@
     <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
 </div>
 
-<div data-th-each="post : ${list}" th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
-    <div class="post-container">
-        <!-- 왼쪽 컨텐츠 -->
-        <div class="left-content-box">
-            <!-- 정사각형 박스 -->
-            <div class="square-box">
-                <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
-                    <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|">
-                </div>
-            </div>
-            <!-- Like와 Bookmark 버튼 -->
-            <div class="buttons">
-                <button class="likeButton" th:data-is-liked="${post.isLiked}" th:data-post-id="${post.id}">
-                    <img class="likeImage"
-                         th:src="${post.isLiked} ? '/images/like_on.png' : '/images/like_off.png'"
-                         th:id="${'likeImage-' + post.id}">
-                </button>
-                <span class="likeCount" data-th-text="${post.likeCount}" th:data-post-id="${post.id}">0</span>
-                <button class="bookmarkButton" th:data-is-bookmarked="${post.isBookmarked}"
-                        th:data-post-id="${post.id}">
-                    <img class="bookmarkImage"
-                         th:src="${post.isBookmarked} ? '/images/bookmark_on.png' : '/images/bookmark_off.png'"
-                         th:id="${'bookmarkImage-' + post.id}">
-                </button>
-            </div>
-        </div>
+<div class="square-box">
+    <div data-th-each="post : ${list}">
+        <!-- 검색 키워드 필터링 -->
+        <div th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
 
-        <!-- 오른쪽 컨텐츠 -->
-        <div class="right-content-box" style="margin-left: 20px;">
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <!-- 첫 번째 칸: 닉네임과 날짜 -->
-                <div style="display: flex; align-items: center;">
-                    <!-- 이미지 -->
-                    <!--회원 프로필 사진 -->
-                    <div class="round-image">
-                        <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
-                            <img style="width: 50px; height: 50px;" data-th-if="${post.member.photo == null}"
-                                 th:src="@{/images/avatar.png}"></a>
-                        <a data-th-href="@{'/member/profile/' + ${post.member.id}}">
-                            <img data-th-if="${post.member.photo != null}" style="width: 50px; height: 50px;"
-                                 th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${post.member.photo}|"></a>
-                    </div>
-                    <!-- 닉네임 -->
-                    <!--회원 닉네임-->
-                    <a data-th-href="@{'/member/profile/' + ${post.member.id}}" data-th-text="${post.member.nickName}">닉네임</a>
-                    <!-- 날짜 -->
-                    <span style="margin-left: 10px;">
-            <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
-          </span>
+            <!-- attachedFiles가 null이 아닌 경우에만 내용 렌더링 -->
+            <div data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
+
+                <!-- 첫 번째 파일만 선택하여 표시 -->
+                <div class="image-thumbnail" th:with="firstFile=${post.attachedFiles[0]}">
+                    <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
+                        <img th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
+                    </a>
                 </div>
             </div>
-            <!-- 두 번째 칸: 게시글 제목와 post.content -->
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <div style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                    <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}"
-                       data-th-text="${post.title} ?: '제목없음'">게시글 제목</a>
-                </div>
-                <div style="padding-top: 10px;">
-                    <p data-th-text="${post.content}">테스트</p>
-                </div>
-            </div>
-            <div style="border: 1px solid #ccc; padding: 10px;">
-                <!-- 세 번째 칸: hashtag -->
-                <p data-th-text="${post.hashTag}">해시태그 뜨는곳</p>
-            </div>
+
         </div>
     </div>
 </div>
 
 
-<script>
-    $(document).ready(function () {
-        $(".likeButton").click(function () {
-            var postId = $(this).data("post-id");
-            var isLiked = $(this).data("is-liked");
-            $.ajax({
-                url: "/post/" + postId + "/like",
-                type: "POST",
-                success: function (response) {
-                    if (response.status === "notLoggedIn") {
-                        window.location.href = "/member/form";
-                        return;
-                    }
-                    var newCount = response.newLikeCount;
-                    var newIsLiked = response.newIsLiked;
-                    $(".likeCount[data-post-id='" + postId + "']").text(newCount);
-                    $(".likeButton[data-post-id='" + postId + "']").data("is-liked", newIsLiked);
-
-                    var newImageSrc = newIsLiked ? "/images/like_on.png" : "/images/like_off.png";
-                    $("#likeImage-" + postId).attr("src", newImageSrc);
-                }
-            });
-        });
-
-        $(".bookmarkButton").click(function () {
-            var postId = $(this).data("post-id");
-            var isBookmarked = $(this).data("is-bookmarked");
-            $.ajax({
-                url: "/post/" + postId + "/bookmark",
-                type: "POST",
-                success: function (response) {
-                    if (response.status === "notLoggedIn") {
-                        window.location.href = "/member/form";
-                        return;
-                    }
-                    var newIsBookmarked = response.newIsBookmarked;
-                    $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                        newIsBookmarked);
-
-                    var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
-                        : "/images/bookmark_off.png";
-                    $("#bookmarkImage-" + postId).attr("src", newImageSrc);
-                }
-            });
-        });
-
-        function updateLikeStatus() {
-            let postIds = $(".likeButton").map(function () {
-                return $(this).data("post-id");
-            }).get();
-
-            if (postIds.length > 0) {
-                $.ajax({
-                    url: "/post/getLikeStatus",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(postIds),
-                    success: function (response) {
-                        for (let postId in response) {
-                            let isLiked = response[postId].isLiked;
-                            let likeCount = response[postId].likeCount;
-
-                            let imageSrc = isLiked ? "/images/like_on.png" : "/images/like_off.png";
-                            $("#likeImage-" + postId).attr("src", imageSrc);
-                            $(".likeButton[data-post-id='" + postId + "']").data("is-liked", isLiked);
-                            $(".likeCount[data-post-id='" + postId + "']").text(likeCount);
-                        }
-                    }
-                });
-            }
-        }
-
-        function updateBookmarkStatus() {
-            let postIds = $(".bookmarkButton").map(function () {
-                return $(this).data("post-id");
-            }).get();
-
-            if (postIds.length > 0) {
-                $.ajax({
-                    url: "/post/getBookmarkStatus",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(postIds),
-                    success: function (response) {
-                        for (let postId in response) {
-                            let isBookmarked = response[postId];
-                            let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
-                            $("#bookmarkImage-" + postId).attr("src", imageSrc);
-                            $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                                isBookmarked);
-                        }
-                    }
-                });
-            }
-        }
-
-        updateLikeStatus();
-        updateBookmarkStatus();
-        $(window).on("pageshow", function (event) {
-            updateLikeStatus();
-            updateBookmarkStatus();
-        });
-    });
-
-
-
-</script>
 </body>
 </html>
