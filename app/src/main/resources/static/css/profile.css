@@ -82,16 +82,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-.btn.btn-primary {
-  background-color: #f05400;
-  color: white;
-}
-
-.btn.btn-primary:hover {
-  background-color: #e04000;
-  color: white;
-}
-
 .post-list {
   margin-top: 20px;
 }
@@ -103,4 +93,94 @@ h2 {
 
 .post-list .card {
   margin-bottom: 20px;
+}
+
+
+a {
+  color: #ffffff !important; /* 링크 색상을 원하는 색상으로 지정 */
+  text-decoration: none !important;; /* 밑줄 제거 */
+}
+
+.square-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3개의 열을 가진 그리드 생성 */
+  grid-gap: 5px; /* 그리드 아이템 간 간격 설정 */
+}
+
+.square-box img {
+  width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+  height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+  object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
+}
+
+
+
+
+.my-profile-button {
+  margin-top: 20px;
+  background-color: #484848;
+  color: #ffffff;
+  width: 650px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 20px;
+  transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
+}
+.my-profile-button:hover {
+  background-color: #f05400; /* 호버 시 배경색 변경 */
+}
+
+.my-button {
+  background-color: #484848;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 20px;
+  transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
+}
+
+.my-button:hover {
+  background-color: #f05400; /* 호버 시 배경색 변경 */
+}
+
+.my-button:active, .my-button:focus {
+  background-color: #f05400 !important;
+}
+
+.profile-round-image {
+  border-radius: 50%; /* 동그라미 모양으로 만듭니다. */
+  overflow: hidden; /* 넘치는 부분을 숨깁니다. */
+  width: 200px ; /* 이미지의 너비 조정 */
+  height: 200px; /* 이미지의 높이 조정 */
+  margin-bottom: 50px;
+  margin-left: auto; /* 가운데 정렬을 위해 왼쪽 여백을 자동으로 설정 */
+  margin-right: auto; /* 가운데 정렬을 위해 오른쪽 여백을 자동으로 설정 */
+}
+
+.profile-round-image img {
+  width: 100%; /* 이미지를 박스에 꽉 채우도록 설정합니다. */
+  height: 100%; /* 이미지를 박스에 꽉 채우도록 설정합니다. */
+  object-fit: cover; /* 이미지 비율을 유지하면서 박스에 맞춥니다. */
+}
+
+.profile-container {
+  margin-top: 100px;
+  text-align: center;
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.my-follow-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.image-thumbnail {
+  height: 400px; /* 원하는 높이로 설정 */
+  object-fit: cover;
 }

@@ -21,6 +21,12 @@ a {
   grid-gap: 5px; /* 그리드 아이템 간 간격 설정 */
 }
 
+.square-box img {
+  width: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+  height: 100%; /* 이미지를 부모 요소에 맞게 가득 채우도록 설정 */
+  object-fit: cover; /* 이미지 비율 유지하며 가득 채우도록 설정 */
+}
+
 
 .square-image {
   width: 350px;
@@ -71,4 +77,20 @@ a {
   width: 100%; /* 이미지를 박스에 꽉 채우도록 설정합니다. */
   height: 100%; /* 이미지를 박스에 꽉 채우도록 설정합니다. */
   object-fit: cover; /* 이미지 비율을 유지하면서 박스에 맞춥니다. */
+}
+
+.profile-container {
+  margin-top: 100px;
+  text-align: center;
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.my-follow-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.image-thumbnail {
+  height: 400px; /* 원하는 높이로 설정 */
+  object-fit: cover;
 }
