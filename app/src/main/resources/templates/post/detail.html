@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='UTF-8'>
-  <title>ShowPet</title>
+  <title>ShowPet 상세보기</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,700">
@@ -15,9 +15,10 @@
   <link rel="stylesheet" th:href="@{/css/modal.css}"/>
   <style>
     .comment-section {
-      width: 300px; /* 댓글 섹션의 너비를 설정합니다. */
+      height: 800px;
+      width: 430px; /* 댓글 섹션의 너비를 설정합니다. */
       float: right; /* 댓글 섹션을 오른쪽에 배치합니다. */
-      margin-left: 20px; /* 게시글과 댓글 섹션 사이의 간격을 설정합니다. */
+      margin-left: 40px; /* 게시글과 댓글 섹션 사이의 간격을 설정합니다. */
     }
 
     .comment-input-section {
@@ -25,7 +26,7 @@
     }
 
     #commentInput {
-      width: calc(100% - 20px); /* padding을 고려하여 너비를 설정합니다. */
+      width: 380px; /* padding을 고려하여 너비를 설정합니다. */
       padding: 10px;
       box-sizing: border-box; /* padding이 요소의 전체 너비에 포함되도록 설정합니다. */
       resize: none; /* 사용자가 textarea의 크기를 변경하지 못하게 합니다. */
@@ -33,7 +34,7 @@
 
     #postCommentButton {
       display: block;
-      width: 100%;
+      width:380px;
       padding: 10px;
       background-color: #594e4e;
       color: white;
@@ -106,9 +107,26 @@
       opacity: 0.8;
     }
 
+    .square-box {
+      width: 450px;
+      height: 420px;
+      overflow-x: auto; /* 가로 스크롤을 활성화합니다. */
+      white-space: nowrap; /* 텍스트 줄 바꿈을 방지합니다. */
+      display: inline-block; /* 이미지들을 가로로 나열합니다. */
+    }
+
+
     .square-box img {
       width: 400px;
       height: 400px;
+      margin-right: 10px; /* 이미지 사이의 간격을 조절합니다. */
+
+    }
+
+    .comment-section {
+      /* 기존 스타일 유지 */
+      overflow: auto; /* 댓글 목록이 넘칠 경우 스크롤 표시 */
+      max-height: 300px; /* 댓글 목록의 최대 높이 설정 */
     }
 
   </style>
@@ -141,8 +159,7 @@
                   th:data-member-id="${post.member.id}">
             <img class="followImage"
                  th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
-                 th:id="${'followImage-' + post.member.id}"
-                 width="110" height="30">
+                 th:id="${'followImage-' + post.member.id}">
           </button>
         </div>
       </div>
@@ -152,10 +169,11 @@
       <tr>
         <div class="square-box" style="text-align: center;">
           <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
-            <img
-                th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.attachedFiles[0].filePath}|">
+            <div th:each="file, fileIndex : ${post.attachedFiles}">
+              <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
+            </div>
+
           </div>
-        </div>
       </tr>
       <tr>
       <tr>
@@ -183,20 +201,20 @@
       </tr>
     </table>
   </form>
-</div>
-<div class="comment-section">
-  <!-- 댓글 작성 창 -->
-  <div class="comment-input-section">
-    <textarea id="commentInput" placeholder="댓글을 입력하세요..."></textarea>
-    <button id="postCommentButton">댓글 작성</button>
+
+  <div class="comment-section">
+    <!-- 댓글 작성 창 -->
+    <div class="comment-input-section">
+      <textarea id="commentInput" placeholder="댓글을 입력하세요..."></textarea>
+      <button id="postCommentButton">댓글 작성</button>
+    </div>
+
+    <!-- 댓글 목록 -->
+    <ul id="commentList">
+      <!-- 댓글은 여기에 추가됩니다. -->
+    </ul>
   </div>
-
-  <!-- 댓글 목록 -->
-  <ul id="commentList">
-    <!-- 댓글은 여기에 추가됩니다. -->
-  </ul>
 </div>
-
 <script>
   $(document).ready(function () {
     $(".likeButton").click(function () {
@@ -234,10 +252,10 @@
           }
           var newIsBookmarked = response.newIsBookmarked;
           $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-              newIsBookmarked);
+                  newIsBookmarked);
 
           var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
-              : "/images/bookmark_off.png";
+                  : "/images/bookmark_off.png";
           $("#bookmarkImage-" + postId).attr("src", newImageSrc);
         }
       });
@@ -305,7 +323,7 @@
               let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
               $("#bookmarkImage-" + postId).attr("src", imageSrc);
               $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                  isBookmarked);
+                      isBookmarked);
             }
           }
         });
@@ -368,19 +386,19 @@
         fetch('/member/notifications/deleteAll', {
           method: 'POST',
         })
-        .then(response => {
-          if (!response.ok) {
-            return Promise.reject('Error deleting notifications: ' + response.statusText);
-          }
-          // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
-          const notiContainer = document.querySelector("#notificationList");
-          while (notiContainer.firstChild) {
-            notiContainer.removeChild(notiContainer.firstChild);
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
+                .then(response => {
+                  if (!response.ok) {
+                    return Promise.reject('Error deleting notifications: ' + response.statusText);
+                  }
+                  // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
+                  const notiContainer = document.querySelector("#notificationList");
+                  while (notiContainer.firstChild) {
+                    notiContainer.removeChild(notiContainer.firstChild);
+                  }
+                })
+                .catch(error => {
+                  console.error(error);
+                });
       });
     }
   });
@@ -389,23 +407,23 @@
     fetch('/member/headerNotifications', {
       method: 'GET',
     })
-    .then(response => {
-      if (!response.ok) {
-        return Promise.reject('Error loading notifications: ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(notifications => {
-      const notiContainer = document.querySelector("#notificationList");
-      notifications.forEach(notification => {
-        const newNoti = document.createElement("li");
-        newNoti.textContent = notification.content;
-        notiContainer.appendChild(newNoti);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-    });
+            .then(response => {
+              if (!response.ok) {
+                return Promise.reject('Error loading notifications: ' + response.statusText);
+              }
+              return response.json();
+            })
+            .then(notifications => {
+              const notiContainer = document.querySelector("#notificationList");
+              notifications.forEach(notification => {
+                const newNoti = document.createElement("li");
+                newNoti.textContent = notification.content;
+                notiContainer.appendChild(newNoti);
+              });
+            })
+            .catch(error => {
+              console.error(error);
+            });
   }
 
   window.addEventListener('load', function () {

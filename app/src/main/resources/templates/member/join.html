@@ -45,35 +45,42 @@
           <input type="text" id="nickname" name='nickName' placeholder="닉네임을 입력해 주세요">
         </div>
       </div>
+
       <div class="item--휴대폰번호">
-        <label for="nickname" class="item--euP">휴대폰번호</label>
-        <div class="item--AMw">
+        <label for="nickname" class="item--Pw">휴대폰번호</label>
+        <div class="item--Pw1">
           <input type="text" id="tel" name='tel' placeholder="휴대폰 번호를 입력해 주세요" readonly>
         </div>
       </div>
 
-      <!-- 모달 창 -->
+<!--      휴대폰번호 인증부분-->
       <div id="phoneVerificationModal">
         <form action="/sms/send" method="POST">
-        <div class="modal-content">
-          <h2>전화번호 인증</h2>
-          <p>전화번호를 입력하고 인증 코드를 받으세요.</p>
+          <div class="item--휴대폰번호인증">
+            <p style="font-size: 18px">전화번호 인증</p>
+            <p style="font-size: 16px; margin-bottom: 10px">전화번호를 입력하고 인증 코드를 받으세요.</p>
+          <div class="item--Pw1" style="margin-right: 20px" >
 
-          <!-- 전화번호 입력 필드 추가 -->
-          <input type="text" id="phoneNumber" name="to" placeholder="휴대폰 번호 입력">
-
-          <!-- 인증 코드 전송 버튼 -->
-          <button type="button" id="sendVerificationCode">인증 코드 전송</button>
-
-          <!-- 인증 코드 입력 필드와 확인 버튼 추가 -->
-          <input type="text" id="verificationCode" placeholder="인증 코드 입력">
-          <button type="button" id="confirmVerificationCode">확인</button>
-        </div>
+            <!-- 전화번호 입력 필드 추가 --><!-- 인증 코드 전송 버튼 -->
+            <input type="text" id="phoneNumber" name="to" placeholder="휴대폰 번호 입력" style="width: 250px; height: 25px">
+            <button class="Pwbutton" type="button" id="sendVerificationCode">인증 받기</button>
+          </div>
+            <br>
+            <!-- 인증 코드 입력 필드와 확인 버튼 추가 -->
+            <div class="item--Pw1">
+            <input type="text" id="verificationCode" placeholder="인증 코드 입력" style="width: 250px; height: 25px">
+              <button class="Pwbutton" type="button" id="confirmVerificationCode">확인</button>
+          </div>
+          </div>
         </form>
       </div>
 
+
+
+
+
       <div class="pet--pet">
-        <label for="petName" class="pet--BH3">Pet</label>
+        <label for="petName" class="pet--BH3" style="margin-top: 20px">카테고리 선택</label>
         <div class="pet--i25">
           <select id="petName" name='category'>
             <option value='2'>강아지</option>
