@@ -11,8 +11,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -61,6 +61,49 @@ public class SmsService {
     SmsResponseDto response = restTemplate.postForObject(new URI(
         "https://sens.apigw.ntruss.com/sms/v2/services/" + ncpSmsConfig.getServiceId()
             + "/messages"), httpBody, SmsResponseDto.class);
+
+    return response;
+  }
+
+
+  private Map<String, String> verificationCodes = new HashMap<>();
+
+  // Generate a random verification code of the specified length
+  private String generateRandomCode(int length) {
+    Random random = new Random();
+    StringBuilder code = new StringBuilder();
+
+    for (int i = 0; i < length; i++) {
+      code.append(random.nextInt(10)); // Generate random digits (0-9)
+    }
+
+    return code.toString();
+  }
+
+  // 인증번호 생성 및 저장
+  public String generateAndSaveVerificationCode(String phoneNumber) {
+    // 6자리의 랜덤 인증번호 생성
+    String verificationCode = generateRandomCode(6);
+
+    // 전화번호와 연결하여 인증번호를 저장합니다 (데이터베이스 또는 메모리 저장소를 사용할 수 있습니다).
+    // 이 예제에서는 HashMap을 사용합니다.
+    verificationCodes.put(phoneNumber, verificationCode);
+
+    return verificationCode;
+  }
+
+  public SmsResponseDto sendSmsAndGenerateVerificationCode(MessageDto messageDto, String phoneNumber)
+          throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    // SMS 보내는 로직 (이미 구현된 코드)
+
+    // 인증번호 생성
+    String verificationCode = generateAndSaveVerificationCode(phoneNumber);
+
+    // 인증번호를 SMS 내용에 추가
+    messageDto.setContent("Your verification code is: " + verificationCode);
+
+    // SMS를 다시 보냄 (이 부분은 인증번호가 포함된 내용으로 보냄)
+    SmsResponseDto response = sendSms(messageDto);
 
     return response;
   }

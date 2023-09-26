@@ -24,4 +24,5 @@ public interface MemberService {
 
     List<Notification> getNotifications(int memberId) throws Exception;
     void deleteAllNotifications(int memberId) throws Exception;
+
 }
