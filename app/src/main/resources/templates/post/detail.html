@@ -141,7 +141,8 @@
                   th:data-member-id="${post.member.id}">
             <img class="followImage"
                  th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
-                 th:id="${'followImage-' + post.member.id}">
+                 th:id="${'followImage-' + post.member.id}"
+                 width="110" height="30">
           </button>
         </div>
       </div>

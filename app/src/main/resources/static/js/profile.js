@@ -54,6 +54,26 @@ function openFollowingModal() {
   }
 }
 
+// 팔로우 버튼
+$(".followButton").on("click", function () {
+  let memberId = $(this).data("member-id");
+  let isFollowed = $(this).data("is-followed");
+
+  $.ajax({
+    url: "/member/" + memberId + "/follow",
+    type: "POST",
+    success: function (response) {
+      if (response.newIsFollowed) {
+        $("#followImage-" + memberId).attr("src", "/images/follow_on.png");
+        $(".followButton[data-member-id='" + memberId + "']").data("is-followed", true);
+      } else {
+        $("#followImage-" + memberId).attr("src", "/images/follow_off.png");
+        $(".followButton[data-member-id='" + memberId + "']").data("is-followed", false);
+      }
+    }
+  });
+});
+
 // 팔로잉 목록 모달창 닫기
 function closeFollowingModal() {
   var modal = document.getElementById("followingModal");

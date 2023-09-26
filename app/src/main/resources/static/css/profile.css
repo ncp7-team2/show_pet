@@ -206,3 +206,40 @@ a {
   height: 400px; /* 원하는 높이로 설정 */
   object-fit: cover;
 }
+
+.button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.35;
+}
+
+.followButton {
+  position: absolute; /* 절대 위치를 설정하여 프로필 이미지의 우측 하단에 위치시킵니다. */
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+}
+
+.follow-info {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 가운데 정렬 */
+}
+
+.follow-info p:nth-child(2) {
+  margin-left: 0px; /* | 글자의 왼쪽에 간격 추가 */
+  margin-right: 10px; /* | 글자의 오른쪽에 간격 추가 */
+}
+
+.followImage {
+  width: 130px !important;
+  height: 40px !important;
+}
