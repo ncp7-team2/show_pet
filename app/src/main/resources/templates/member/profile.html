@@ -24,6 +24,8 @@
     <img data-th-if="${member.photo != null}"
          data-th-src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/member/${member.photo}|">
 
+  </div>
+  <div>
     <button type="button" class="button followButton" th:data-is-followed="${member.isFollowed}"
             th:data-member-id="${member.id}">
       <img class="followImage"
@@ -31,7 +33,6 @@
            th:id="${'followImage-' + member.id}" width="120" height="80">
     </button>
   </div>
-
   <!-- 현재 로그인한 사용자가 자신의 프로필을 보고 있을 때만 표시 -->
   <a data-th-if="${session.loginUser.id == member.id}"
      th:href="@{'/member/detail/' + ${member.id}}">
