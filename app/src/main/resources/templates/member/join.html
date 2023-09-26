@@ -47,25 +47,26 @@
       </div>
 
 
-
-<!--      휴대폰번호 인증부분-->
+      <!--      휴대폰번호 인증부분-->
       <div id="phoneVerificationModal">
         <form action="/sms/send" method="POST">
           <div class="item--휴대폰번호인증">
             <p style="font-size: 18px">전화번호 인증</p>
             <p style="font-size: 16px; margin-bottom: 10px">전화번호를 입력하고 인증 코드를 받으세요.</p>
-          <div class="item--Pw1" style="margin-right: 20px" >
+            <div class="item--Pw1" style="margin-right: 20px">
 
-            <!-- 전화번호 입력 필드 추가 --><!-- 인증 코드 전송 버튼 -->
-            <input type="text" id="phoneNumber" name="to" placeholder="휴대폰 번호 입력" style="width: 250px; height: 25px">
-            <button class="Pwbutton" type="button" id="sendVerificationCode">인증 받기</button>
-          </div>
+              <!-- 전화번호 입력 필드 추가 --><!-- 인증 코드 전송 버튼 -->
+              <input type="text" id="phoneNumber" name="to" placeholder="휴대폰 번호 입력"
+                     style="width: 250px; height: 25px">
+              <button class="Pwbutton" type="button" id="sendVerificationCode">인증 받기</button>
+            </div>
             <br>
             <!-- 인증 코드 입력 필드와 확인 버튼 추가 -->
             <div class="item--Pw1">
-            <input type="text" id="verificationCode" placeholder="인증 코드 입력" style="width: 250px; height: 25px">
+              <input type="text" id="verificationCode" placeholder="인증 코드 입력"
+                     style="width: 250px; height: 25px">
               <button class="Pwbutton" type="button" id="confirmVerificationCode">확인</button>
-          </div>
+            </div>
           </div>
         </form>
       </div>
@@ -76,7 +77,6 @@
           <input type="text" id="tel" name='tel' placeholder="전화번호 인증을 받으세요" readonly>
         </div>
       </div>
-
 
 
       <div class="pet--pet">

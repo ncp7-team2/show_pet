@@ -80,20 +80,6 @@
       <button id="myPostsButton" class="my-button">작성한 게시물</button>
       <button id="likedPostsButton" class="my-button">좋아요한 게시물</button>
       <button id="bookmarkedPostsButton" class="my-button">북마크한 게시물</button>
-      <button id="notificationsButton" class="my-button">받은 알림</button>
-    </div>
-
-    <div id="notificationModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close" onclick="closeNotificationModal()">&times;</span>
-        <h2>받은 알림</h2>
-        <button id="deleteAllNotificationsButton" class="btn btn-danger">전체 삭제</button>
-        <ul id="notificationList">
-          <li th:each="notification : ${notifications}">
-            <span th:text="${notification.content}"></span>
-          </li>
-        </ul>
-      </div>
     </div>
 
     <div id="myPosts">
@@ -155,5 +141,6 @@
   <script th:src="@{/js/header.js}"></script>
 
 </div>
-</body>`
+</body>
+`
 </html>

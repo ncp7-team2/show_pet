@@ -7,16 +7,17 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "kakao")
 public class KakaoConfig {
 
-    private String restApi;
+  private String restApi;
 
-    public KakaoConfig() {
-            System.out.println("KakaoConfig() executed");
-        }
+  public KakaoConfig() {
+    System.out.println("KakaoConfig() executed");
+  }
 
-    public String getRestApi() {
-        return restApi;
-    }
-    public void setRestApi(String restApi) {
-        this.restApi = restApi;
-    }
+  public String getRestApi() {
+    return restApi;
+  }
+
+  public void setRestApi(String restApi) {
+    this.restApi = restApi;
+  }
 }
