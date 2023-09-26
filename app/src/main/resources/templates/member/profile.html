@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>마이페이지</title>
+  <title>ShowPet</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rammetto+One%3A400"/>
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
@@ -36,12 +36,10 @@
         <button class="my-profile-button">프로필 수정</button></a>
 
   <div class="my-follow-container">
-    <div>
-      <p th:text="${member.intro}">intro</p>
-      <p>팔로워 수: <span class="profile-count" th:text="${followerCount}"
-                      onclick="openFollowerModal()"></span></p>
-      <p>팔로잉 수: <span class="profile-count" th:text="${followingsCount}"
-                      onclick="openFollowingModal()"></span></p>
+    <div class="my-follow-container2">
+      <p th:text="${member.intro}" style="font-size: 30px">intro</p>
+      <p class="profile-count" onclick="openFollowerModal()" style="margin-right: 20px;">팔로워&nbsp;&nbsp;<span th:text="${followerCount}"></span></p>
+      <p class="profile-count" onclick="openFollowingModal()" style="margin-left: 20px;">팔로잉&nbsp;&nbsp;<span th:text="${followingsCount}"></span></p>
     </div>
 
     <!-- 팔로워 목록 모달창 -->
