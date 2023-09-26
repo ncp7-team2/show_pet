@@ -16,9 +16,10 @@
 }
 
 .button {
-    background-color: #DDD;
+    background-color: #504e4d;
     border: none;
-    color: black;
+    color: white;
+    width: 120px;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -26,9 +27,10 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 16px;
+    font-size: 16px !important;
+    transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
 }
-.selected-button {
-    background-color: #f05400;; /* 선택한 버튼의 배경색을 원하는 색상으로 변경하세요 */
-    color: #ffffff; /* 선택한 버튼의 텍스트 색상을 원하는 색상으로 변경하세요 */
-    /* 기타 스타일 속성들을 추가하세요 */
+
+.button:hover {
+    background-color: #f05400; /* 선택한 버튼의 배경색을 원하는 색상으로 변경하세요 */
 }
