@@ -1,6 +1,7 @@
 package bitcamp.show_pet.post.model.dao;
 
 import bitcamp.show_pet.post.model.vo.AttachedFile;
+import bitcamp.show_pet.post.model.vo.Comment;
 import bitcamp.show_pet.post.model.vo.Post;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
@@ -37,4 +38,10 @@ public interface PostDao {
     boolean isBookmarked(@Param("postId") int postId, @Param("memberId") int memberId);
     List<Post> getBookmarkedPosts(int memberId);
     List<Post> getMyPosts(int memberId);
+
+    List<Comment> findCommentsByPostId(int postId);
+    void insertComment(int postId, int memberId, String content) throws Exception;
+    void deleteComment(@Param("commentId") int commentId, @Param("memberId") int memberId);
+    void insertComment(Comment comment);
+    void deleteComment(int commentId);
 }

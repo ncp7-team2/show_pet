@@ -1,30 +1,18 @@
 // 알림 모달 열기
 function openHeaderNotificationModal() {
-  var modal = document.getElementById('headerNotificationModal');
-  modal.style.display = 'block';
-
-  // 모달 바깥쪽을 클릭하면 모달 닫기
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-      window.onclick = null; // 클릭 이벤트 제거
-    }
-  };
+  document.getElementById('headerNotificationModal').style.display = 'block';
 }
 
 // 알림 모달 닫기
 function closeHeaderNotificationModal() {
-  var modal = document.getElementById('headerNotificationModal');
-  modal.style.display = 'none';
+  document.getElementById('headerNotificationModal').style.display = 'none';
 }
 
 // 페이지가 로드되면 저장된 알림을 불러옵니다.
 document.addEventListener('DOMContentLoaded', function () {
   loadHeaderNotifications();
 
-  // "전체 삭제" 버튼에 이벤트 리스너를 추가합니다.
-  const deleteAllNotificationsButton = document.getElementById(
-      'deleteAllNotificationsButton');
+  const deleteAllNotificationsButton = document.getElementById('deleteAllNotificationsButton');
   if (deleteAllNotificationsButton) {
     deleteAllNotificationsButton.addEventListener('click', function () {
       fetch('/member/notifications/deleteAll', {
@@ -32,10 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(response => {
         if (!response.ok) {
-          return Promise.reject(
-              'Error deleting notifications: ' + response.statusText);
+          return Promise.reject('Error deleting notifications: ' + response.statusText);
         }
-        // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
         const notiContainer = document.querySelector("#notificationList");
         while (notiContainer.firstChild) {
           notiContainer.removeChild(notiContainer.firstChild);
@@ -54,8 +40,7 @@ function loadHeaderNotifications() {
   })
   .then(response => {
     if (!response.ok) {
-      return Promise.reject(
-          'Error loading notifications: ' + response.statusText);
+      return Promise.reject('Error loading notifications: ' + response.statusText);
     }
     return response.json();
   })
@@ -85,6 +70,13 @@ window.addEventListener('load', function () {
 
   const eventSource = new EventSource('/member/notifications/stream');
   eventSource.addEventListener('alarm', function (event) {
+    const originalSrc = alarmIcon.src;
+    alarmIcon.src = '/images/new-alarm.gif'; // 알림이 왔을 때의 아이콘 (이미지 or GIF) 경로
+
+    setTimeout(function() {
+      alarmIcon.src = originalSrc; // 원래의 아이콘으로 돌려놓기
+    }, 2000); // 1초 후에 원래 아이콘으로 복구
+
     const data = JSON.parse(event.data);
     const notiContainer = document.querySelector("#notificationList");
     const newNoti = document.createElement("li");
@@ -95,6 +87,7 @@ window.addEventListener('load', function () {
       notiContainer.appendChild(newNoti);
     }
   });
+
   eventSource.onerror = function (event) {
     console.error('EventSource failed:', event);
     eventSource.close();

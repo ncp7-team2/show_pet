@@ -1,6 +1,7 @@
 package bitcamp.show_pet.post.service;
 
 import bitcamp.show_pet.post.model.vo.AttachedFile;
+import bitcamp.show_pet.post.model.vo.Comment;
 import bitcamp.show_pet.post.model.vo.Post;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -30,4 +31,8 @@ public interface PostService {
     Post setSessionStatus(int id, HttpSession session) throws Exception;
     boolean isBookmarked(int postId, int memberId);
     List<Post> getMyPosts(int memberId);
+
+    int addComment(int postId, int memberId, String content);
+    List<Comment> getCommentsByPostId(int postId);
+    void deleteComment(int commentId, int memberId) throws Exception;
 }
