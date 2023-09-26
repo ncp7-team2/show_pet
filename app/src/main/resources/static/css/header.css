@@ -86,23 +86,30 @@ body {
 
 /* 로그인 및 회원가입 버튼 스타일링 */
 .login-button {
-  background-color: #504e4d;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 16px;
-  font-size: 16px !important;
-    transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
+    background-color: #504e4d;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
 }
 
-/* 버튼에 호버 효과 추가 */
 .login-button:hover {
-  background-color: #f05400;
+    background-color: #f05400;
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+.login-button:active {
+    background-color: #f05400;
+    transform: translateY(0);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .round-image {
