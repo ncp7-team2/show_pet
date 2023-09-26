@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
   <link rel="stylesheet" th:href="@{/css/join.css}"/>
 </head>
-
 <body>
 <div calss="main">
   <form action="add" method="post" onsubmit="return validatePassword();">
@@ -92,6 +91,7 @@
     </div>
   </form>
 </div>
+<script th:src="@{/js/phoneNumber.js}"></script>
 <script>
   // "인증 코드 전송" 버튼 클릭 시 AJAX 요청을 통해 데이터를 서버로 전송
   document.getElementById("sendVerificationCode").addEventListener("click", function () {

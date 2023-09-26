@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bitcamp.show_pet.post.model.dao.PostDao">
 
   <resultMap type="post" id="postMap">
@@ -24,6 +24,11 @@
     </collection>
   </resultMap>
 
+  <resultMap id="commentMap" type="Comment">
+    <id property="id" column="cmt_id"/>
+    <result property="content" column="content"/>
+  </resultMap>
+
   <resultMap type="post" id="bookmarkMap">
     <id column="post_id" property="id"/>
     <result column="member_id" property="memberId"/>
@@ -36,7 +41,7 @@
   </resultMap>
 
   <insert id="insert" parameterType="post"
-    useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
+          useGeneratedKeys="true" keyColumn="post_id" keyProperty="id">
     insert into post(title,content,hashtag,category,member_id)
     values(#{title},#{content},#{hashtag},#{category},#{member.id})
   </insert>
@@ -97,9 +102,12 @@
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 1
     ORDER BY
@@ -111,12 +119,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 2
     ORDER BY
@@ -128,12 +140,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 3
     ORDER BY
@@ -145,12 +161,16 @@
     p.post_id,
     m.nickname,
     m.member_id,
+    m.photo,
     p.title,
     p.content,
     p.hashTag,
-    p.created_at
+    p.created_at,
+    f.file_id,
+    f.filepath
     FROM
     post p inner join member m on p.member_id=m.member_id
+    left outer join file f on p.post_id=f.post_id
     where
     p.category = 4
     ORDER BY
@@ -330,5 +350,22 @@
     ORDER BY
     p.post_id DESC
   </select>
+
+  <!--댓글 쿼리-->
+  <select id="findCommentsByPostId" resultMap="commentMap">
+    SELECT c.*, m.nickname as commenter
+    FROM post_comment c
+    JOIN member m ON c.member_id = m.member_id
+    WHERE post_id = #{postId}
+    ORDER BY created_at DESC
+  </select>
+
+  <insert id="insertComment">
+    INSERT INTO post_comment (post_id, member_id, content) VALUES (#{postId}, #{memberId}, #{content})
+  </insert>
+
+  <delete id="deleteComment">
+    DELETE FROM post_comment WHERE cmt_id = #{commentId} AND member_id = #{memberId}
+  </delete>
 
 </mapper>

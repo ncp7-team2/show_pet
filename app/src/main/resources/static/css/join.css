@@ -240,6 +240,55 @@ body {
   flex-shrink: 0;
 }
 
+#nickname {
+  width: 80%; /* 원하는 너비로 조정하세요. */
+  height: 20px;
+}
+
+
+.item--이메일 .item--휴대폰번호 {
+  margin: 0rem 5.6rem 3.3rem 3.6rem;
+  width: calc(100% - 9.2rem);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.item--이메일 .item--휴대폰번호 .item--Pw {
+  margin-bottom: 0.9rem;
+  width: 100%;
+  text-align: left; /*닉네임 텍스트 왼쪽 정렬*/
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.1825;
+  font-style: italic;
+  color: #000000;
+  font-family: ABeeZee, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.item--이메일 .item--휴대폰번호 .item--Pw1 {
+  box-sizing: border-box;
+  padding: 1rem 1.7143rem;
+  width: 40rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+  font-family: ABeeZee, 'Source Sans Pro';
+  white-space: nowrap;
+  border: solid 0.1rem #dddddd;
+  border-radius: 1rem;
+  flex-shrink: 0;
+}
+
+#tel {
+  width: 80%; /* 원하는 너비로 조정하세요. */
+  height: 20px;
+}
+
+
 .item--이메일 .pet--pet {
   margin: 0rem 5.6rem 7.971rem 3.6rem;
   width: calc(100% - 9.2rem);
