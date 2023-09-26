@@ -137,7 +137,7 @@
 <div data-th-replace="header :: header"></div>
 <div class="post-box">
   <h1>글쓰기</h1>
-  <form data-th-action="@{/post/add}" method='post' enctype='multipart/form-data'>
+  <form data-th-action="@{/post/add}" method='post' enctype='multipart/form-data' onsubmit="return validateForm()">
     <div class="form-group">
       <label for="title">제목</label>
       <input type='text' id="title" name='title'>
@@ -195,6 +195,29 @@
     <script>
       // + 버튼 클릭 시 미리보기 기능 동작
       const fileInputIds = ['files', 'files1', 'files2', 'files3', 'files4'];
+
+      function validateForm() {
+        let allFilesEmpty = true; // 모든 파일 입력 필드가 비어있는지 여부를 판단하는 변수
+
+        // 각 파일 입력 필드에 대한 검증
+        for (let i = 0; i < fileInputIds.length; i++) {
+          const inputId = fileInputIds[i];
+          const filesInput = document.getElementById(inputId);
+          const files = filesInput.files;
+
+          if (files.length > 0) {
+            allFilesEmpty = false; // 파일이 하나라도 등록되었으면 allFilesEmpty를 false로 설정
+          }
+        }
+
+        if (allFilesEmpty) {
+          alert('파일을 1장 이상 추가해주세요.');
+          return false; // 폼 제출 중단
+        }
+
+        // 파일 선택이 되었을 경우에는 폼 제출을 계속 진행
+        return true;
+      }
 
       for (let i = 0; i < fileInputIds.length; i++) {
         const inputId = fileInputIds[i];
