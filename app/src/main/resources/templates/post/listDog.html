@@ -23,7 +23,9 @@
 <h1>강아지</h1>
 <div style='margin:5px;'>
   <button class="button" type="button" onclick="location.href='/post/list'">전체보기</button>
-  <button class="button" type="button" onclick="location.href='/post/listDog'" style="background-color: #f05400">강아지</button>
+  <button class="button" type="button" onclick="location.href='/post/listDog'"
+          style="background-color: #f05400">강아지
+  </button>
   <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
   <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
   <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
@@ -34,13 +36,13 @@
     <div th:if="${searchKeyword == null or #strings.containsIgnoreCase(post.title, searchKeyword)}">
 
       <div
-              data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
+          data-th-if="${post != null and post.attachedFiles != null and post.attachedFiles.size() > 0}">
 
         <!-- 첫 번째 파일만 선택하여 표시 -->
         <div class="image-thumbnail" th:with="firstFile=${post.attachedFiles[0]}">
           <a data-th-href="@{'/post/detail/' + ${post.category} + '/' + ${post.id}}">
             <img
-                    th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
+                th:src="${firstFile != null} ? 'https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/' + ${firstFile.filePath} : ''">
           </a>
         </div>
       </div>

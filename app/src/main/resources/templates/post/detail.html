@@ -34,7 +34,7 @@
 
     #postCommentButton {
       display: block;
-      width:380px;
+      width: 380px;
       padding: 10px;
       background-color: #594e4e;
       color: white;
@@ -55,6 +55,7 @@
     #commentList li:last-child {
       border-bottom: none; /* 마지막 댓글의 구분선을 제거합니다. */
     }
+
     body {
       width: 1440px;
       height: 900px;
@@ -159,7 +160,8 @@
                   th:data-member-id="${post.member.id}">
             <img class="followImage"
                  th:src="${post.member.isFollowed} ? '/images/follow_on.png' : '/images/follow_off.png'"
-                 th:id="${'followImage-' + post.member.id}">
+                 th:id="${'followImage-' + post.member.id}"
+                 width="110" height="30">
           </button>
         </div>
       </div>
@@ -170,7 +172,8 @@
         <div class="square-box" style="text-align: center;">
           <div data-th-if="${post.attachedFiles != null && !post.attachedFiles.isEmpty()}">
             <div th:each="file, fileIndex : ${post.attachedFiles}">
-              <img th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
+              <img
+                  th:src="|https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${file.filePath}|">
             </div>
 
           </div>
@@ -252,10 +255,10 @@
           }
           var newIsBookmarked = response.newIsBookmarked;
           $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                  newIsBookmarked);
+              newIsBookmarked);
 
           var newImageSrc = newIsBookmarked ? "/images/bookmark_on.png"
-                  : "/images/bookmark_off.png";
+              : "/images/bookmark_off.png";
           $("#bookmarkImage-" + postId).attr("src", newImageSrc);
         }
       });
@@ -323,7 +326,7 @@
               let imageSrc = isBookmarked ? "/images/bookmark_on.png" : "/images/bookmark_off.png";
               $("#bookmarkImage-" + postId).attr("src", imageSrc);
               $(".bookmarkButton[data-post-id='" + postId + "']").data("is-bookmarked",
-                      isBookmarked);
+                  isBookmarked);
             }
           }
         });
@@ -386,19 +389,19 @@
         fetch('/member/notifications/deleteAll', {
           method: 'POST',
         })
-                .then(response => {
-                  if (!response.ok) {
-                    return Promise.reject('Error deleting notifications: ' + response.statusText);
-                  }
-                  // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
-                  const notiContainer = document.querySelector("#notificationList");
-                  while (notiContainer.firstChild) {
-                    notiContainer.removeChild(notiContainer.firstChild);
-                  }
-                })
-                .catch(error => {
-                  console.error(error);
-                });
+        .then(response => {
+          if (!response.ok) {
+            return Promise.reject('Error deleting notifications: ' + response.statusText);
+          }
+          // 성공적으로 삭제되었을 경우, UI에서도 알림을 제거합니다.
+          const notiContainer = document.querySelector("#notificationList");
+          while (notiContainer.firstChild) {
+            notiContainer.removeChild(notiContainer.firstChild);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
       });
     }
   });
@@ -407,23 +410,23 @@
     fetch('/member/headerNotifications', {
       method: 'GET',
     })
-            .then(response => {
-              if (!response.ok) {
-                return Promise.reject('Error loading notifications: ' + response.statusText);
-              }
-              return response.json();
-            })
-            .then(notifications => {
-              const notiContainer = document.querySelector("#notificationList");
-              notifications.forEach(notification => {
-                const newNoti = document.createElement("li");
-                newNoti.textContent = notification.content;
-                notiContainer.appendChild(newNoti);
-              });
-            })
-            .catch(error => {
-              console.error(error);
-            });
+    .then(response => {
+      if (!response.ok) {
+        return Promise.reject('Error loading notifications: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(notifications => {
+      const notiContainer = document.querySelector("#notificationList");
+      notifications.forEach(notification => {
+        const newNoti = document.createElement("li");
+        newNoti.textContent = notification.content;
+        notiContainer.appendChild(newNoti);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
   }
 
   window.addEventListener('load', function () {
@@ -492,7 +495,7 @@
         url: `/post/detail/${category}/${postId}/comment`,
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ content: commentText }),
+        data: JSON.stringify({content: commentText}),
         success: function (response) {
           if (response.status === "success") {
             const commenter = response.commenter;
@@ -501,7 +504,7 @@
             const newComment = $("<li>");
             newComment.text(commentText);
             newComment.append($("<span>").text("작성자: " + commenter));
-            newComment.append($("<button>").text("삭제").click(function() {
+            newComment.append($("<button>").text("삭제").click(function () {
               $.ajax({
                 url: `/post/detail/${category}/${postId}/comment/${commentId}`,
                 type: "DELETE",
@@ -573,17 +576,15 @@
       });
     }
 
-
     loadComments(category, postId);
   });
-
 
   function getPostIdFromUrl() {
     const urlSegments = window.location.pathname.split('/');
     const category = urlSegments[urlSegments.length - 2]; // URL에서 카테고리 추출
     const postId = urlSegments[urlSegments.length - 1]; // URL에서 postId 추출
 
-    return { category, postId };
+    return {category, postId};
   }
 </script>
 <script th:src="@{/js/header.js}"></script>
