@@ -29,4 +29,5 @@ public interface MemberDao {
     int updateReadStatus(int id, boolean isRead);
     List<Notification> findNotificationsByMemberId(int memberId);
     void deleteAllNotifications(int memberId) throws Exception;
+
 }

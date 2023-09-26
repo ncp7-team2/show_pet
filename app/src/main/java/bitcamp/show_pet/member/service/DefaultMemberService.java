@@ -99,4 +99,5 @@ public class DefaultMemberService implements MemberService {
   public void deleteAllNotifications(int memberId) throws Exception {
     memberDao.deleteAllNotifications(memberId);
   }
+
 }
