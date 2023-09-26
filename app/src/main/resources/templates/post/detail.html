@@ -14,6 +14,46 @@
   <link rel="stylesheet" th:href="@{/css/header.css}"/>
   <link rel="stylesheet" th:href="@{/css/modal.css}"/>
   <style>
+    .comment-section {
+      width: 300px; /* 댓글 섹션의 너비를 설정합니다. */
+      float: right; /* 댓글 섹션을 오른쪽에 배치합니다. */
+      margin-left: 20px; /* 게시글과 댓글 섹션 사이의 간격을 설정합니다. */
+    }
+
+    .comment-input-section {
+      margin-bottom: 10px;
+    }
+
+    #commentInput {
+      width: calc(100% - 20px); /* padding을 고려하여 너비를 설정합니다. */
+      padding: 10px;
+      box-sizing: border-box; /* padding이 요소의 전체 너비에 포함되도록 설정합니다. */
+      resize: none; /* 사용자가 textarea의 크기를 변경하지 못하게 합니다. */
+    }
+
+    #postCommentButton {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #594e4e;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    #commentList {
+      list-style: none; /* 댓글 목록의 점을 제거합니다. */
+      padding: 0; /* 댓글 목록의 패딩을 제거합니다. */
+    }
+
+    #commentList li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc; /* 댓글 간의 구분선을 추가합니다. */
+    }
+
+    #commentList li:last-child {
+      border-bottom: none; /* 마지막 댓글의 구분선을 제거합니다. */
+    }
     body {
       width: 1440px;
       height: 900px;
@@ -142,6 +182,18 @@
       </tr>
     </table>
   </form>
+</div>
+<div class="comment-section">
+  <!-- 댓글 작성 창 -->
+  <div class="comment-input-section">
+    <textarea id="commentInput" placeholder="댓글을 입력하세요..."></textarea>
+    <button id="postCommentButton">댓글 작성</button>
+  </div>
+
+  <!-- 댓글 목록 -->
+  <ul id="commentList">
+    <!-- 댓글은 여기에 추가됩니다. -->
+  </ul>
 </div>
 
 <script>
@@ -384,6 +436,137 @@
     };
   });
 
+  $(document).ready(function () {
+    const urlSegments = window.location.pathname.split('/');
+    const category = urlSegments[urlSegments.length - 2];
+    const postId = urlSegments[urlSegments.length - 1];
+
+    function getPost(category, postId) {
+      $.ajax({
+        url: `/post/detail/${category}/${postId}`,
+        type: "GET",
+        success: function (response) {
+          if (response.status === "success") {
+            const post = response.post;
+            $("#postTitle").text(post.title);
+            $("#postContent").text(post.content);
+          } else {
+            console.error("게시글 가져오기 실패");
+          }
+        },
+        error: function (error) {
+          console.error("게시글 가져오기 실패", error);
+        }
+      });
+    }
+
+    getPost(category, postId);
+
+    $("#postCommentButton").click(function () {
+      const commentText = $("#commentInput").val().trim();
+      if (commentText === "") {
+        alert("댓글을 입력해주세요.");
+        return;
+      }
+
+      $.ajax({
+        url: `/post/detail/${category}/${postId}/comment`,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ content: commentText }),
+        success: function (response) {
+          if (response.status === "success") {
+            const commenter = response.commenter;
+            const commentId = response.commentId;
+
+            const newComment = $("<li>");
+            newComment.text(commentText);
+            newComment.append($("<span>").text("작성자: " + commenter));
+            newComment.append($("<button>").text("삭제").click(function() {
+              $.ajax({
+                url: `/post/detail/${category}/${postId}/comment/${commentId}`,
+                type: "DELETE",
+                success: function (response) {
+                  if (response.status === "success") {
+                    newComment.remove();
+                  } else {
+                    alert("댓글 삭제 실패");
+                  }
+                },
+                error: function () {
+                  alert("댓글 삭제 실패");
+                }
+              });
+            }));
+
+            $("#commentList").prepend(newComment);
+            $("#commentInput").val("");
+          } else if (response.status === "unauthorized") {
+            alert("로그인이 필요합니다.");
+          } else {
+            alert("댓글 작성에 실패했습니다.");
+          }
+        },
+        error: function (error) {
+          console.error("댓글 작성 실패", error);
+        }
+      });
+    });
+
+    function loadComments(category, postId) {
+      $.ajax({
+        url: `/post/detail/${category}/${postId}/comment`,
+        type: "GET",
+        success: function (response) {
+          if (response.status === "success") {
+            const comments = response.comments;
+            comments.forEach(comment => {
+              const newComment = $("<li>").text(comment.content);
+              newComment.append($("<span>").text(" 작성자: " + comment.commenter)); // 수정된 부분
+
+              const deleteButton = $("<button>").text("삭제").click(function () {
+                $.ajax({
+                  url: `/post/detail/${category}/${postId}/comment/${comment.id}`,
+                  type: "DELETE",
+                  success: function (response) {
+                    if (response.status === "success") {
+                      newComment.remove();
+                    } else {
+                      alert("댓글 삭제 실패");
+                    }
+                  },
+                  error: function () {
+                    alert("댓글 삭제 실패");
+                  }
+                });
+              });
+
+              newComment.append(deleteButton);
+              $("#commentList").prepend(newComment);
+            });
+          } else {
+            console.error("댓글 로드 실패");
+          }
+        },
+        error: function (error) {
+          console.error("댓글 로드 실패", error);
+        }
+      });
+    }
+
+
+    loadComments(category, postId);
+  });
+
+
+  function getPostIdFromUrl() {
+    const urlSegments = window.location.pathname.split('/');
+    const category = urlSegments[urlSegments.length - 2]; // URL에서 카테고리 추출
+    const postId = urlSegments[urlSegments.length - 1]; // URL에서 postId 추출
+
+    return { category, postId };
+  }
 </script>
+<script th:src="@{/js/header.js}"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ package bitcamp.show_pet.post.service;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.post.model.dao.PostDao;
 import bitcamp.show_pet.post.model.vo.AttachedFile;
+import bitcamp.show_pet.post.model.vo.Comment;
 import bitcamp.show_pet.post.model.vo.Post;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -188,5 +189,25 @@ public class DefaultPostService implements PostService {
   @Override
   public List<Post> getMyPosts(int memberId) {
     return postDao.getMyPosts(memberId);
+  }
+
+  @Override
+  public List<Comment> getCommentsByPostId(int postId) {
+    return postDao.findCommentsByPostId(postId);
+  }
+
+  @Override
+  public int addComment(int postId, int memberId, String content) {
+    Comment comment = new Comment();
+    comment.setPostId(postId);
+    comment.setMemberId(memberId);
+    comment.setContent(content);
+    postDao.insertComment(comment);
+    return postId;
+  }
+
+  @Override
+  public void deleteComment(int commentId, int memberId) {
+    postDao.deleteComment(commentId, memberId);
   }
 }

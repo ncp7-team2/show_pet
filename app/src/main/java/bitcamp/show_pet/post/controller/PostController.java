@@ -4,6 +4,8 @@ import bitcamp.show_pet.NcpObjectStorageService;
 import bitcamp.show_pet.member.model.vo.Member;
 import bitcamp.show_pet.member.service.DefaultNotificationService;
 import bitcamp.show_pet.post.model.vo.AttachedFile;
+import bitcamp.show_pet.post.model.vo.Comment;
+import bitcamp.show_pet.post.model.vo.CommentRequest;
 import bitcamp.show_pet.post.model.vo.Post;
 import bitcamp.show_pet.post.service.PostService;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -315,6 +318,65 @@ public class PostController {
         response.put(postId, isBookmarked);
       }
     }
+    return response;
+  }
+
+  @PostMapping("/detail/{category}/{postId}/comment")
+  @ResponseBody
+  public Map<String, Object> addComment(
+      @PathVariable String category,
+      @PathVariable int postId,
+      @RequestBody CommentRequest commentRequest,
+      HttpSession session) throws Exception {
+
+    Map<String, Object> response = new HashMap<>();
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      response.put("status", "unauthorized");
+      return response;
+    }
+    int commentId = postService.addComment(postId, loginUser.getId(), commentRequest.getContent());
+
+    Post post = postService.get(postId);
+    if (post != null) {
+      String content = loginUser.getNickName() + "님이 당신의 게시글에 댓글을 남겼습니다.";
+      defaultNotificationService.send(content, post.getMember().getId());
+    }
+
+    response.put("status", "success");
+    response.put("commenter", loginUser.getNickName());
+    response.put("commentId", commentId);
+    return response;
+  }
+
+
+  @DeleteMapping("/detail/{category}/{postId}/comment/{commentId}")
+  @ResponseBody
+  public Map<String, Object> deleteComment(
+      @PathVariable String category,
+      @PathVariable int postId,
+      @PathVariable int commentId,
+      HttpSession session) throws Exception {
+    Map<String, Object> response = new HashMap<>();
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      response.put("status", "unauthorized");
+      return response;
+    }
+    postService.deleteComment(commentId, loginUser.getId());
+    response.put("status", "success");
+    return response;
+  }
+
+  @GetMapping("/detail/{category}/{postId}/comment")
+  @ResponseBody
+  public Map<String, Object> getCommentsByPostId(
+      @PathVariable String category,
+      @PathVariable int postId) {
+    Map<String, Object> response = new HashMap<>();
+    List<Comment> comments = postService.getCommentsByPostId(postId);
+    response.put("status", "success");
+    response.put("comments", comments);
     return response;
   }
 

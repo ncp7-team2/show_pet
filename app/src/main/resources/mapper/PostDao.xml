@@ -24,6 +24,11 @@
     </collection>
   </resultMap>
 
+  <resultMap id="commentMap" type="Comment">
+    <id property="id" column="cmt_id"/>
+    <result property="content" column="content"/>
+  </resultMap>
+
   <resultMap type="post" id="bookmarkMap">
     <id column="post_id" property="id"/>
     <result column="member_id" property="memberId"/>
@@ -345,5 +350,22 @@
     ORDER BY
     p.post_id DESC
   </select>
+
+  <!--댓글 쿼리-->
+  <select id="findCommentsByPostId" resultMap="commentMap">
+    SELECT c.*, m.nickname as commenter
+    FROM post_comment c
+    JOIN member m ON c.member_id = m.member_id
+    WHERE post_id = #{postId}
+    ORDER BY created_at DESC
+  </select>
+
+  <insert id="insertComment">
+    INSERT INTO post_comment (post_id, member_id, content) VALUES (#{postId}, #{memberId}, #{content})
+  </insert>
+
+  <delete id="deleteComment">
+    DELETE FROM post_comment WHERE cmt_id = #{commentId} AND member_id = #{memberId}
+  </delete>
 
 </mapper>
