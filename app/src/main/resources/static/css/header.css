@@ -97,6 +97,7 @@ body {
   cursor: pointer;
   border-radius: 16px;
   font-size: 16px !important;
+    transition: background-color 0.3s ease; /* 호버 효과를 부드럽게 만들기 위한 트랜지션 */
 }
 
 /* 버튼에 호버 효과 추가 */

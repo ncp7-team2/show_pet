@@ -26,11 +26,11 @@
 <h1>모아보기</h1>
 </span>
 <div style='margin:5px;'>
-  <button class="button" id="allButton" type="button" onclick="location.href='/post/list'">전체보기</button>
-  <button class="button" id="dogButton" type="button" onclick="location.href='/post/listDog'">강아지</button>
-  <button class="button" id="catButton" type="button" onclick="location.href='/post/listCat'">고양이</button>
-  <button class="button" id="birdButton" type="button" onclick="location.href='/post/listBird'">새</button>
-  <button class="button" id="etcButton" type="button" onclick="location.href='/post/listEtc'">기타</button>
+  <button class="button" type="button" onclick="location.href='/post/list'" style="background-color: #f05400">전체보기</button>
+  <button class="button" type="button" onclick="location.href='/post/listDog'">강아지</button>
+  <button class="button" type="button" onclick="location.href='/post/listCat'">고양이</button>
+  <button class="button" type="button" onclick="location.href='/post/listBird'">새</button>
+  <button class="button" type="button" onclick="location.href='/post/listEtc'">기타</button>
 </div>
 
 <div class="square-box">
@@ -54,72 +54,6 @@
     </div>
   </div>
 </div>
-
-<script>
-  // 모든 버튼 요소 가져오기
-  const allButton = document.getElementById('allButton');
-  const dogButton = document.getElementById('dogButton');
-  const catButton = document.getElementById('catButton');
-  const birdButton = document.getElementById('birdButton');
-  const etcButton = document.getElementById('etcButton');
-
-  // 각 버튼에 대한 클릭 이벤트 리스너 추가
-  allButton.addEventListener('click', () => {
-    // 선택한 버튼에 클래스 추가
-    allButton.classList.add('selected-button');
-
-    // 다른 버튼에서 클래스 제거
-    dogButton.classList.remove('selected-button');
-    catButton.classList.remove('selected-button');
-    birdButton.classList.remove('selected-button');
-    etcButton.classList.remove('selected-button');
-  });
-
-  dogButton.addEventListener('click', () => {
-    // 선택한 버튼에 클래스 추가
-    dogButton.classList.add('selected-button');
-
-    // 다른 버튼에서 클래스 제거
-    allButton.classList.remove('selected-button');
-    catButton.classList.remove('selected-button');
-    birdButton.classList.remove('selected-button');
-    etcButton.classList.remove('selected-button');
-  });
-
-  catButton.addEventListener('click', () => {
-    // 선택한 버튼에 클래스 추가
-    catButton.classList.add('selected-button');
-
-    // 다른 버튼에서 클래스 제거
-    allButton.classList.remove('selected-button');
-    dogButton.classList.remove('selected-button');
-    birdButton.classList.remove('selected-button');
-    etcButton.classList.remove('selected-button');
-  });
-
-  birdButton.addEventListener('click', () => {
-    // 선택한 버튼에 클래스 추가
-    birdButton.classList.add('selected-button');
-
-    // 다른 버튼에서 클래스 제거
-    allButton.classList.remove('selected-button');
-    dogButton.classList.remove('selected-button');
-    catButton.classList.remove('selected-button');
-    etcButton.classList.remove('selected-button');
-  });
-
-  etcButton.addEventListener('click', () => {
-    // 선택한 버튼에 클래스 추가
-    etcButton.classList.add('selected-button');
-
-    // 다른 버튼에서 클래스 제거
-    allButton.classList.remove('selected-button');
-    dogButton.classList.remove('selected-button');
-    catButton.classList.remove('selected-button');
-    birdButton.classList.remove('selected-button');
-  });
-</script>
-
 
 </body>
 </html>

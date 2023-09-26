@@ -48,7 +48,7 @@
       <div class="item--휴대폰번호">
         <label for="nickname" class="item--Pw">휴대폰번호</label>
         <div class="item--Pw1">
-          <input type="text" id="tel" name='tel' placeholder="휴대폰 번호를 입력해 주세요">
+          <input type="text" id="tel" name='tel' placeholder="띄어쓰기와 '-' 없이 입력해 주세요">
         </div>
       </div>
       <div class="pet--pet">
@@ -70,6 +70,7 @@
     </div>
   </form>
 </div>
+<script th:src="@{/js/phoneNumber.js}"></script>
 <script>
 
   // "로그인하기" 텍스트 클릭 시 login.html로 이동
