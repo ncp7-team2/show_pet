@@ -46,9 +46,6 @@ public class MemberController {
   }
 
   @Autowired
-  KakaoConfig kakaoConfig;
-
-  @Autowired
   NcpConfig ncpConfig;
 
   @Autowired
@@ -108,44 +105,6 @@ public class MemberController {
 
     session.invalidate();
     return "redirect:/";
-  }
-
-  // 카카오 로그인
-  KakaoAPI kakaoApi = new KakaoAPI();
-
-  @RequestMapping(value = "kakaologin")
-  public ModelAndView login(String code, HttpSession session) {
-    ModelAndView mav = new ModelAndView();
-    // 1번 인증코드 요청 전달
-    String accessToken = kakaoApi.getAccessToken(code);
-    // 2번 인증코드로 토큰 전달
-    HashMap<String, Object> userInfo = kakaoApi.getUserInfo(accessToken);
-
-    System.out.println("login info : " + userInfo.toString());
-
-    if (userInfo.get("email") != null) {
-      session.setAttribute("kakaoUser", userInfo.get("email"));
-      session.setAttribute("accessToken", accessToken);
-    }
-    mav.addObject("kakaoUser", userInfo.get("email"));
-    mav.addObject("userNickname", userInfo.get("nickname"));
-    mav.setViewName("/member/form");
-    return mav;
-  }
-
-  // 카카오 로그아웃
-  @RequestMapping(value = "kakaologout")
-  public ModelAndView logout(HttpSession session, HttpServletResponse response,
-      HttpServletRequest request) {
-    ModelAndView mav = new ModelAndView();
-
-    kakaoApi.kakaoLogout((String) session.getAttribute("accessToken"));
-    session.removeAttribute("accessToken");
-    session.removeAttribute("kakaoUser");
-    session.invalidate();
-    mav.setViewName("/member/form");
-
-    return mav;
   }
 
   @GetMapping("join")
