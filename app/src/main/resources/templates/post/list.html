@@ -57,5 +57,44 @@
   </div>
 </div>
 
+<script>
+  let page = 1;
+  let loading = false;
+
+  $(window).scroll(function () {
+    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !loading) {
+      loading = true;
+      page++;
+      loadMoreData(page);
+    }
+  });
+
+  function loadMoreData(page) {
+    $.ajax({
+      url: `/post/load-more-data?page=${page}&limit=10`,
+      type: 'GET',
+      success: function (data) {
+        if (data.length === 0) {
+          return;
+        }
+
+        data.forEach(post => {
+          const postElement = `<div class="image-thumbnail">
+                  <a href="/post/detail/${post.category}/${post.id}">
+                      <img src="https://kr.object.ncloudstorage.com/bitcamp-nc7-bucket-16/post/${post.filePath}" loading="lazy">
+                  </a>
+              </div>`;
+          $('.square-box').append(postElement);
+        });
+
+        loading = false;
+      },
+      error: function (error) {
+        console.log('Error:', error);
+        loading = false;
+      }
+    });
+  }
+</script>
 </body>
 </html>

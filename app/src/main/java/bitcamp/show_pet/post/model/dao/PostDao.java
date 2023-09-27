@@ -43,5 +43,4 @@ public interface PostDao {
     void insertComment(int postId, int memberId, String content) throws Exception;
     void deleteComment(@Param("commentId") int commentId, @Param("memberId") int memberId);
     void insertComment(Comment comment);
-    void deleteComment(int commentId);
 }
