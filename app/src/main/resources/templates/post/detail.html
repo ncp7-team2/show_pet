@@ -16,17 +16,17 @@
   <style>
     .comment-section {
       height: 800px;
-      width: 430px; /* 댓글 섹션의 너비를 설정합니다. */
+      width: 450px; /* 댓글 섹션의 너비를 설정합니다. */
       float: right; /* 댓글 섹션을 오른쪽에 배치합니다. */
       margin-left: 40px; /* 게시글과 댓글 섹션 사이의 간격을 설정합니다. */
     }
 
     .comment-input-section {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     #commentInput {
-      width: 380px; /* padding을 고려하여 너비를 설정합니다. */
+      width: 430px; /* padding을 고려하여 너비를 설정합니다. */
       padding: 10px;
       box-sizing: border-box; /* padding이 요소의 전체 너비에 포함되도록 설정합니다. */
       resize: none; /* 사용자가 textarea의 크기를 변경하지 못하게 합니다. */
@@ -34,7 +34,7 @@
 
     #postCommentButton {
       display: block;
-      width: 380px;
+      width: 430px;
       padding: 10px;
       background-color: #594e4e;
       color: white;
@@ -48,8 +48,20 @@
     }
 
     #commentList li {
-      padding: 10px;
-      border-bottom: 1px solid #ccc; /* 댓글 간의 구분선을 추가합니다. */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #commentList li span:first-child {
+      align-self: flex-start;
+    }
+
+    #commentList li div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
     }
 
     #commentList li:last-child {
@@ -501,10 +513,14 @@
             const commenter = response.commenter;
             const commentId = response.commentId;
 
-            const newComment = $("<li>");
-            newComment.text(commentText);
-            newComment.append($("<span>").text("작성자: " + commenter));
-            newComment.append($("<button>").text("삭제").click(function () {
+            const newComment = $("<li>").css("display", "flex").css("justify-content",
+                "space-between").css("align-items", "center");
+            newComment.append($("<span>").text(commentText).css("align-self", "flex-start"));
+
+            const actionContainer = $("<div>").css("display", "flex").css("align-items",
+                "center").css("gap", "10px");
+            actionContainer.append($("<span>").text("작성자: " + commenter));
+            actionContainer.append($("<button>").text("삭제").click(function () {
               $.ajax({
                 url: `/post/detail/${category}/${postId}/comment/${commentId}`,
                 type: "DELETE",
@@ -512,14 +528,15 @@
                   if (response.status === "success") {
                     newComment.remove();
                   } else {
-                    alert("댓글 삭제 실패");
+                    alert("삭제 권한이 없습니다.");
                   }
                 },
                 error: function () {
-                  alert("댓글 삭제 실패");
+                  alert("삭제 권한이 없습니다.");
                 }
               });
             }));
+            newComment.append(actionContainer);
 
             $("#commentList").prepend(newComment);
             $("#commentInput").val("");
@@ -543,8 +560,13 @@
           if (response.status === "success") {
             const comments = response.comments;
             comments.forEach(comment => {
-              const newComment = $("<li>").text(comment.content);
-              newComment.append($("<span>").text(" 작성자: " + comment.commenter)); // 수정된 부분
+              const newComment = $("<li>").css("display", "flex").css("justify-content",
+                  "space-between").css("align-items", "center");
+              newComment.append($("<span>").text(comment.content).css("align-self", "flex-start"));
+
+              const actionContainer = $("<div>").css("display", "flex").css("align-items",
+                  "center").css("gap", "10px");
+              actionContainer.append($("<span>").text("작성자: " + comment.commenter));
 
               const deleteButton = $("<button>").text("삭제").click(function () {
                 $.ajax({
@@ -554,16 +576,18 @@
                     if (response.status === "success") {
                       newComment.remove();
                     } else {
-                      alert("댓글 삭제 실패");
+                      alert("삭제 권한이 없습니다.");
                     }
                   },
                   error: function () {
-                    alert("댓글 삭제 실패");
+                    alert("삭제 권한이 없습니다.");
                   }
                 });
               });
 
-              newComment.append(deleteButton);
+              actionContainer.append(deleteButton);
+              newComment.append(actionContainer);
+
               $("#commentList").prepend(newComment);
             });
           } else {

@@ -368,4 +368,5 @@
     DELETE FROM post_comment WHERE cmt_id = #{commentId} AND member_id = #{memberId}
   </delete>
 
+
 </mapper>
