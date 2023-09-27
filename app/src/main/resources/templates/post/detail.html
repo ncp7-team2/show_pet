@@ -168,6 +168,7 @@
             <p data-th-text="${#dates.format(post.createdAt, 'yyyy-MM-dd')}">2023-09-14</p>
           </span>
           <button type="button" class="button followButton"
+                  th:if="${session.loginUser.id != post.member.id}"
                   th:data-is-followed="${post.member.isFollowed}"
                   th:data-member-id="${post.member.id}">
             <img class="followImage"
