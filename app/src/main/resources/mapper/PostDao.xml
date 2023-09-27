@@ -205,6 +205,8 @@
     left outer join file f on p.post_id=f.post_id
     where
     p.member_id=#{memberId}
+    order by
+    p.post_id desc;
   </select>
 
   <delete id="deleteFile" parameterType="int">
